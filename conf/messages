@@ -1,0 +1,3 @@
+service.name = register-trust-agent-details-frontend
+service.homePageUrl = /register-trust-agent-details-frontend
+service.text = This is your new service
