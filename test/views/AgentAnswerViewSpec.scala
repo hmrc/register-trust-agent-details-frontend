@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import uk.gov.hmrc.registertrustagentdetailsfrontend.config.AppConfig
+package views
 
-@this(layout: Layout)
+class AgentAnswerViewSpec extends ViewBehaviours {
 
-@()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+  "AgentAnswer view" must {
 
-@layout(pageTitle = Some("register-trust-agent-details-frontend")) {
-    <h1 class="govuk-heading-xl">register-trust-agent-details-frontend</h1>
-    <p class="govuk-body">@{messages("service.text")}</p>
+    val view = viewFor[AgentAnswerView](Some(emptyUserAnswers))
+
+    val applyView = view.apply(fakeDraftId,Nil)(fakeRequest, messages)
+
+    behave like normalPage(applyView, None, "agentAnswer")
+
+    behave like pageWithBackLink(applyView)
+  }
 }
