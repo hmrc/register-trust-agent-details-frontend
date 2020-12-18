@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.registertrustagentdetailsfrontend.config
+package controllers
 
+import config.AppConfig
 import javax.inject.{Inject, Singleton}
-import play.api.Configuration
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
-import play.api.i18n.Lang
+import play.api.mvc._
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import uk.gov.hmrc.registertrustagentdetailsfrontend.views.html.HelloWorldPage
+
+import scala.concurrent.Future
 
 @Singleton
-class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
-  val welshLanguageSupportEnabled: Boolean = config.getOptional[Boolean]("features.welsh-language-support").getOrElse(false)
+class HelloWorldController @Inject()(
+  appConfig: AppConfig,
+  mcc: MessagesControllerComponents,
+  helloWorldPage: HelloWorldPage)
+    extends FrontendController(mcc) {
 
-  val en: String            = "en"
-  val cy: String            = "cy"
-  val defaultLanguage: Lang = Lang(en)
+  implicit val config: AppConfig = appConfig
+
+  val helloWorld: Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(Ok(helloWorldPage()))
+  }
 
 }

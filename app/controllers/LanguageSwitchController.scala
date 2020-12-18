@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.registertrustagentdetailsfrontend.controllers
+package controllers
 
-import uk.gov.hmrc.registertrustagentdetailsfrontend.config.AppConfig
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 import play.api.Configuration
 import play.api.mvc._
 import play.api.i18n.Lang
 import com.google.inject.Inject
+import config.AppConfig
 import javax.inject.Singleton
 
 @Singleton
