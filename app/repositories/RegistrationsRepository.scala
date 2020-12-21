@@ -21,9 +21,11 @@ import java.time.LocalDate
 import connector.SubmissionDraftConnector
 import javax.inject.Inject
 import models.RegistrationSubmission.AllStatus
+import models.UserAnswers
 import models.core.UserAnswers
 import models.core.http.{AddressType, LeadTrusteeType}
 import models.registration.pages.RegistrationStatus.InProgress
+import pages.agent.AgentInternalReferencePage
 import pages.register.agents.AgentInternalReferencePage
 import play.api.http
 import play.api.i18n.Messages

@@ -16,13 +16,16 @@
 
 package controllers
 
+import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.YesNoFormProvider
 import javax.inject.Inject
+import models.{Mode, NormalMode}
 import navigation.Navigator
-import pages.agent.AgentNamePage
+import pages.agent.{AgentAddressYesNoPage, AgentNamePage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.AgentAddressYesNoView
 

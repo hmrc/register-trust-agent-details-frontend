@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package config
+package models.requests
 
-import javax.inject.{Inject, Singleton}
-import play.api.i18n.MessagesApi
-import play.api.mvc.Request
-import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
-import views.html.ErrorTemplate
+import play.api.mvc.{Request, WrappedRequest}
+import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolments}
 
-@Singleton
-class ErrorHandler @Inject()(errorTemplate: ErrorTemplate, val messagesApi: MessagesApi)(implicit appConfig: FrontendAppConfig)
-    extends FrontendErrorHandler {
-
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
-    errorTemplate(pageTitle, heading, message)
-}
+case class IdentifierRequest[A](request: Request[A],
+                                identifier: String,
+                                affinityGroup: AffinityGroup,
+                                enrolments: Enrolments,
+                                agentARN: Option[String] = None
+                                ) extends WrappedRequest[A](request)

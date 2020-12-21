@@ -16,12 +16,16 @@
 
 package controllers
 
+import controllers.actions.AgentActionSets
 import javax.inject.Inject
+import models.NormalMode
+import models.requests.RegistrationDataRequest
 import navigation.Navigator
+import pages.agent.AgentAnswerPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.DateFormatter
+import utils.{CheckYourAnswersHelper, DateFormatter}
 import views.html.AgentAnswerView
 
 class AgentAnswerController @Inject()(

@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package config
+package models
 
-import javax.inject.{Inject, Singleton}
-import play.api.i18n.MessagesApi
-import play.api.mvc.Request
-import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
-import views.html.ErrorTemplate
+case class Field(name: String, errorKeys: Map[ErrorType, String])
 
-@Singleton
-class ErrorHandler @Inject()(errorTemplate: ErrorTemplate, val messagesApi: MessagesApi)(implicit appConfig: FrontendAppConfig)
-    extends FrontendErrorHandler {
+object Field {
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
-    errorTemplate(pageTitle, heading, message)
+  def apply(name: String, errors: (ErrorType, String)*): Field =
+    Field(name, errors.toMap)
 }
+
+sealed trait ErrorType
+case object Required extends ErrorType
+case object Invalid extends ErrorType

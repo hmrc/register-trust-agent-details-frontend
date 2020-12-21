@@ -21,7 +21,6 @@ import play.api.Configuration
 import play.api.mvc._
 import play.api.i18n.Lang
 import com.google.inject.Inject
-import config.AppConfig
 import javax.inject.Singleton
 
 @Singleton

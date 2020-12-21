@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package config
+package queries
 
-import javax.inject.{Inject, Singleton}
-import play.api.i18n.MessagesApi
-import play.api.mvc.Request
-import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.frontend.http.FrontendErrorHandler
-import views.html.ErrorTemplate
+import models.core.UserAnswers
+import play.api.libs.json.JsPath
 
-@Singleton
-class ErrorHandler @Inject()(errorTemplate: ErrorTemplate, val messagesApi: MessagesApi)(implicit appConfig: FrontendAppConfig)
-    extends FrontendErrorHandler {
+import scala.util.{Success, Try}
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =
-    errorTemplate(pageTitle, heading, message)
+sealed trait Query {
+
+  def path: JsPath
+}
+
+trait Gettable[A] extends Query
+
+trait Settable[A] extends Query {
+
+  def cleanup(value: Option[A], userAnswers: UserAnswers): Try[UserAnswers] =
+    Success(userAnswers)
 }
