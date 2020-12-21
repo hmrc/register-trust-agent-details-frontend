@@ -16,7 +16,10 @@
 
 package forms
 
+import forms.behaviours.StringFieldBehaviours
 import play.api.data.FormError
+import wolfendale.scalacheck.regexp.RegexpGen
+import org.scalacheck.Arbitrary.arbitrary
 
 class UKAddressFormProviderSpec extends StringFieldBehaviours {
 
