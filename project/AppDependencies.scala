@@ -5,14 +5,16 @@ import sbt._
 
 object AppDependencies {
 
-  val compile = Seq(
+  val compile: Seq[ModuleID] = Seq(
+    play.sbt.PlayImport.ws,
     "uk.gov.hmrc"             %% "bootstrap-frontend-play-27" % "3.2.0",
     "uk.gov.hmrc"             %% "play-frontend-hmrc"         % "0.32.0-play-27",
     "uk.gov.hmrc"             %% "play-frontend-govuk"        % "0.56.0-play-27",
-    "uk.gov.hmrc"             %% "play-language"              % "4.5.0-play-27"
+    "uk.gov.hmrc"             %% "play-language"              % "4.5.0-play-27",
+    "uk.gov.hmrc"             %% "domain"                     % "5.10.0-play-27"
   )
 
-  val test = Seq(
+  val test: Seq[ModuleID] = Seq(
     "uk.gov.hmrc"             %% "bootstrap-test-play-27"   % "3.2.0" % Test,
     "org.scalatest"           %% "scalatest"                % "3.2.3"  % Test,
     "org.jsoup"               %  "jsoup"                    % "1.13.1" % Test,
@@ -20,4 +22,6 @@ object AppDependencies {
     "com.vladsch.flexmark"    %  "flexmark-all"             % "0.36.8" % "test, it",
     "org.scalatestplus.play"  %% "scalatestplus-play"       % "4.0.3"  % "test, it"
   )
+
+  def apply(): Seq[ModuleID] = compile ++ test
 }

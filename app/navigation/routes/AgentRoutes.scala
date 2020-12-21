@@ -16,6 +16,7 @@
 
 package navigation.routes
 
+import pages.agent.AgentInternalReferencePage
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 

@@ -27,15 +27,16 @@ lazy val microservice = Project(appName, file("."))
     ScoverageKeys.coverageMinimum := 20,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
-    // ***************
-    // Use the silencer plugin to suppress warnings
-    // You may turn it on for `views` too to suppress warnings from unused imports in compiled twirl templates, but this will hide other warnings.
-    scalacOptions += "-P:silencer:pathFilters=routes",
-    libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
-    )
-    // ***************
+    scalacOptions ++= Seq("-feature"),
+    libraryDependencies ++= AppDependencies(),
+    retrieveManaged := true,
+    evictionWarningOptions in update :=
+      EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
+    resolvers ++= Seq(
+      Resolver.bintrayRepo("hmrc", "releases"),
+      Resolver.jcenterRepo,
+      "hmrc-artefactory-releases" at "https://artefacts.tax.service.gov.uk/artifactory/hmrc-releases/"
+    ),
   )
   .settings(publishingSettings: _*)
   .configs(IntegrationTest)
