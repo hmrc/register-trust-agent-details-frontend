@@ -18,6 +18,7 @@ package models.core.http
 
 import java.time.LocalDate
 
+import models.core.pages.FullName
 import play.api.libs.json.{Format, Json}
 
 case class LeadTrusteeType(leadTrusteeInd : Option[LeadTrusteeIndType] = None,

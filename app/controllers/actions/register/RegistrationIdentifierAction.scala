@@ -18,10 +18,13 @@ package controllers.actions.register
 
 import com.google.inject.Inject
 import config.FrontendAppConfig
+import controllers.actions.{AffinityGroupIdentifierAction, TrustsAuthorisedFunctions}
+import models.requests.IdentifierRequest
 import play.api.Logging
 import play.api.mvc._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
+import utils.Session
 
 import scala.concurrent.{ExecutionContext, Future}
 

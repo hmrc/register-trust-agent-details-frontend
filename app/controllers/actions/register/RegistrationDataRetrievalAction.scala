@@ -17,11 +17,13 @@
 package controllers.actions.register
 
 import javax.inject.Inject
-import models.requests.OptionalRegistrationDataRequest
+import models.UserAnswers
+import models.requests.{IdentifierRequest, OptionalRegistrationDataRequest}
 import play.api.mvc.ActionTransformer
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
+import utils.Session
 
 import scala.concurrent.{ExecutionContext, Future}
 

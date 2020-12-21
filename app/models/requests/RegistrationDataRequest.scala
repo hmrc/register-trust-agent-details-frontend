@@ -16,7 +16,7 @@
 
 package models.requests
 
-import models.core.UserAnswers
+import models.UserAnswers
 import play.api.mvc.{Request, WrappedRequest}
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolments}
 

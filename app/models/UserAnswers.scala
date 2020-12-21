@@ -18,12 +18,12 @@ package models
 
 import java.time.LocalDateTime
 
-import models.MongoDateTimeFormats
-import models.registration.pages.RegistrationStatus
-import models.registration.pages.RegistrationStatus.NotStarted
+import models.pages.RegistrationStatus
+import models.pages.RegistrationStatus.NotStarted
 import play.api.Logging
 import play.api.libs.json._
 import queries.{Gettable, Settable}
+import models.core.UserAnswerImplicits._
 
 import scala.util.{Failure, Success, Try}
 
@@ -51,8 +51,6 @@ final case class UserAnswers(
                               createdAt : LocalDateTime = LocalDateTime.now,
                               internalAuthId :String
                             ) extends ReadableUserAnswers with Logging {
-
-  import UserAnswerImplicits._
 
   def set[A](page: Settable[A], value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
 
