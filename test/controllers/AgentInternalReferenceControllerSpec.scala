@@ -16,9 +16,14 @@
 
 package controllers
 
+import base.RegistrationSpecBase
+import forms.AgentInternalReferenceFormProvider
+import models.NormalMode
+import pages.agent.AgentInternalReferencePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
+import views.html.AgentInternalReferenceView
 
 class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
 

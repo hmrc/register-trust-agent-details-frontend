@@ -18,6 +18,12 @@ package forms.mappings
 
 import java.time.LocalDate
 
+import generators.Generators
+import org.scalacheck.Gen
+import org.scalatest.{MustMatchers, WordSpec}
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import play.api.data.validation.{Invalid, Valid}
+
 import play.api.data.validation.{Invalid, Valid}
 
 class ConstraintsSpec extends WordSpec with ScalaCheckPropertyChecks with  MustMatchers with Generators with Constraints {

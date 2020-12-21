@@ -17,7 +17,7 @@
 package controllers.actions
 
 import controllers.actions.register.RegistrationDataRetrievalAction
-import models.core.UserAnswers
+import models.UserAnswers
 import models.requests.{IdentifierRequest, OptionalRegistrationDataRequest}
 
 import scala.concurrent.{ExecutionContext, Future}

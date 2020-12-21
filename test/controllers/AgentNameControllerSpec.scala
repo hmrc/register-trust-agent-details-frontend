@@ -16,9 +16,14 @@
 
 package controllers
 
+import base.RegistrationSpecBase
+import forms.AgentNameFormProvider
+import models.NormalMode
+import pages.agent.AgentNamePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
+import views.html.AgentNameView
 
 class AgentNameControllerSpec extends RegistrationSpecBase {
 

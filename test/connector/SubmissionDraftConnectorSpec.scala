@@ -18,16 +18,19 @@ package connector
 
 import java.time.{LocalDate, LocalDateTime}
 
-import models.RegistrationSubmission.{AllAnswerSections, AllStatus, AnswerRow, AnswerSection}
+import base.SpecBaseHelpers
+import com.github.tomakehurst.wiremock.client.WireMock._
+import models.RegistrationSubmission.{AnswerRow, AnswerSection}
 import models.core.http.{AddressType, IdentificationOrgType, LeadTrusteeOrgType, LeadTrusteeType}
 import models.{RegistrationSubmission, SubmissionDraftData, SubmissionDraftId, SubmissionDraftResponse}
-import org.scalatest.OptionValues
+import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
 import play.api.Application
 import play.api.http.Status
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Json
 import play.api.test.Helpers.CONTENT_TYPE
 import uk.gov.hmrc.http.HeaderCarrier
+import utils.WireMockHelper
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration

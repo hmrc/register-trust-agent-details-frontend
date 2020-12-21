@@ -16,12 +16,9 @@
 
 package models
 
-import java.time.{LocalDate, LocalDateTime}
+import java.time.LocalDateTime
 
-import models.registration.pages.Status
-import models.registration.pages.Status.Completed
 import play.api.libs.json.{JsValue, Json, OFormat}
-import utils.TaxLiabilityHelper
 
 case class SubmissionDraftData(data: JsValue, reference: Option[String], inProgress: Option[Boolean])
 

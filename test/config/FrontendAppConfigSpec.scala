@@ -16,6 +16,7 @@
 
 package config
 
+import base.RegistrationSpecBase
 import play.api.i18n.{Lang, MessagesImpl}
 
 class FrontendAppConfigSpec extends RegistrationSpecBase {

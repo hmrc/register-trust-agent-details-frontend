@@ -20,7 +20,6 @@ import java.time.LocalDate
 
 import config.FrontendAppConfig
 import javax.inject.Inject
-import models.RegistrationSubmission.{AllAnswerSections, AllStatus}
 import models.core.http.{AddressType, LeadTrusteeType}
 import models.{SubmissionDraftData, SubmissionDraftId, SubmissionDraftResponse}
 import play.api.libs.json.{JsObject, JsValue, Json}
@@ -33,8 +32,6 @@ class SubmissionDraftConnector @Inject()(http: HttpClient, config : FrontendAppC
 
   private val mainSection = "main"
   private val registrationSection = "registration"
-  private val statusSection = "status"
-  private val answerSectionsSection = "answerSections"
 
   private val submissionsBaseUrl = s"${config.trustsUrl}/trusts/register/submission-drafts"
 
@@ -55,25 +52,9 @@ class SubmissionDraftConnector @Inject()(http: HttpClient, config : FrontendAppC
     http.GET[List[SubmissionDraftId]](s"$submissionsBaseUrl")
   }
 
-  def getStatus(draftId: String)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[AllStatus] =
-    getDraftSection(draftId, statusSection).map {
-      section => section.data.as[AllStatus]
-    }
-
-  def setStatus(draftId : String, status: AllStatus)
-               (implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
-    val submissionDraftData = SubmissionDraftData(Json.toJson(status), None, None)
-    http.POST[JsValue, HttpResponse](s"$submissionsBaseUrl/$draftId/status", Json.toJson(submissionDraftData))
-  }
-
   def getRegistrationPieces(draftId: String)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[JsObject] =
     getDraftSection(draftId, registrationSection).map {
       section => section.data.as[JsObject]
-    }
-
-  def getAnswerSections(draftId: String)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[AllAnswerSections] =
-    getDraftSection(draftId, answerSectionsSection).map {
-      section => section.data.as[AllAnswerSections]
     }
 
   def getLeadTrustee(draftId: String)(implicit hc:HeaderCarrier, ec : ExecutionContext) : Future[LeadTrusteeType] =

@@ -61,7 +61,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
           val result = new AffinityGroupIdentifierAction(fakeAction, trustsAuth, appConfig).apply(fakeRequest)
 
           status(result) mustBe SEE_OTHER
-          redirectLocation(result) mustBe Some(controllers.register.routes.CreateAgentServicesAccountController.onPageLoad().url)
+          redirectLocation(result) mustBe Some(controllers.routes.CreateAgentServicesAccountController.onPageLoad().url)
           application.stop()
         }
       }
@@ -125,7 +125,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
         val result = new AffinityGroupIdentifierAction(fakeAction, trustsAuth, appConfig).apply(fakeRequest)
 
         status(result) mustBe SEE_OTHER
-        redirectLocation(result) mustBe Some(controllers.register.routes.UnauthorisedController.onPageLoad().url)
+        redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad().url)
 
         application.stop()
       }
@@ -174,7 +174,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result) mustBe Some(controllers.register.routes.UnauthorisedController.onPageLoad().url)
+        redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad().url)
         application.stop()
       }
     }
@@ -190,7 +190,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result) mustBe Some(controllers.register.routes.UnauthorisedController.onPageLoad().url)
+        redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad().url)
         application.stop()
       }
     }
@@ -206,7 +206,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result) mustBe Some(controllers.register.routes.UnauthorisedController.onPageLoad().url)
+        redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad().url)
         application.stop()
       }
     }
@@ -222,7 +222,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result) mustBe Some(controllers.register.routes.UnauthorisedController.onPageLoad().url)
+        redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad().url)
         application.stop()
       }
     }
@@ -238,7 +238,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result) mustBe Some(controllers.register.routes.UnauthorisedController.onPageLoad().url)
+        redirectLocation(result) mustBe Some(controllers.routes.UnauthorisedController.onPageLoad().url)
         application.stop()
       }
     }

@@ -16,7 +16,7 @@
 
 package queries
 
-import models.core.UserAnswers
+import models.UserAnswers
 import play.api.libs.json.JsPath
 
 import scala.util.{Success, Try}

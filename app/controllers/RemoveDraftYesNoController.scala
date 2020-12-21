@@ -16,8 +16,10 @@
 
 package controllers
 
+import controllers.actions.StandardActionSets
 import forms.YesNoFormProvider
 import javax.inject.Inject
+import models.requests.RegistrationDataRequest
 import play.api.Logging
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
@@ -26,6 +28,7 @@ import repositories.RegistrationsRepository
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.RemoveDraftYesNoView
+import utils.Session
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -85,7 +88,7 @@ class RemoveDraftYesNoController @Inject()(
       case Some(draft) =>
         Right(draft.agentInternalRef)
       case _ =>
-        logger.warn(s"[RemoveDraftYesNoController][clientReferenceNumber][Session ID: ${id(hc)}] failed to find draft $draftId")
+        logger.warn(s"[RemoveDraftYesNoController][clientReferenceNumber][Session ID: ${Session.id(hc)}] failed to find draft $draftId")
         Left(redirect)
     }
   }

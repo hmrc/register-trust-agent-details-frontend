@@ -18,8 +18,7 @@ package controllers.actions
 
 import base.RegistrationSpecBase
 import controllers.actions.register.RequireDraftRegistrationActionRefinerImpl
-import controllers.register.routes._
-import models.registration.pages.RegistrationStatus.{Complete, InProgress}
+import models.pages.RegistrationStatus.Complete
 import models.requests.RegistrationDataRequest
 import org.scalatest.EitherValues
 import org.scalatest.concurrent.ScalaFutures

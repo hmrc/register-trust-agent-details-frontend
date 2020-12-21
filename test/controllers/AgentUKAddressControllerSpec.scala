@@ -16,9 +16,15 @@
 
 package controllers
 
+import base.RegistrationSpecBase
+import forms.UKAddressFormProvider
+import models.NormalMode
+import models.core.pages.UKAddress
+import pages.agent.{AgentNamePage, AgentUKAddressPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
+import views.html.AgentUKAddressView
 
 class AgentUKAddressControllerSpec extends RegistrationSpecBase {
 

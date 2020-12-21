@@ -16,7 +16,9 @@
 
 package pages.agent
 
+import pages.QuestionPage
 import play.api.libs.json.JsPath
+import sections.Agent
 
 case object AgentARNPage extends QuestionPage[String] {
 

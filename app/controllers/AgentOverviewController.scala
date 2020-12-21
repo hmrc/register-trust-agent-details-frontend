@@ -16,8 +16,11 @@
 
 package controllers
 
+import controllers.actions.{RequireStateActionProviderImpl, StandardActionSets}
+import controllers.actions.register.RegistrationIdentifierAction
 import javax.inject.Inject
 import models.NormalMode
+import models.requests.IdentifierRequest
 import pages.agent.AgentTelephoneNumberPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
@@ -47,7 +50,7 @@ class AgentOverviewController @Inject()(override val messagesApi: MessagesApi,
   }
 
   def onSubmit(): Action[AnyContent] = actions {
-      Redirect(controllers.register.routes.CreateDraftRegistrationController.create())
+      Redirect(controllers.routes.CreateDraftRegistrationController.create())
   }
 
   def continue(draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) {
@@ -56,7 +59,7 @@ class AgentOverviewController @Inject()(override val messagesApi: MessagesApi,
       if (request.userAnswers.get(AgentTelephoneNumberPage).isEmpty) {
         Redirect(routes.AgentInternalReferenceController.onPageLoad(NormalMode, draftId))
       } else {
-        Redirect(controllers.register.routes.TaskListController.onPageLoad(draftId))
+        Redirect(controllers.routes.TaskListController.onPageLoad(draftId))
       }
   }
 

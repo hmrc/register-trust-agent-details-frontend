@@ -21,14 +21,15 @@ import play.api.Configuration
 import play.api.mvc._
 import play.api.i18n.Lang
 import com.google.inject.Inject
+import config.FrontendAppConfig
 import javax.inject.Singleton
 
 @Singleton
 class LanguageSwitchController @Inject()(
-  configuration: Configuration,
-  appConfig: AppConfig,
-  languageUtils: LanguageUtils,
-  cc: ControllerComponents)
+                                          configuration: Configuration,
+                                          appConfig: FrontendAppConfig,
+                                          languageUtils: LanguageUtils,
+                                          cc: ControllerComponents)
     extends LanguageController(configuration, languageUtils, cc) {
   import appConfig._
 

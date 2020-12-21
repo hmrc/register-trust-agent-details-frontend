@@ -16,9 +16,18 @@
 
 package controllers
 
+import base.RegistrationSpecBase
+import models.UserAnswers
+import models.core.pages.{InternationalAddress, UKAddress}
+import navigation.Navigator
+import pages.agent.{AgentAddressYesNoPage, AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import viewmodels.AnswerSection
 import uk.gov.hmrc.auth.core.AffinityGroup
+import utils.{CheckYourAnswersHelper, DateFormatter}
+import utils.countryOptions.CountryOptions
+import views.html.AgentAnswerView
 
 
 class AgentAnswerControllerSpec extends RegistrationSpecBase {

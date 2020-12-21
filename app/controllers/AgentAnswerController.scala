@@ -25,7 +25,9 @@ import pages.agent.AgentAnswerPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import utils.countryOptions.CountryOptions
 import utils.{CheckYourAnswersHelper, DateFormatter}
+import viewmodels.AnswerSection
 import views.html.AgentAnswerView
 
 class AgentAnswerController @Inject()(

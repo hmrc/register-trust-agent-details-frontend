@@ -17,7 +17,6 @@
 package controllers.actions
 
 import base.RegistrationSpecBase
-import controllers.register.routes._
 import models.requests.IdentifierRequest
 import org.scalatest.EitherValues
 import org.scalatest.concurrent.ScalaFutures

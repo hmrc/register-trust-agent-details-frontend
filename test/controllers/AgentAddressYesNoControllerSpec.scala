@@ -16,9 +16,14 @@
 
 package controllers
 
+import base.RegistrationSpecBase
+import forms.YesNoFormProvider
+import models.NormalMode
+import pages.agent.{AgentAddressYesNoPage, AgentNamePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
+import views.html.AgentAddressYesNoView
 
 class AgentAddressYesNoControllerSpec extends RegistrationSpecBase {
 

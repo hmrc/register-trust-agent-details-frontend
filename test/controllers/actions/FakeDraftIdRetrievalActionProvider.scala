@@ -17,6 +17,7 @@
 package controllers.actions
 
 import controllers.actions.register.{DraftIdDataRetrievalAction, DraftIdRetrievalActionProvider}
+import models.UserAnswers
 import models.core.UserAnswers
 import org.mockito.Matchers._
 import org.mockito.Mockito._

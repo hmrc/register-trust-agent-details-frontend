@@ -16,25 +16,27 @@
 
 package navigation.routes
 
-import pages.agent.AgentInternalReferencePage
+import models.{NormalMode, UserAnswers}
+import pages.Page
+import pages.agent._
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 
 object AgentRoutes {
   def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case AgentInternalReferencePage => _ => _ => controllers.register.agents.routes.AgentNameController.onPageLoad(NormalMode, draftId)
-    case AgentNamePage => _ => _ => controllers.register.agents.routes.AgentAddressYesNoController.onPageLoad(NormalMode, draftId)
+    case AgentInternalReferencePage => _ => _ => controllers.routes.AgentNameController.onPageLoad(NormalMode, draftId)
+    case AgentNamePage => _ => _ => controllers.routes.AgentAddressYesNoController.onPageLoad(NormalMode, draftId)
     case AgentAddressYesNoPage => _ => ua => agentAddressYesNoRoute(ua, draftId)
-    case AgentUKAddressPage => _ => _ => controllers.register.agents.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId)
-    case AgentInternationalAddressPage => _ => _ => controllers.register.agents.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId)
-    case AgentTelephoneNumberPage => _ => _ => controllers.register.agents.routes.AgentAnswerController.onPageLoad(draftId)
+    case AgentUKAddressPage => _ => _ => controllers.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId)
+    case AgentInternationalAddressPage => _ => _ => controllers.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId)
+    case AgentTelephoneNumberPage => _ => _ => controllers.routes.AgentAnswerController.onPageLoad(draftId)
     case AgentAnswerPage => _ => _ => routes.TaskListController.onPageLoad(draftId)
   }
 
   private def agentAddressYesNoRoute(userAnswers: UserAnswers, draftId: String) : Call =
     userAnswers.get(AgentAddressYesNoPage) match {
-      case Some(false) => controllers.register.agents.routes.AgentInternationalAddressController.onPageLoad(NormalMode, draftId)
-      case Some(true) => controllers.register.agents.routes.AgentUKAddressController.onPageLoad(NormalMode, draftId)
+      case Some(false) => controllers.routes.AgentInternationalAddressController.onPageLoad(NormalMode, draftId)
+      case Some(true) => controllers.routes.AgentUKAddressController.onPageLoad(NormalMode, draftId)
       case _ => routes.SessionExpiredController.onPageLoad()
     }
 }

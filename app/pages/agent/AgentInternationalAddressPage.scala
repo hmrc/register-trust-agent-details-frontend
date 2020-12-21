@@ -16,7 +16,10 @@
 
 package pages.agent
 
+import models.core.pages.InternationalAddress
+import pages.QuestionPage
 import play.api.libs.json.JsPath
+import sections.Agent
 
 case object AgentInternationalAddressPage extends QuestionPage[InternationalAddress] {
 

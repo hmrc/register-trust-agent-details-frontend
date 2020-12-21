@@ -16,10 +16,15 @@
 
 package controllers
 
+import base.RegistrationSpecBase
+import forms.YesNoFormProvider
+import org.mockito.Matchers
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+import viewmodels.DraftRegistration
+import views.html.RemoveDraftYesNoView
 
 import scala.concurrent.Future
 
