@@ -29,13 +29,13 @@ class Navigator @Inject()(
                          config: FrontendAppConfig
                          ) {
 
-  private def defaultRoute: PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad()
+  private def defaultRoute(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
+    case _ => _ => _ => controllers.routes.IndexController.onPageLoad(draftId)
   }
 
   protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] =
     AgentRoutes.route(draftId) orElse
-      defaultRoute
+      defaultRoute(draftId)
 
   def nextPage(page: Page, mode: Mode = NormalMode, draftId: String, af :AffinityGroup = AffinityGroup.Organisation): UserAnswers => Call = mode match {
     case NormalMode =>

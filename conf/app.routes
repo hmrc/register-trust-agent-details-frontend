@@ -1,13 +1,10 @@
 # microservice specific routes
 
-->         /govuk-frontend          govuk.Routes
-->         /hmrc-frontend           hmrcfrontend.Routes
+GET        /                                                                                        controllers.IndexController.onPageLoad(draftId: String)
 
-GET        /language/:lang          controllers.LanguageSwitchController.switchToLanguage(lang: String)
-GET        /assets/*file            controllers.Assets.versioned(path = "/public", file: Asset)
+GET        /logout                                                                                  controllers.LogoutController.logout()
 
-
-GET        /                                                                                        controllers.IndexController.onPageLoad()
+GET        /language/:lang                                                                          controllers.LanguageSwitchController.switchToLanguage(lang: String, draftId: String)
 
 GET        /this-service-has-been-reset                                                             controllers.SessionExpiredController.onPageLoad()
 
@@ -36,12 +33,6 @@ POST       /:draftId/agent-telephone-number                                     
 GET        /:draftId/change-agent-telephone-number                                                  controllers.AgentTelephoneNumberController.onPageLoad(mode: Mode = CheckMode, draftId: String)
 POST       /:draftId/change-agent-telephone-number                                                  controllers.AgentTelephoneNumberController.onSubmit(mode: Mode = CheckMode, draftId: String)
 
-GET        /agent-overview                                                                          controllers.AgentOverviewController.onPageLoad()
-POST       /agent-overview                                                                          controllers.AgentOverviewController.onSubmit()
-
-GET        /:draftId/remove                                                                         controllers.RemoveDraftYesNoController.onPageLoad(draftId: String)
-POST       /:draftId/remove                                                                         controllers.RemoveDraftYesNoController.onSubmit(draftId: String)
-
 GET        /:draftId/check-agent-details                                                            controllers.AgentAnswerController.onPageLoad(draftId: String)
 POST       /:draftId/check-agent-details                                                            controllers.AgentAnswerController.onSubmit(draftId: String)
 
@@ -59,6 +50,3 @@ GET        /:draftId/agent-uk-address                                           
 POST       /:draftId/agent-uk-address                                                               controllers.AgentUKAddressController.onSubmit(mode: Mode = NormalMode, draftId: String)
 GET        /:draftId/change-agent-uk-address                                                        controllers.AgentUKAddressController.onPageLoad(mode: Mode = CheckMode, draftId: String)
 POST       /:draftId/change-agent-uk-address                                                        controllers.AgentUKAddressController.onSubmit(mode: Mode = CheckMode, draftId: String)
-
-GET        /:draftId/maintain-saved-registration                                                    controllers.AgentOverviewController.continue(draftId: String)
-GET        /:draftId/remove-saved-registration                                                      controllers.AgentOverviewController.remove(draftId: String)

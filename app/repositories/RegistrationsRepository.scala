@@ -16,12 +16,9 @@
 
 package repositories
 
-import java.time.LocalDate
-
 import connector.SubmissionDraftConnector
 import javax.inject.Inject
 import models.UserAnswers
-import models.core.http.{AddressType, LeadTrusteeType}
 import models.pages.RegistrationStatus.InProgress
 import pages.agent.AgentInternalReferencePage
 import play.api.http
@@ -99,18 +96,6 @@ class DefaultRegistrationsRepository @Inject()(dateFormatter: DateFormatter,
     }
   }
 
-  override def getLeadTrustee(draftId: String)(implicit hc:HeaderCarrier) : Future[LeadTrusteeType] =
-    submissionDraftConnector.getLeadTrustee(draftId)
-
-  override def getCorrespondenceAddress(draftId: String)(implicit hc:HeaderCarrier) : Future[AddressType] =
-    submissionDraftConnector.getCorrespondenceAddress(draftId)
-
-  override def getTrustSetupDate(draftId: String)(implicit hc:HeaderCarrier) : Future[Option[LocalDate]] =
-    submissionDraftConnector.getTrustSetupDate(draftId)
-
-  override def getTrustName(draftId: String)(implicit hc:HeaderCarrier) : Future[String] =
-    submissionDraftConnector.getTrustName(draftId)
-
   override def getDraft(draftId: String)(implicit headerCarrier: HeaderCarrier, messages: Messages): Future[Option[DraftRegistration]] =
     listDrafts().map {
       drafts =>
@@ -131,14 +116,6 @@ trait RegistrationsRepository {
   def getMostRecentDraftId()(implicit hc: HeaderCarrier) : Future[Option[String]]
 
   def addDraftRegistrationSections(draftId: String, registrationJson: JsValue)(implicit hc: HeaderCarrier) : Future[JsValue]
-
-  def getLeadTrustee(draftId: String)(implicit hc:HeaderCarrier) : Future[LeadTrusteeType]
-
-  def getCorrespondenceAddress(draftId: String)(implicit hc:HeaderCarrier) : Future[AddressType]
-
-  def getTrustSetupDate(draftId: String)(implicit hc:HeaderCarrier) : Future[Option[LocalDate]]
-
-  def getTrustName(draftId: String)(implicit hc:HeaderCarrier) : Future[String]
 
   def getDraft(draftId: String)(implicit hc: HeaderCarrier, messages: Messages): Future[Option[DraftRegistration]]
 

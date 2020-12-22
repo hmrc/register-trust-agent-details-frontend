@@ -57,31 +57,6 @@ class SubmissionDraftConnector @Inject()(http: HttpClient, config : FrontendAppC
       section => section.data.as[JsObject]
     }
 
-  def getLeadTrustee(draftId: String)(implicit hc:HeaderCarrier, ec : ExecutionContext) : Future[LeadTrusteeType] =
-    http.GET[LeadTrusteeType](s"$submissionsBaseUrl/$draftId/lead-trustee")
-
-  def getCorrespondenceAddress(draftId: String)(implicit hc:HeaderCarrier, ec : ExecutionContext) : Future[AddressType] =
-    http.GET[AddressType](s"$submissionsBaseUrl/$draftId/correspondence-address")
-
-  def resetTaxLiability(draftId: String)(implicit hc:HeaderCarrier, ec : ExecutionContext) : Future[HttpResponse] = {
-    http.POSTEmpty[HttpResponse](s"$submissionsBaseUrl/$draftId/reset/taxLiability")
-  }
-
-  def getTrustSetupDate(draftId: String)(implicit hc:HeaderCarrier, ec : ExecutionContext) : Future[Option[LocalDate]] = {
-    http.GET[HttpResponse](s"$submissionsBaseUrl/$draftId/when-trust-setup").map {
-      response =>
-        (response.json \ "startDate").asOpt[LocalDate]
-    }.recover {
-      case _ => None
-    }
-  }
-
-  def getTrustName(draftId: String)(implicit hc:HeaderCarrier, ec : ExecutionContext) : Future[String] =
-    http.GET[HttpResponse](s"$submissionsBaseUrl/$draftId/trust-name").map {
-      response =>
-        (response.json \ "trustName").as[String]
-    }
-
   def removeDraft(draftId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
     http.DELETE[HttpResponse](s"$submissionsBaseUrl/$draftId")
   }

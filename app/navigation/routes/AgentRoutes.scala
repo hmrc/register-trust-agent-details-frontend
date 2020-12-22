@@ -16,6 +16,8 @@
 
 package navigation.routes
 
+import config.FrontendAppConfig
+import controllers.routes
 import models.{NormalMode, UserAnswers}
 import pages.Page
 import pages.agent._
@@ -30,7 +32,7 @@ object AgentRoutes {
     case AgentUKAddressPage => _ => _ => controllers.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId)
     case AgentInternationalAddressPage => _ => _ => controllers.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId)
     case AgentTelephoneNumberPage => _ => _ => controllers.routes.AgentAnswerController.onPageLoad(draftId)
-    case AgentAnswerPage => _ => _ => routes.TaskListController.onPageLoad(draftId)
+    case AgentAnswerPage => _ => _ => completedRoute(draftId, config = FrontendAppConfig)
   }
 
   private def agentAddressYesNoRoute(userAnswers: UserAnswers, draftId: String) : Call =
@@ -39,5 +41,9 @@ object AgentRoutes {
       case Some(true) => controllers.routes.AgentUKAddressController.onPageLoad(NormalMode, draftId)
       case _ => routes.SessionExpiredController.onPageLoad()
     }
+
+  private def completedRoute(draftId: String, config: FrontendAppConfig): Call = {
+    Call("GET", config.registrationProgressUrl(draftId))
+  }
 }
 

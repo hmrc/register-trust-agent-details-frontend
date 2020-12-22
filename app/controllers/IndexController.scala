@@ -16,50 +16,41 @@
 
 package controllers
 
-import config.FrontendAppConfig
-import controllers.actions.register.{RegistrationDataRetrievalAction, RegistrationIdentifierAction}
+import controllers.actions.register.RegistrationIdentifierAction
 import javax.inject.Inject
-import models.NormalMode
+import models.UserAnswers
 import play.api.Logging
 import play.api.i18n.I18nSupport
+import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.auth.core.AffinityGroup
+import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class IndexController @Inject()(
                                  identify: RegistrationIdentifierAction,
-                                 getData: RegistrationDataRetrievalAction,
-                                 config: FrontendAppConfig,
+                                 repository: RegistrationsRepository,
                                  val controllerComponents: MessagesControllerComponents
                                ) extends FrontendBaseController with I18nSupport with Logging {
 
-  def onPageLoad(): Action[AnyContent] = (identify andThen getData).async {
-    implicit request =>
+  implicit val executionContext: ExecutionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
 
-      request.affinityGroup match {
-        case AffinityGroup.Agent =>
-          logger.info(s"[Session ID: ${request.sessionId}] user is an agent, redirect to overview")
-          Future.successful(Redirect(controllers.routes.AgentOverviewController.onPageLoad()))
-        case _ =>
-          request.userAnswers match {
-            case Some(userAnswers) =>
-              userAnswers.get(TrustRegisteredOnlinePage) match {
-                case Some(false) =>
-                  logger.info(s"[Session ID: ${request.sessionId}] user previously indicated trust is not registered online, redirecting to register task list")
-                  Future.successful(Redirect(config.trustTaskListUrl))
-                case Some(true) =>
-                  logger.info(s"[Session ID: ${request.sessionId}] user previously indicated trust is registered online, redirecting to maintain")
-                  Future.successful(Redirect(config.maintainATrustFrontendUrl))
-                case None =>
-                  logger.info(s"[Session ID: ${request.sessionId}] user is new, starting registration journey")
-                  Future.successful(Redirect(config.trustRegisteredOnlineUrl))
-              }
-            case None =>
-              logger.info(s"[Session ID: ${request.sessionId}] user is new, starting registration journey")
-              Future.successful(Redirect(config.createDraftRegistrationUrl))
-          }
-      }
+  def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
+
+    repository.get(draftId) flatMap {
+      case Some(userAnswers) =>
+        Future.successful(redirect(userAnswers, draftId))
+      case _ =>
+        val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier)
+        repository.set(userAnswers) map {
+          _ => redirect(userAnswers, draftId)
+        }
+    }
+  }
+
+  private def redirect(userAnswers: UserAnswers, draftId: String) = {
+    Ok
   }
 }

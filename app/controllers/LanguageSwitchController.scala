@@ -16,29 +16,37 @@
 
 package controllers
 
-import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
-import play.api.Configuration
-import play.api.mvc._
-import play.api.i18n.Lang
 import com.google.inject.Inject
 import config.FrontendAppConfig
-import javax.inject.Singleton
+import play.api.Configuration
+import play.api.i18n.{I18nSupport, Lang, MessagesApi}
+import play.api.mvc._
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
-@Singleton
 class LanguageSwitchController @Inject()(
                                           configuration: Configuration,
                                           appConfig: FrontendAppConfig,
-                                          languageUtils: LanguageUtils,
-                                          cc: ControllerComponents)
-    extends LanguageController(configuration, languageUtils, cc) {
-  import appConfig._
+                                          override implicit val messagesApi: MessagesApi,
+                                          val controllerComponents: MessagesControllerComponents
+                                        ) extends FrontendBaseController with I18nSupport {
 
-  override def fallbackURL: String =
-    "https://www.gov.uk/government/organisations/hm-revenue-customs"
+  private def fallbackURL(draftId: String): String = routes.IndexController.onPageLoad(draftId).url
 
-  override protected def languageMap: Map[String, Lang] = {
-    if (appConfig.welshLanguageSupportEnabled) Map(en -> Lang(en), cy -> Lang(cy))
-    else Map(en -> Lang(en))
+  private def languageMap: Map[String, Lang] = appConfig.languageMap
+
+  def switchToLanguage(language: String, draftId: String): Action[AnyContent] = Action {
+    implicit request =>
+
+      val enabled = isWelshEnabled
+      val lang = if (enabled) {
+        languageMap.getOrElse(language, Lang.defaultLang)
+      } else {
+        Lang("en")
+      }
+      val redirectURL = request.headers.get(REFERER).getOrElse(fallbackURL(draftId))
+      Redirect(redirectURL).withLang(Lang.apply(lang.code))
   }
 
+  private def isWelshEnabled: Boolean =
+    configuration.getOptional[Boolean]("microservice.services.features.welsh-translation").getOrElse(true)
 }

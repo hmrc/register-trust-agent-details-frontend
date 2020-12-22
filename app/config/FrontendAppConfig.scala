@@ -56,28 +56,15 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
   lazy val lostUtrUrl : String = configuration.get[String]("urls.lostUtr")
   lazy val logoutUrl: String = loadConfig("urls.logout")
 
-  private def insertDraftId(url: String, draftId: String) = url.replace(":draftId", draftId)
+  lazy val registrationProgressUrlTemplate: String =
+    configuration.get[String]("urls.registrationProgress")
 
-  private lazy val beneficiariesFrontendUrlTemplate: String = loadConfig("urls.beneficiariesFrontend")
-  def beneficiariesFrontendUrl(draftId: String): String = insertDraftId(beneficiariesFrontendUrlTemplate, draftId)
+  def registrationProgressUrl(draftId: String): String =
+    registrationProgressUrlTemplate.replace(":draftId", draftId)
 
-  private lazy val taxLiabilityFrontendUrlTemplate: String = loadConfig("urls.taxLiabilityFrontend")
-  def taxLiabilityFrontendUrl(draftId: String): String = insertDraftId(taxLiabilityFrontendUrlTemplate, draftId)
+  def routeToSwitchLanguage: String => Call =
+    (lang: String) => controllers.routes.LanguageSwitchController.switchToLanguage(lang)
 
-  private lazy val trusteesFrontendUrlTemplate: String = loadConfig("urls.trusteesFrontend")
-  def trusteesFrontendUrl(draftId: String): String = insertDraftId(trusteesFrontendUrlTemplate, draftId)
-
-  private lazy val trustDetailsFrontendUrlTemplate: String = loadConfig("urls.trustDetailsFrontend")
-  def trustDetailsFrontendUrl(draftId: String): String = insertDraftId(trustDetailsFrontendUrlTemplate, draftId)
-
-  private lazy val settlorsFrontendUrlTemplate: String = loadConfig("urls.settlorsFrontend")
-  def settlorsFrontendUrl(draftId: String): String = insertDraftId(settlorsFrontendUrlTemplate, draftId)
-
-  private lazy val protectorsFrontendUrlTemplate: String = loadConfig("urls.protectorsFrontend")
-  def protectorsFrontendUrl(draftId: String): String = insertDraftId(protectorsFrontendUrlTemplate, draftId)
-
-  private lazy val otherIndividualsFrontendUrlTemplate: String = loadConfig("urls.otherIndividualsFrontend")
-  def otherIndividualsFrontendUrl(draftId: String): String = insertDraftId(otherIndividualsFrontendUrlTemplate, draftId)
 
   lazy val otacUrl : String = configuration.get[String]("urls.otacLogin")
 
@@ -103,21 +90,11 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
     "cymraeg" -> Lang(WELSH)
   )
 
-  def routeToSwitchLanguage: String => Call =
-    (lang: String) => controllers.routes.LanguageSwitchController.switchToLanguage(lang)
-
-  lazy val removeTaxLiabilityOnTaskList : Boolean =
-    configuration.get[Boolean]("microservice.services.features.removeTaxLiabilityOnTaskList")
-
   lazy val auditSubmissions : Boolean =
     configuration.get[Boolean]("microservice.services.features.auditing.submissions.enabled")
 
   lazy val auditCannotCreateRegistration : Boolean =
     configuration.get[Boolean]("microservice.services.features.auditing.cannotCreateRegistration.enabled")
-
-  lazy val livingSettlorBusinessEnabled : Boolean = configuration.get[Boolean]("microservice.services.features.journey.livingSettlorBusiness.enabled")
-
-  lazy val declarationEmailEnabled: Boolean = configuration.get[Boolean]("microservice.services.features.declaration.email.enabled")
 
   lazy val maintainATrustFrontendUrl : String =
     configuration.get[String]("urls.maintainATrust")
