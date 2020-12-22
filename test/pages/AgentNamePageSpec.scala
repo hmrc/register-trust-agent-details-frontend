@@ -16,6 +16,9 @@
 
 package pages
 
+import pages.agent.AgentNamePage
+import pages.behaviours.PageBehaviours
+
 
 class AgentNamePageSpec extends PageBehaviours {
 

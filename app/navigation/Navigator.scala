@@ -16,8 +16,11 @@
 
 package navigation
 
+import config.FrontendAppConfig
 import javax.inject.{Inject, Singleton}
+import models.{CheckMode, Mode, NormalMode, UserAnswers}
 import navigation.routes._
+import pages.Page
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 
@@ -27,14 +30,11 @@ class Navigator @Inject()(
                          ) {
 
   private def defaultRoute: PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case _ => _ => _ => controllers.register.routes.IndexController.onPageLoad()
+    case _ => _ => _ => controllers.routes.IndexController.onPageLoad()
   }
 
   protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] =
     AgentRoutes.route(draftId) orElse
-      AssetsRoutes.route(draftId) orElse
-      MatchingRoutes.route(draftId, config) orElse
-      SuitabilityRoutes.route(draftId) orElse
       defaultRoute
 
   def nextPage(page: Page, mode: Mode = NormalMode, draftId: String, af :AffinityGroup = AffinityGroup.Organisation): UserAnswers => Call = mode match {

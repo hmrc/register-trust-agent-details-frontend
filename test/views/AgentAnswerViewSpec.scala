@@ -16,6 +16,9 @@
 
 package views
 
+import views.behaviours.ViewBehaviours
+import views.html.AgentAnswerView
+
 class AgentAnswerViewSpec extends ViewBehaviours {
 
   "AgentAnswer view" must {

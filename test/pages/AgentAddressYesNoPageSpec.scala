@@ -16,6 +16,12 @@
 
 package pages
 
+import models.UserAnswers
+import models.core.pages.{InternationalAddress, UKAddress}
+import pages.agent._
+import pages.behaviours.PageBehaviours
+import org.scalacheck.Arbitrary.arbitrary
+
 class AgentAddressYesNoPageSpec extends PageBehaviours {
 
   "AgentAddressYesNoPage" must {

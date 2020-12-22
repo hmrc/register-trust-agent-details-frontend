@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package models
+package views
 
-import org.scalatest.{MustMatchers, WordSpec}
+import views.behaviours.ViewBehaviours
+import views.html.CreateAgentServicesAccountView
 
-class WithNameSpec extends WordSpec with MustMatchers {
+class CreateAgentServicesAccountViewSpec extends ViewBehaviours {
 
-  object Foo extends WithName("bar")
+  "CreateAgentServicesAccount view" must {
 
-  ".toString" must {
-    "return the correct string" in {
-      Foo.toString mustEqual "bar"
-    }
+    val view = viewFor[CreateAgentServicesAccountView](Some(emptyUserAnswers))
+
+    val applyView = view.apply()(fakeRequest, messages)
+
+    behave like normalPage(applyView, None, "createAgentServicesAccount", "paragraph1", "insetText", "paragraph2", "paragraph3")
+
+ 
   }
 }

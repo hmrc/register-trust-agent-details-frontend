@@ -16,8 +16,12 @@
 
 package views
 
+import forms.AgentTelephoneNumberFormProvider
+import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
+import views.behaviours.StringViewBehaviours
+import views.html.AgentTelephoneNumberView
 
 class AgentTelephoneNumberViewSpec extends StringViewBehaviours {
 

@@ -16,12 +16,22 @@
 
 package repositories
 
-import java.time.{LocalDate, LocalDateTime}
+import java.time.LocalDateTime
 
+import base.RegistrationSpecBase
+import connector.SubmissionDraftConnector
+import models._
+import models.core.http.{AddressType, IdentificationOrgType, LeadTrusteeOrgType, LeadTrusteeType}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{verify, when}
+import org.scalatest.MustMatchers
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.{JsArray, Json}
+import play.api.test.Helpers.OK
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import utils.DateFormatter
+import viewmodels.{AnswerRow, AnswerSection, DraftRegistration}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -44,7 +54,7 @@ class RegistrationRepositorySpec extends RegistrationSpecBase with MustMatchers 
 
         val draftId = "DraftId"
 
-        val userAnswers = models.core.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId", createdAt = userAnswersDateTime)
+        val userAnswers = models.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId", createdAt = userAnswersDateTime)
 
         val mockConnector = mock[SubmissionDraftConnector]
 
@@ -128,7 +138,7 @@ class RegistrationRepositorySpec extends RegistrationSpecBase with MustMatchers 
 
         val draftId = "DraftId"
 
-        val userAnswers = models.core.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId", createdAt = userAnswersDateTime)
+        val userAnswers = models.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId", createdAt = userAnswersDateTime)
 
         val mockConnector = mock[SubmissionDraftConnector]
 
@@ -208,225 +218,6 @@ class RegistrationRepositorySpec extends RegistrationSpecBase with MustMatchers 
 
         result mustBe expectedCombinedRegistrationJson
         verify(mockConnector).getRegistrationPieces(draftId)(hc, executionContext)
-      }
-    }
-    "reading status" must {
-
-      "read existing status from connector" in {
-
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
-
-        val draftId = "DraftId"
-
-        val mockConnector = mock[SubmissionDraftConnector]
-
-        val repository = createRepository(mockConnector)
-
-        val allStatus = AllStatus(beneficiaries = Some(Completed))
-
-        when(mockConnector.getStatus(any())(any(), any())).thenReturn(Future.successful(allStatus))
-
-        val result = Await.result(repository.getAllStatus(draftId), Duration.Inf)
-
-        result mustBe allStatus
-
-        verify(mockConnector).getStatus(draftId)(hc, executionContext)
-      }
-    }
-
-    "setting status" must {
-
-      "write status to draft" in {
-
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
-
-        val draftId = "DraftId"
-
-        val status = AllStatus(beneficiaries = Some(InProgress))
-
-        val mockConnector = mock[SubmissionDraftConnector]
-
-        val repository = createRepository(mockConnector)
-
-        when(mockConnector.setStatus(any(), any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK, "")))
-
-        val result = Await.result(repository.setAllStatus(draftId, status), Duration.Inf)
-
-        result mustBe true
-        verify(mockConnector).setStatus(draftId, status)(hc, executionContext)
-      }
-    }
-
-    "reading answer sections" must {
-      "return deserialised answer sections" in {
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
-
-        val draftId = "DraftId"
-
-        val mockConnector = mock[SubmissionDraftConnector]
-
-        val repository = createRepository(mockConnector)
-
-        val answerSections = AllAnswerSections(
-          beneficiaries = Some(
-            List(
-              RegistrationSubmission.AnswerSection(
-                Some("headingKey1"),
-                List(
-                  RegistrationSubmission.AnswerRow("label1", "answer1", "labelArg1")
-                ),
-                Some("sectionKey1")),
-              RegistrationSubmission.AnswerSection(
-                Some("headingKey2"),
-                List(
-                  RegistrationSubmission.AnswerRow("label2", "answer2", "labelArg2")
-                ),
-                Some("sectionKey2"))
-            )
-          ),
-          trustees = Some(
-            List(
-              RegistrationSubmission.AnswerSection(
-                Some("trusteeHeadingKey1"),
-                List(
-                  RegistrationSubmission.AnswerRow("label1", "answer1", "labelArg1")
-                ),
-                Some("trusteeSectionKey1")),
-              RegistrationSubmission.AnswerSection(
-                Some("trusteeHeadingKey2"),
-                List(
-                  RegistrationSubmission.AnswerRow("label2", "answer2", "labelArg2")
-                ),
-                Some("trusteeSectionKey2"))
-            )
-          ),
-          protectors = None,
-          otherIndividuals = None,
-          trustDetails = None,
-          settlors = None
-        )
-
-        when(mockConnector.getAnswerSections(any())(any(), any())).thenReturn(Future.successful(answerSections))
-
-        val result = Await.result(repository.getAnswerSections(draftId), Duration.Inf)
-
-        val expectedBeneficiaries = Some(List(
-          AnswerSection(
-            Some("headingKey1"),
-            List(
-              AnswerRow("label1", HtmlFormat.raw("answer1"), None, "labelArg1", canEdit = false)
-            ),
-            Some("sectionKey1")
-          ),
-          AnswerSection(
-            Some("headingKey2"),
-            List(
-              AnswerRow("label2", HtmlFormat.raw("answer2"), None, "labelArg2", canEdit = false)
-            ),
-            Some("sectionKey2")
-          )
-        ))
-
-        val expectedTrustees = Some(List(
-          AnswerSection(
-            Some("trusteeHeadingKey1"),
-            List(
-              AnswerRow("label1", HtmlFormat.raw("answer1"), None, "labelArg1", canEdit = false)
-            ),
-            Some("trusteeSectionKey1")
-          ),
-          AnswerSection(
-            Some("trusteeHeadingKey2"),
-            List(
-              AnswerRow("label2", HtmlFormat.raw("answer2"), None, "labelArg2", canEdit = false)
-            ),
-            Some("trusteeSectionKey2")
-          )
-        ))
-
-        result mustBe RegistrationAnswerSections(
-          beneficiaries = expectedBeneficiaries,
-          trustees = expectedTrustees
-        )
-        verify(mockConnector).getAnswerSections(draftId)(hc, executionContext)
-      }
-    }
-
-    "reading lead trustee" must {
-
-      "read existing lead trustee from connector" in {
-
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
-
-        val draftId = "DraftId"
-
-        val mockConnector = mock[SubmissionDraftConnector]
-
-        val repository = createRepository(mockConnector)
-
-        val leadTrusteeOrg = LeadTrusteeType(
-          None,
-          Some(LeadTrusteeOrgType(
-            "Lead Org",
-            "07911234567",
-            None,
-            IdentificationOrgType(None, Some(AddressType("line1", "line2", None, None, Some("AA1 1AA"), "GB")))))
-        )
-
-        when(mockConnector.getLeadTrustee(any())(any(), any())).thenReturn(Future.successful(leadTrusteeOrg))
-
-        val result = Await.result(repository.getLeadTrustee(draftId), Duration.Inf)
-
-        result mustBe leadTrusteeOrg
-
-        verify(mockConnector).getLeadTrustee(draftId)(hc, executionContext)
-      }
-    }
-    "reading correspondence address" must {
-
-      "read existing correspondence address from connector" in {
-
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
-
-        val draftId = "DraftId"
-
-        val mockConnector = mock[SubmissionDraftConnector]
-
-        val repository = createRepository(mockConnector)
-
-        val correspondenceAddress = AddressType("line1", "line2", None, None, Some("AA1 1AA"), "GB")
-
-        when(mockConnector.getCorrespondenceAddress(any())(any(), any())).thenReturn(Future.successful(correspondenceAddress))
-
-        val result = Await.result(repository.getCorrespondenceAddress(draftId), Duration.Inf)
-
-        result mustBe correspondenceAddress
-
-        verify(mockConnector).getCorrespondenceAddress(draftId)(hc, executionContext)
-      }
-    }
-
-    "reading when trust setup date" must {
-
-      "read existing date from connector" in {
-
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
-
-        val draftId = "DraftId"
-
-        val mockConnector = mock[SubmissionDraftConnector]
-
-        val repository = createRepository(mockConnector)
-
-        val expected = LocalDate.parse("2020-10-10")
-
-        when(mockConnector.getTrustSetupDate(any())(any(), any())).thenReturn(Future.successful(Some(LocalDate.parse("2020-10-10"))))
-
-        val result = Await.result(repository.getTrustSetupDate(draftId), Duration.Inf)
-
-        result.get mustBe expected
-
-        verify(mockConnector).getTrustSetupDate(draftId)(hc, executionContext)
       }
     }
 

@@ -18,6 +18,10 @@ package views
 
 import java.time.LocalDateTime
 
+import viewmodels.DraftRegistration
+import views.behaviours.ViewBehaviours
+import views.html.AgentOverviewView
+
 class AgentOverviewViewSpec extends ViewBehaviours {
 
   "AgentOverview view" must {

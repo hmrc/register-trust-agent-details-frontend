@@ -16,8 +16,13 @@
 
 package views
 
+import forms.YesNoFormProvider
+import models.NormalMode
+import pages.agent.AgentNamePage
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
+import views.behaviours.YesNoViewBehaviours
+import views.html.AgentAddressYesNoView
 
 class AgentAddressYesNoViewSpec extends YesNoViewBehaviours {
 

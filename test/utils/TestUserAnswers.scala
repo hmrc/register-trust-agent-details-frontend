@@ -16,8 +16,10 @@
 
 package utils
 
+import models.UserAnswers
 import models.core.pages.{FullName, UKAddress}
 import org.scalatest.TryValues
+import pages.agent._
 import play.api.libs.json.Json
 
 object TestUserAnswers extends TryValues {
@@ -25,7 +27,7 @@ object TestUserAnswers extends TryValues {
   lazy val draftId = "id"
   lazy val userInternalId = "internalId"
 
-  def emptyUserAnswers: UserAnswers = models.core.UserAnswers(draftId, Json.obj(), internalAuthId = userInternalId)
+  def emptyUserAnswers: UserAnswers = models.UserAnswers(draftId, Json.obj(), internalAuthId = userInternalId)
 
   def withAgent(userAnswers: UserAnswers): UserAnswers = {
     userAnswers
@@ -35,43 +37,5 @@ object TestUserAnswers extends TryValues {
       .set(AgentTelephoneNumberPage, "+1234567890").success.value
       .set(AgentInternalReferencePage, "1234-5678").success.value
       .set(AgentAddressYesNoPage, true).success.value
-  }
-
-  def withMoneyAsset(userAnswers: UserAnswers): UserAnswers = {
-    val index = 0
-    userAnswers
-      .set(WhatKindOfAssetPage(index), WhatKindOfAsset.Money).success.value
-      .set(AssetMoneyValuePage(index), "2000").success.value
-      .set(AssetStatus(index), Completed).success.value
-  }
-
-  def withDeclaration(userAnswers: UserAnswers): UserAnswers = {
-    userAnswers
-      .set(DeclarationPage, Declaration(FullName("First", None, "Last"), Some("test@test.comn"))).success.value
-  }
-
-  def withMatchingSuccess(userAnswers: UserAnswers): UserAnswers = {
-    userAnswers
-      .set(TrustHaveAUTRPage, true).success.value
-      .set(WhatIsTheUTRPage, "123456789").success.value
-      .set(PostcodeForTheTrustPage, "NE981ZZ").success.value
-      .set(ExistingTrustMatched, Success).success.value
-  }
-
-  def withMatchingFailed(userAnswers: UserAnswers): UserAnswers = {
-    userAnswers
-      .set(ExistingTrustMatched, Failed).success.value
-  }
-
-  def withCompleteSections(userAnswers: UserAnswers): UserAnswers = {
-    userAnswers
-      .set(AddAssetsPage, AddAssets.NoComplete).success.value
-  }
-
-  def newTrustCompleteUserAnswers: UserAnswers = {
-    val emptyUserAnswers = TestUserAnswers.emptyUserAnswers
-    val userAnswers = TestUserAnswers.withMoneyAsset(emptyUserAnswers)
-
-    userAnswers
   }
 }

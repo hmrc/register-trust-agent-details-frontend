@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package models
+package views
 
-import org.scalatest.{MustMatchers, WordSpec}
+import play.api.data.Form
+import play.api.i18n.Messages
 
-class WithNameSpec extends WordSpec with MustMatchers {
+object ViewUtils {
 
-  object Foo extends WithName("bar")
+  def errorPrefix(form: Form[_])(implicit messages: Messages): String = {
+    if (form.hasErrors || form.hasGlobalErrors) s"${messages("error.browser.title.prefix")} " else ""
+  }
 
-  ".toString" must {
-    "return the correct string" in {
-      Foo.toString mustEqual "bar"
+  def breadcrumbTitle(title: String, section: Option[String])(implicit messages: Messages): String = {
+    section match {
+      case Some(sect) => s"$title - $sect - ${messages("site.service_name")} - GOV.UK"
+      case _ => s"$title - ${messages("site.service_name")} - GOV.UK"
     }
   }
 }

@@ -7,6 +7,8 @@ GET        /language/:lang          controllers.LanguageSwitchController.switchT
 GET        /assets/*file            controllers.Assets.versioned(path = "/public", file: Asset)
 
 
+GET        /                                                                                        controllers.IndexController.onPageLoad()
+
 GET        /this-service-has-been-reset                                                             controllers.SessionExpiredController.onPageLoad()
 
 GET        /feature-not-available                                                                   controllers.FeatureNotAvailableController.onPageLoad()
@@ -15,6 +17,8 @@ GET        /unauthorised                                                        
 
 GET        /keep-alive                                                                              controllers.SessionTimeoutController.keepAlive
 GET        /timeout                                                                                 controllers.SessionTimeoutController.timeout
+
+GET        /create-agent-services-account                                                           controllers.CreateAgentServicesAccountController.onPageLoad()
 
 GET        /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onPageLoad(mode: Mode = NormalMode, draftId: String)
 POST       /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onSubmit(mode: Mode = NormalMode, draftId: String)

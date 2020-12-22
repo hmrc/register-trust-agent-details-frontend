@@ -16,6 +16,9 @@
 
 package pages
 
+import pages.agent.AgentInternalReferencePage
+import pages.behaviours.PageBehaviours
+
 
 class AgentInternalReferencePageSpec extends PageBehaviours {
 

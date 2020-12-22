@@ -16,16 +16,17 @@
 
 package navigation
 
+import base.RegistrationSpecBase
+import generators.Generators
+import models.NormalMode
 import navigation.navigators.registration._
+import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import pages.Page
 
 class NavigatorSpec extends RegistrationSpecBase
   with ScalaCheckPropertyChecks
   with Generators
-  with MatchingRoutes
   with AgentRoutes
-  with AssetRoutes
-  with PropertyOrLandRoutes
-  with SuitabilityRoutes
 {
 
   implicit val navigator : Navigator = injector.instanceOf[Navigator]
@@ -39,15 +40,7 @@ class NavigatorSpec extends RegistrationSpecBase
         navigator.nextPage(UnknownPage, NormalMode, fakeDraftId)(emptyUserAnswers) mustBe IndexController.onPageLoad()
       }
 
-      behave like matchingRoutes
-
       behave like agentRoutes
-
-      behave like assetRoutes
-
-      behave like propertyOrLandRoutes
-
-      behave like suitabilityRoutes
 
     }
 

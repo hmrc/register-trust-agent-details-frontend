@@ -16,8 +16,12 @@
 
 package views
 
+import forms.UKAddressFormProvider
+import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
+import views.behaviours.UkAddressViewBehaviours
+import views.html.AgentUKAddressView
 
 class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
 

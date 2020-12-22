@@ -16,6 +16,9 @@
 
 package pages
 
+import pages.agent.AgentTelephoneNumberPage
+import pages.behaviours.PageBehaviours
+
 
 class AgentTelephoneNumberPageSpec extends PageBehaviours {
 

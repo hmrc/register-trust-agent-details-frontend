@@ -16,8 +16,12 @@
 
 package views
 
+import forms.AgentNameFormProvider
+import models.NormalMode
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
+import views.behaviours.StringViewBehaviours
+import views.html.AgentNameView
 
 class AgentNameViewSpec extends StringViewBehaviours {
 
