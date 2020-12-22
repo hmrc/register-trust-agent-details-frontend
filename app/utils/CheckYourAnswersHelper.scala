@@ -17,48 +17,77 @@
 package utils
 
 import javax.inject.Inject
+import models.core.pages.{InternationalAddress, UKAddress}
 import models.{NormalMode, UserAnswers}
+import pages.agent._
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat
+import play.twirl.api.{Html, HtmlFormat}
+import utils.countryOptions.CountryOptions
+import viewmodels.AnswerRow
 
 class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateFormatter: DateFormatter)
                                       (userAnswers: UserAnswers, draftId: String, canEdit: Boolean)
                                       (implicit messages: Messages) {
 
 
-  def assetInternationalAddress(index: Int): Option[AnswerRow] = userAnswers.get(BusinessInternationalAddressPage(index)) map {
-    x =>
-      AnswerRow(
-        "assetInternationalAddress.checkYourAnswersLabel",
-        internationalAddress(x, countryOptions),
-        Some(controllers.register.asset.business.routes.BusinessInternationalAddressController.onPageLoad(NormalMode, index, draftId).url),
-        assetName(index, userAnswers),
-        canEdit = canEdit
-      )
+  def yesOrNo(answer: Boolean)(implicit messages: Messages): Html = {
+    if (answer) {
+      HtmlFormat.escape(messages("site.yes"))
+    } else {
+      HtmlFormat.escape(messages("site.no"))
+    }
   }
 
+  def ukAddress(address: UKAddress): Html = {
+    val lines =
+      Seq(
+        Some(HtmlFormat.escape(address.line1)),
+        Some(HtmlFormat.escape(address.line2)),
+        address.line3.map(HtmlFormat.escape),
+        address.line4.map(HtmlFormat.escape),
+        Some(HtmlFormat.escape(address.postcode))
+      ).flatten
+
+    Html(lines.mkString("<br />"))
+  }
+
+  def country(code: String, countryOptions: CountryOptions): String =
+    countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
 
 
+  def internationalAddress(address: InternationalAddress, countryOptions: CountryOptions): Html = {
+    val lines =
+      Seq(
+        Some(HtmlFormat.escape(address.line1)),
+        Some(HtmlFormat.escape(address.line2)),
+        address.line3.map(HtmlFormat.escape),
+        Some(country(address.country, countryOptions))
+      ).flatten
+
+    Html(lines.mkString("<br />"))
+  }
+
+  def agencyName(userAnswers: UserAnswers): String = {
+    userAnswers.get(AgentNamePage).getOrElse("")
+  }
 
   def agentInternationalAddress: Option[AnswerRow] = userAnswers.get(AgentInternationalAddressPage) map {
     x =>
       AnswerRow(
         "site.address.international.checkYourAnswersLabel",
         internationalAddress(x, countryOptions),
-        Some(controllers.register.agents.routes.AgentInternationalAddressController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentInternationalAddressController.onPageLoad(NormalMode, draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )
   }
-
-
 
   def agentUKAddress: Option[AnswerRow] = userAnswers.get(AgentUKAddressPage) map {
     x =>
       AnswerRow(
         "site.address.uk.checkYourAnswersLabel",
         ukAddress(x),
-        Some(controllers.register.agents.routes.AgentUKAddressController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentUKAddressController.onPageLoad(NormalMode, draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )
@@ -69,7 +98,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentAddressYesNo.checkYourAnswersLabel",
         yesOrNo(x),
-        Some(controllers.register.agents.routes.AgentAddressYesNoController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentAddressYesNoController.onPageLoad(NormalMode, draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )
@@ -80,7 +109,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentName.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        Some(controllers.register.agents.routes.AgentNameController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentNameController.onPageLoad(NormalMode, draftId).url),
         canEdit = canEdit
       )
   }
@@ -92,7 +121,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentInternalReference.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        Some(controllers.register.agents.routes.AgentInternalReferenceController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentInternalReferenceController.onPageLoad(NormalMode, draftId).url),
         canEdit = canEdit
       )
   }
@@ -102,7 +131,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentTelephoneNumber.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        Some(controllers.register.agents.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )

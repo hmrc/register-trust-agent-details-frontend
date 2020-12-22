@@ -20,19 +20,16 @@ import java.time.LocalDate
 
 import connector.SubmissionDraftConnector
 import javax.inject.Inject
-import models.RegistrationSubmission.AllStatus
 import models.UserAnswers
-import models.core.UserAnswers
 import models.core.http.{AddressType, LeadTrusteeType}
-import models.registration.pages.RegistrationStatus.InProgress
+import models.pages.RegistrationStatus.InProgress
 import pages.agent.AgentInternalReferencePage
-import pages.register.agents.AgentInternalReferencePage
 import play.api.http
 import play.api.i18n.Messages
 import play.api.libs.json._
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import utils.DateFormatter
-import viewmodels.{DraftRegistration, RegistrationAnswerSections}
+import viewmodels.DraftRegistration
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -102,20 +99,6 @@ class DefaultRegistrationsRepository @Inject()(dateFormatter: DateFormatter,
     }
   }
 
-  override def getAllStatus(draftId: String)(implicit hc: HeaderCarrier) : Future[AllStatus] = {
-    submissionDraftConnector.getStatus(draftId)
-  }
-
-  override def setAllStatus(draftId: String, status: AllStatus)(implicit hc: HeaderCarrier) : Future[Boolean] = {
-    submissionDraftConnector.setStatus(draftId, status).map {
-      response => response.status == http.Status.OK
-    }
-  }
-
-  override def getAnswerSections(draftId: String)(implicit hc:HeaderCarrier) : Future[RegistrationAnswerSections] = {
-    submissionDraftConnector.getAnswerSections(draftId).map(RegistrationAnswerSections.fromAllAnswerSections)
-  }
-
   override def getLeadTrustee(draftId: String)(implicit hc:HeaderCarrier) : Future[LeadTrusteeType] =
     submissionDraftConnector.getLeadTrustee(draftId)
 
@@ -148,12 +131,6 @@ trait RegistrationsRepository {
   def getMostRecentDraftId()(implicit hc: HeaderCarrier) : Future[Option[String]]
 
   def addDraftRegistrationSections(draftId: String, registrationJson: JsValue)(implicit hc: HeaderCarrier) : Future[JsValue]
-
-  def getAllStatus(draftId: String)(implicit hc: HeaderCarrier) : Future[AllStatus]
-
-  def setAllStatus(draftId: String, status: AllStatus)(implicit hc: HeaderCarrier) : Future[Boolean]
-
-  def getAnswerSections(draftId: String)(implicit hc:HeaderCarrier) : Future[RegistrationAnswerSections]
 
   def getLeadTrustee(draftId: String)(implicit hc:HeaderCarrier) : Future[LeadTrusteeType]
 
