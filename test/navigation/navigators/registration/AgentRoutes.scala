@@ -36,8 +36,8 @@ trait AgentRoutes {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
 
-          navigator.nextPage(AgentInternalReferencePage, NormalMode, fakeDraftId, AffinityGroup.Agent)(userAnswers)
-            .mustBe(routes.AgentNameController.onPageLoad(NormalMode, fakeDraftId))
+          navigator.nextPage(AgentInternalReferencePage, fakeDraftId, userAnswers)
+            .mustBe(routes.AgentNameController.onPageLoad(fakeDraftId))
       }
     }
 
@@ -45,8 +45,8 @@ trait AgentRoutes {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
 
-          navigator.nextPage(AgentNamePage, NormalMode, fakeDraftId, AffinityGroup.Agent)(userAnswers)
-            .mustBe(routes.AgentAddressYesNoController.onPageLoad(NormalMode, fakeDraftId))
+          navigator.nextPage(AgentNamePage, fakeDraftId, userAnswers)
+            .mustBe(routes.AgentAddressYesNoController.onPageLoad(fakeDraftId))
       }
     }
 
@@ -54,7 +54,7 @@ trait AgentRoutes {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
           val answers = userAnswers.set(AgentAddressYesNoPage, value = true).success.value
-          navigator.nextPage(AgentAddressYesNoPage, NormalMode, fakeDraftId, AffinityGroup.Agent)(answers)
+          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, fakeDraftIdanswers)
             .mustBe(routes.AgentUKAddressController.onPageLoad(NormalMode, fakeDraftId))
       }
     }
@@ -62,8 +62,8 @@ trait AgentRoutes {
     "go to AgentTelephoneNumber from AgentUKAddress Page" in {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
-          navigator.nextPage(AgentUKAddressPage, NormalMode, fakeDraftId, AffinityGroup.Agent)(userAnswers)
-            .mustBe(routes.AgentTelephoneNumberController.onPageLoad(NormalMode, fakeDraftId))
+          navigator.nextPage(AgentUKAddressPage, fakeDraftId, fakeU)(userAnswers)
+            .mustBe(routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId))
       }
     }
 

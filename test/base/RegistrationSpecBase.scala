@@ -19,7 +19,7 @@ package base
 import config.FrontendAppConfig
 import controllers.actions.register._
 import controllers.actions.{FakeDraftIdRetrievalActionProvider, _}
-import models.core.UserAnswers
+import models.UserAnswers
 import models.core.http.{IdentificationOrgType, LeadTrusteeOrgType, LeadTrusteeType}
 import navigation.{FakeNavigator, Navigator}
 import org.scalatest.{BeforeAndAfter, TestSuite, TryValues}
@@ -28,11 +28,9 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import repositories.RegistrationsRepository
-import services.{DraftRegistrationService, SubmissionService}
-import uk.gov.hmrc.auth.core.AffinityGroup.Organisation
+import uk.gov.hmrc.auth.core.AffinityGroup.{Agent, Organisation}
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolment, Enrolments}
 import utils.TestUserAnswers
-import utils.annotations.{LivingSettlor, Partnership, PropertyOrLand}
 
 trait SpecBaseHelpers extends GuiceOneAppPerSuite with TryValues with Mocked with BeforeAndAfter with FakeTrustsApp {
   this: TestSuite =>
@@ -55,7 +53,7 @@ trait SpecBaseHelpers extends GuiceOneAppPerSuite with TryValues with Mocked wit
   private def fakeDraftIdAction(userAnswers: Option[UserAnswers]) = new FakeDraftIdRetrievalActionProvider(userAnswers)
 
   protected def applicationBuilder(userAnswers: Option[UserAnswers] = None,
-                                   affinityGroup: AffinityGroup = AffinityGroup.Organisation,
+                                   affinityGroup: AffinityGroup = AffinityGroup.Agent,
                                    enrolments: Enrolments = Enrolments(Set.empty[Enrolment]),
                                    navigator: Navigator = fakeNavigator
                                   ): GuiceApplicationBuilder =
@@ -66,13 +64,8 @@ trait SpecBaseHelpers extends GuiceOneAppPerSuite with TryValues with Mocked wit
         bind[RegistrationDataRetrievalAction].toInstance(new FakeRegistrationDataRetrievalAction(userAnswers)),
         bind[DraftIdRetrievalActionProvider].toInstance(fakeDraftIdAction(userAnswers)),
         bind[RegistrationsRepository].toInstance(registrationsRepository),
-        bind[SubmissionService].toInstance(mockSubmissionService),
-        bind[AffinityGroup].toInstance(Organisation),
-        bind[DraftRegistrationService].toInstance(mockCreateDraftRegistrationService),
+        bind[AffinityGroup].toInstance(Agent),
         bind[Navigator].toInstance(navigator),
-        bind[Navigator].qualifiedWith(classOf[Partnership]).toInstance(navigator),
-        bind[Navigator].qualifiedWith(classOf[PropertyOrLand]).toInstance(navigator),
-        bind[Navigator].qualifiedWith(classOf[LivingSettlor]).toInstance(navigator),
         bind[FrontendAppConfig].to(fakeFrontendAppConfig)
       )
 
