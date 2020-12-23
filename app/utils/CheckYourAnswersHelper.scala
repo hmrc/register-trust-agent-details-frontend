@@ -17,8 +17,8 @@
 package utils
 
 import javax.inject.Inject
+import models.UserAnswers
 import models.core.pages.{InternationalAddress, UKAddress}
-import models.{NormalMode, UserAnswers}
 import pages.agent._
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
@@ -76,7 +76,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "site.address.international.checkYourAnswersLabel",
         internationalAddress(x, countryOptions),
-        Some(controllers.routes.AgentInternationalAddressController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentInternationalAddressController.onPageLoad(draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )
@@ -87,7 +87,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "site.address.uk.checkYourAnswersLabel",
         ukAddress(x),
-        Some(controllers.routes.AgentUKAddressController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentUKAddressController.onPageLoad(draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )
@@ -98,7 +98,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentAddressYesNo.checkYourAnswersLabel",
         yesOrNo(x),
-        Some(controllers.routes.AgentAddressYesNoController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentAddressYesNoController.onPageLoad(draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )
@@ -109,7 +109,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentName.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        Some(controllers.routes.AgentNameController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentNameController.onPageLoad(draftId).url),
         canEdit = canEdit
       )
   }
@@ -121,7 +121,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentInternalReference.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        Some(controllers.routes.AgentInternalReferenceController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentInternalReferenceController.onPageLoad(draftId).url),
         canEdit = canEdit
       )
   }
@@ -131,7 +131,7 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateForma
       AnswerRow(
         "agentTelephoneNumber.checkYourAnswersLabel",
         HtmlFormat.escape(x),
-        Some(controllers.routes.AgentTelephoneNumberController.onPageLoad(NormalMode, draftId).url),
+        Some(controllers.routes.AgentTelephoneNumberController.onPageLoad(draftId).url),
         agencyName(userAnswers),
         canEdit = canEdit
       )

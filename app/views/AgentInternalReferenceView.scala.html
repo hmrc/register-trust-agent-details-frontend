@@ -15,14 +15,13 @@
  *@
 
 @import controllers.routes._
-@import models.Mode
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF
 )
 
-@(form: Form[_], mode: Mode, draftId: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
 
 @optionalHtmlContent = {<p>@messages("agentInternalReference.paragraph1")</p>}
 
@@ -30,7 +29,7 @@
     title = s"${errorPrefix(form)}${messages("agentInternalReference.title")}"
     ) {
 
-    @formHelper(action = AgentInternalReferenceController.onSubmit(mode, draftId), 'autoComplete -> "off") {
+    @formHelper(action = AgentInternalReferenceController.onSubmit(draftId), 'autoComplete -> "off") {
 
         @components.back_link()
 

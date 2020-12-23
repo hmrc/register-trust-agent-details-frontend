@@ -18,7 +18,6 @@ package controllers
 
 import controllers.actions.AgentActionSets
 import javax.inject.Inject
-import models.NormalMode
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
 import pages.agent.AgentAnswerPage
@@ -67,6 +66,6 @@ class AgentAnswerController @Inject()(
 
   def onSubmit(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
-      Redirect(navigator.nextPage(AgentAnswerPage ,NormalMode, draftId)(request.userAnswers))
+      Redirect(navigator.nextPage(AgentAnswerPage, draftId, request.userAnswers))
   }
 }

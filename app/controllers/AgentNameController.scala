@@ -19,7 +19,6 @@ package controllers
 import controllers.actions.AgentActionSets
 import forms.AgentNameFormProvider
 import javax.inject.Inject
-import models.Mode
 import navigation.Navigator
 import pages.agent.AgentNamePage
 import play.api.data.Form
@@ -45,7 +44,7 @@ class AgentNameController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId) {
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
       val preparedForm = request.userAnswers.get(AgentNamePage) match {
@@ -53,21 +52,21 @@ class AgentNameController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, draftId))
+      Ok(view(preparedForm, draftId))
   }
 
-  def onSubmit(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId).async {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
     implicit request =>
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, mode, draftId))),
+          Future.successful(BadRequest(view(formWithErrors, draftId))),
 
         value => {
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentNamePage, value))
             _              <- registrationsRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AgentNamePage, mode, draftId)(updatedAnswers))
+          } yield Redirect(navigator.nextPage(AgentNamePage, draftId, updatedAnswers))
         }
       )
   }

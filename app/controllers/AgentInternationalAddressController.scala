@@ -19,7 +19,6 @@ package controllers
 import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.InternationalAddressFormProvider
 import javax.inject.Inject
-import models.{Mode, NormalMode}
 import navigation.Navigator
 import pages.agent.{AgentInternationalAddressPage, AgentNamePage}
 import play.api.data.Form
@@ -46,9 +45,9 @@ class AgentInternationalAddressController @Inject()(
   val form = formProvider()
 
   private def actions(draftId: String) =
-   actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(NormalMode, draftId)))
+   actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
 
-  def onPageLoad(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId) {
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get
@@ -58,23 +57,23 @@ class AgentInternationalAddressController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, countryOptions.options, mode, draftId, agencyName))
+      Ok(view(preparedForm, countryOptions.options, draftId, agencyName))
   }
 
-  def onSubmit(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId).async {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, mode, draftId, agencyName))),
+          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, draftId, agencyName))),
 
         value => {
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentInternationalAddressPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AgentInternationalAddressPage, mode, draftId)(updatedAnswers))
+          } yield Redirect(navigator.nextPage(AgentInternationalAddressPage, draftId, updatedAnswers))
         }
       )
   }

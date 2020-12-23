@@ -15,20 +15,19 @@
  *@
 
 @import controllers.routes._
-@import models.Mode
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF
 )
 
-@(form: Form[_], mode: Mode,draftId: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)}${messages("agentName.title")}"
     ) {
 
-    @formHelper(action = AgentNameController.onSubmit(mode, draftId), 'autoComplete -> "on") {
+    @formHelper(action = AgentNameController.onSubmit(draftId), 'autoComplete -> "on") {
 
         @components.back_link()
 

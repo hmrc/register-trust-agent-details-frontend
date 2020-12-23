@@ -21,7 +21,7 @@ import config.FrontendAppConfig
 import play.api.Configuration
 import play.api.i18n.{I18nSupport, Lang, MessagesApi}
 import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
 
 class LanguageSwitchController @Inject()(
                                           configuration: Configuration,
@@ -30,11 +30,11 @@ class LanguageSwitchController @Inject()(
                                           val controllerComponents: MessagesControllerComponents
                                         ) extends FrontendBaseController with I18nSupport {
 
-  private def fallbackURL(draftId: String): String = routes.IndexController.onPageLoad(draftId).url
+  private val fallbackURL = appConfig.registrationStartUrl
 
   private def languageMap: Map[String, Lang] = appConfig.languageMap
 
-  def switchToLanguage(language: String, draftId: String): Action[AnyContent] = Action {
+  def switchToLanguage(language: String): Action[AnyContent] = Action {
     implicit request =>
 
       val enabled = isWelshEnabled
@@ -43,7 +43,7 @@ class LanguageSwitchController @Inject()(
       } else {
         Lang("en")
       }
-      val redirectURL = request.headers.get(REFERER).getOrElse(fallbackURL(draftId))
+      val redirectURL = request.headers.get(REFERER).getOrElse(fallbackURL)
       Redirect(redirectURL).withLang(Lang.apply(lang.code))
   }
 

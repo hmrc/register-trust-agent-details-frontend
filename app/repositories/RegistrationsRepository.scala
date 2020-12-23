@@ -19,7 +19,6 @@ package repositories
 import connector.SubmissionDraftConnector
 import javax.inject.Inject
 import models.UserAnswers
-import models.pages.RegistrationStatus.InProgress
 import pages.agent.AgentInternalReferencePage
 import play.api.http
 import play.api.i18n.Messages
@@ -59,7 +58,6 @@ class DefaultRegistrationsRepository @Inject()(dateFormatter: DateFormatter,
     submissionDraftConnector.setDraftMain(
       draftId = userAnswers.draftId,
       draftData = Json.toJson(userAnswers),
-      inProgress = userAnswers.progress == InProgress,
       reference = userAnswers.get(AgentInternalReferencePage)
     ).map {
       response => response.status == http.Status.OK

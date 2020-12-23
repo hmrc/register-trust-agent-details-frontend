@@ -16,32 +16,20 @@
 
 package navigation
 
-import config.FrontendAppConfig
-import javax.inject.{Inject, Singleton}
-import models.{CheckMode, Mode, NormalMode, UserAnswers}
-import navigation.routes._
-import pages.Page
+import javax.inject.Singleton
+import models.ReadableUserAnswers
+import pages.{Page, QuestionPage}
 import play.api.mvc.Call
-import uk.gov.hmrc.auth.core.AffinityGroup
 
 @Singleton
-class Navigator @Inject()(
-                         config: FrontendAppConfig
-                         ) {
+trait Navigator {
 
-  private def defaultRoute(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad(draftId)
-  }
+  def nextPage(page: Page, draftId: String, userAnswers: ReadableUserAnswers): Call
 
-  protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] =
-    AgentRoutes.route(draftId) orElse
-      defaultRoute(draftId)
-
-  def nextPage(page: Page, mode: Mode = NormalMode, draftId: String, af :AffinityGroup = AffinityGroup.Organisation): UserAnswers => Call = mode match {
-    case NormalMode =>
-      route(draftId)(page)(af)
-    case CheckMode =>
-      route(draftId)(page)(af)
+  def yesNoNav(ua: ReadableUserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call = {
+    ua.get(fromPage)
+      .map(if (_) yesCall else noCall)
+      .getOrElse(controllers.routes.SessionExpiredController.onPageLoad())
   }
 
 }

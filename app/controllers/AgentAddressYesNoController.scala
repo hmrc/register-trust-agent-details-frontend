@@ -19,7 +19,6 @@ package controllers
 import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.YesNoFormProvider
 import javax.inject.Inject
-import models.{Mode, NormalMode}
 import navigation.Navigator
 import pages.agent.{AgentAddressYesNoPage, AgentNamePage}
 import play.api.data.Form
@@ -44,9 +43,9 @@ class AgentAddressYesNoController @Inject()(
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("agentAddressYesNo")
 
   private def actions(draftId: String) =
-    actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(NormalMode, draftId)))
+    actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
 
-  def onPageLoad(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId) {
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
       val name = request.userAnswers.get(AgentNamePage).get
@@ -56,23 +55,23 @@ class AgentAddressYesNoController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, draftId, name))
+      Ok(view(preparedForm, draftId, name))
   }
 
-  def onSubmit(mode: Mode, draftId: String) = actions(draftId).async {
+  def onSubmit(draftId: String) = actions(draftId).async {
     implicit request =>
 
       val name = request.userAnswers.get(AgentNamePage).get
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, mode, draftId, name))),
+          Future.successful(BadRequest(view(formWithErrors, draftId, name))),
 
         value => {
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentAddressYesNoPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AgentAddressYesNoPage, mode, draftId)(updatedAnswers))
+          } yield Redirect(navigator.nextPage(AgentAddressYesNoPage, draftId, updatedAnswers))
         }
       )
   }

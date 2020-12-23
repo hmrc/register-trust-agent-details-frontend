@@ -16,14 +16,10 @@
 
 package models
 
-import java.time.LocalDateTime
-
-import models.pages.RegistrationStatus
-import models.pages.RegistrationStatus.NotStarted
+import models.core.UserAnswerImplicits._
 import play.api.Logging
 import play.api.libs.json._
 import queries.{Gettable, Settable}
-import models.core.UserAnswerImplicits._
 
 import scala.util.{Failure, Success, Try}
 
@@ -47,8 +43,6 @@ object ReadOnlyUserAnswers {
 final case class UserAnswers(
                               draftId: String,
                               data: JsObject = Json.obj(),
-                              progress : RegistrationStatus = NotStarted,
-                              createdAt : LocalDateTime = LocalDateTime.now,
                               internalAuthId :String
                             ) extends ReadableUserAnswers with Logging {
 
@@ -103,8 +97,6 @@ object UserAnswers {
     (
       (__ \ "_id").read[String] and
       (__ \ "data").read[JsObject] and
-      (__ \ "progress").read[RegistrationStatus] and
-      (__ \ "createdAt").read(MongoDateTimeFormats.localDateTimeRead) and
       (__ \ "internalId").read[String]
     ) (UserAnswers.apply _)
   }
@@ -116,8 +108,6 @@ object UserAnswers {
     (
       (__ \ "_id").write[String] and
       (__ \ "data").write[JsObject] and
-      (__ \ "progress").write[RegistrationStatus] and
-      (__ \ "createdAt").write(MongoDateTimeFormats.localDateTimeWrite) and
       (__ \ "internalId").write[String]
     ) (unlift(UserAnswers.unapply))
   }

@@ -19,7 +19,6 @@ package controllers
 import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.AgentTelephoneNumberFormProvider
 import javax.inject.Inject
-import models.{Mode, NormalMode}
 import navigation.Navigator
 import pages.agent.{AgentNamePage, AgentTelephoneNumberPage}
 import play.api.data.Form
@@ -42,11 +41,11 @@ class AgentTelephoneNumberController @Inject()(
                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String) =
-    actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(NormalMode, draftId)))
+    actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
 
   val form: Form[String] = formProvider()
 
-  def onPageLoad(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId) {
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get.toString
@@ -56,23 +55,23 @@ class AgentTelephoneNumberController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, draftId, agencyName))
+      Ok(view(preparedForm, draftId, agencyName))
   }
 
-  def onSubmit(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId).async {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, mode, draftId, agencyName))),
+          Future.successful(BadRequest(view(formWithErrors, draftId, agencyName))),
 
         value => {
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentTelephoneNumberPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AgentTelephoneNumberPage, mode, draftId)(updatedAnswers))
+          } yield Redirect(navigator.nextPage(AgentTelephoneNumberPage, draftId, updatedAnswers))
         }
       )
   }

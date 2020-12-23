@@ -19,7 +19,6 @@ package controllers
 import controllers.actions.AgentActionSets
 import forms.AgentInternalReferenceFormProvider
 import javax.inject.Inject
-import models.Mode
 import navigation.Navigator
 import pages.agent.{AgentARNPage, AgentInternalReferencePage}
 import play.api.data.Form
@@ -47,7 +46,7 @@ class AgentInternalReferenceController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId) {
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
       val preparedForm = request.userAnswers.get(AgentInternalReferencePage) match {
@@ -55,22 +54,22 @@ class AgentInternalReferenceController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, draftId))
+      Ok(view(preparedForm, draftId))
   }
 
-  def onSubmit(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId).async {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
     implicit request =>
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, mode, draftId))),
+          Future.successful(BadRequest(view(formWithErrors, draftId))),
 
         value => {
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentInternalReferencePage, value))
             updatedAnswersWithARN <- Future.fromTry(updatedAnswers.set(AgentARNPage, request.agentARN.getOrElse("")))
             _              <- registrationsRepository.set(updatedAnswersWithARN)
-          } yield Redirect(navigator.nextPage(AgentInternalReferencePage, mode, draftId)(updatedAnswers))
+          } yield Redirect(navigator.nextPage(AgentInternalReferencePage, draftId, updatedAnswers))
         }
       )
   }

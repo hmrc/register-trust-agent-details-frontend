@@ -19,7 +19,6 @@ package controllers
 import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.UKAddressFormProvider
 import javax.inject.Inject
-import models.{Mode, NormalMode}
 import navigation.Navigator
 import pages.agent.{AgentNamePage, AgentUKAddressPage}
 import play.api.data.Form
@@ -44,10 +43,10 @@ class AgentUKAddressController @Inject()(
   val form = formProvider()
 
   private def actions(draftId: String) =
-    actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(NormalMode, draftId)))
+    actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
 
 
-  def onPageLoad(mode: Mode, draftId : String): Action[AnyContent] = actions(draftId) {
+  def onPageLoad(draftId : String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get
@@ -57,23 +56,23 @@ class AgentUKAddressController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, mode, draftId, agencyName))
+      Ok(view(preparedForm, draftId, agencyName))
   }
 
-  def onSubmit(mode: Mode, draftId: String): Action[AnyContent] = actions(draftId).async {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
     implicit request =>
 
       val agencyName = request.userAnswers.get(AgentNamePage).get
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, mode, draftId, agencyName))),
+          Future.successful(BadRequest(view(formWithErrors, draftId, agencyName))),
 
         value => {
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentUKAddressPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AgentUKAddressPage, mode, draftId)(updatedAnswers))
+          } yield Redirect(navigator.nextPage(AgentUKAddressPage, draftId, updatedAnswers))
         }
       )
   }

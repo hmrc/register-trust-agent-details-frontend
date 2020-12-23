@@ -16,11 +16,8 @@
 
 package connector
 
-import java.time.LocalDate
-
 import config.FrontendAppConfig
 import javax.inject.Inject
-import models.core.http.{AddressType, LeadTrusteeType}
 import models.{SubmissionDraftData, SubmissionDraftId, SubmissionDraftResponse}
 import play.api.libs.json.{JsObject, JsValue, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
@@ -39,9 +36,9 @@ class SubmissionDraftConnector @Inject()(http: HttpClient, config : FrontendAppC
     http.GET[SubmissionDraftResponse](s"$submissionsBaseUrl/$draftId/$section")
   }
 
-  def setDraftMain(draftId : String, draftData: JsValue, inProgress: Boolean, reference: Option[String])
+  def setDraftMain(draftId : String, draftData: JsValue, reference: Option[String])
                   (implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
-    val submissionDraftData = SubmissionDraftData(draftData, reference, Some(inProgress))
+    val submissionDraftData = SubmissionDraftData(draftData, reference)
     http.POST[JsValue, HttpResponse](s"$submissionsBaseUrl/$draftId/$mainSection", Json.toJson(submissionDraftData))
   }
 
