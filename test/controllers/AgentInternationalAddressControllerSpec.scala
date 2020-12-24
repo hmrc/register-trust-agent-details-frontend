@@ -20,7 +20,7 @@ import base.RegistrationSpecBase
 import forms.InternationalAddressFormProvider
 import models.{NormalMode, UserAnswers}
 import models.core.pages.InternationalAddress
-import pages.agent.AgentNamePage
+import pages.agent.{AgentInternationalAddressPage, AgentNamePage}
 import play.api.Application
 import play.api.data.Form
 import play.api.mvc.Result
@@ -39,7 +39,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
   val form: Form[InternationalAddress] = formProvider()
   val agencyName = "Hadrian"
 
-  lazy val agentInternationalAddressRoute: String = routes.AgentInternationalAddressController.onPageLoad(NormalMode, fakeDraftId).url
+  lazy val agentInternationalAddressRoute: String = routes.AgentInternationalAddressController.onPageLoad(fakeDraftId).url
 
   "AgentInternationalAddress Controller" must {
 
@@ -61,7 +61,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, NormalMode, fakeDraftId, agencyName)(request, messages).toString
+        view(form, countryOptions, fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -85,7 +85,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(InternationalAddress("line 1", "line 2", Some("line 3"), "country")), countryOptions, NormalMode, fakeDraftId, agencyName)(request, messages).toString
+        view(form.fill(InternationalAddress("line 1", "line 2", Some("line 3"), "country")), countryOptions, fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -134,7 +134,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, NormalMode, fakeDraftId, agencyName)(request, messages).toString
+        view(boundForm, countryOptions, fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -148,7 +148,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -165,7 +165,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -180,7 +180,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(NormalMode, fakeDraftId).url
+      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(fakeDraftId).url
 
       application.stop()
     }
@@ -195,7 +195,7 @@ class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual UnauthorisedController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.UnauthorisedController.onPageLoad().url
 
       application.stop()
     }

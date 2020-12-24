@@ -32,7 +32,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
   val form = formProvider()
   val agencyName = "Hadrian"
 
-  lazy val agentUKAddressRoute = routes.AgentUKAddressController.onPageLoad(NormalMode,fakeDraftId).url
+  lazy val agentUKAddressRoute = routes.AgentUKAddressController.onPageLoad(fakeDraftId).url
 
   "AgentUKAddress Controller" must {
 
@@ -52,7 +52,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, fakeDraftId, agencyName)(request, messages).toString
+        view(form, fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -120,7 +120,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode,fakeDraftId, agencyName)(request, messages).toString
+        view(boundForm, fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -134,7 +134,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -151,7 +151,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -166,7 +166,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(NormalMode,fakeDraftId).url
+      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(fakeDraftId).url
 
       application.stop()
     }
@@ -181,7 +181,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual UnauthorisedController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.UnauthorisedController.onPageLoad().url
 
       application.stop()
     }

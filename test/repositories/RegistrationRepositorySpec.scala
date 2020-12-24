@@ -54,7 +54,7 @@ class RegistrationRepositorySpec extends RegistrationSpecBase with MustMatchers 
 
         val draftId = "DraftId"
 
-        val userAnswers = models.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId", createdAt = userAnswersDateTime)
+        val userAnswers = models.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId")
 
         val mockConnector = mock[SubmissionDraftConnector]
 
@@ -138,18 +138,18 @@ class RegistrationRepositorySpec extends RegistrationSpecBase with MustMatchers 
 
         val draftId = "DraftId"
 
-        val userAnswers = models.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId", createdAt = userAnswersDateTime)
+        val userAnswers = models.UserAnswers(draftId = draftId, internalAuthId = "internalAuthId")
 
         val mockConnector = mock[SubmissionDraftConnector]
 
         val repository = createRepository(mockConnector)
 
-        when(mockConnector.setDraftMain(any(), any(), any(), any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK, "")))
+        when(mockConnector.setDraftMain(any(), any(), any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK, "")))
 
         val result = Await.result(repository.set(userAnswers), Duration.Inf)
 
         result mustBe true
-        verify(mockConnector).setDraftMain(draftId, Json.toJson(userAnswers), inProgress = false, None)(hc, executionContext)
+        verify(mockConnector).setDraftMain(draftId, Json.toJson(userAnswers), None)(hc, executionContext)
       }
     }
 

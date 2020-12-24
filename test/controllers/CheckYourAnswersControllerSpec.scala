@@ -17,27 +17,31 @@
 package controllers
 
 import base.RegistrationSpecBase
+import connector.SubmissionDraftConnector
 import models.UserAnswers
 import models.core.pages.{InternationalAddress, UKAddress}
-import navigation.Navigator
-import pages.agent.{AgentAddressYesNoPage, AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
+import org.scalatest.concurrent.ScalaFutures
+import org.scalatestplus.mockito.MockitoSugar
+import pages.agent.{AgentARNPage, AgentAddressYesNoPage, AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage}
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import viewmodels.AnswerSection
-import uk.gov.hmrc.auth.core.AffinityGroup
-import utils.{CheckYourAnswersHelper, DateFormatter}
+import uk.gov.hmrc.http.HttpResponse
+import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
-import views.html.AgentAnswerView
+import viewmodels.AnswerSection
+import views.html.CheckYourAnswersView
 
+import scala.concurrent.Future
 
-class AgentAnswerControllerSpec extends RegistrationSpecBase {
+class CheckYourAnswersControllerSpec extends RegistrationSpecBase with MockitoSugar with ScalaFutures {
 
-  private val agentID: AffinityGroup.Agent.type = AffinityGroup.Agent
+  lazy val submitRoute : String = controllers.routes.CheckYourAnswersController.onSubmit().url
+  private lazy val completedRoute = "http://localhost:8822/register-an-estate/registration-progress"
 
-  private val countryOptions: CountryOptions = injector.instanceOf[CountryOptions]
-  private val dateFormatterImpl: DateFormatter = injector.instanceOf[DateFormatter]
-
-  "AgentAnswer Controller" must {
+  "Check Your Answers Controller" must {
 
     "return OK and the correct view for a UK address GET" in {
 
@@ -45,11 +49,12 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
         emptyUserAnswers
           .set(AgentTelephoneNumberPage, "123456789").success.value
           .set(AgentUKAddressPage, UKAddress("Line1", "Line2", None, Some("TownOrCity"), "NE62RT")).success.value
-          .set(AgentAddressYesNoPage, true).success.value
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers, fakeDraftId, canEdit = true)
+      val countryOptions: CountryOptions = injector.instanceOf[CountryOptions]
+
+      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers, fakeDraftId, false)
 
       val expectedSections = Seq(
         AnswerSection(
@@ -57,25 +62,24 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
           Seq(
             checkYourAnswersHelper.agentInternalReference.value,
             checkYourAnswersHelper.agentName.value,
-            checkYourAnswersHelper.agentAddressYesNo.value,
             checkYourAnswersHelper.agentUKAddress.value,
             checkYourAnswersHelper.agenciesTelephoneNumber.value
           )
         )
       )
 
-      val application = applicationBuilder(userAnswers = Some(answers), agentID).build()
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
 
-      val request = FakeRequest(GET, routes.AgentAnswerController.onPageLoad(fakeDraftId).url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[AgentAnswerView]
+      val view = application.injector.instanceOf[CheckYourAnswersView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(fakeDraftId, expectedSections)(request, messages).toString
+        view(expectedSections)(fakeRequest, messages).toString
 
       application.stop()
     }
@@ -86,11 +90,12 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
         emptyUserAnswers
           .set(AgentTelephoneNumberPage, "123456789").success.value
           .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
-          .set(AgentAddressYesNoPage, false).success.value
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers, fakeDraftId, canEdit = true)
+      val countryOptions = injector.instanceOf[CountryOptions]
+
+      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers, fakeDraftId, false)
 
       val expectedSections = Seq(
         AnswerSection(
@@ -98,55 +103,74 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
           Seq(
             checkYourAnswersHelper.agentInternalReference.value,
             checkYourAnswersHelper.agentName.value,
-            checkYourAnswersHelper.agentAddressYesNo.value,
             checkYourAnswersHelper.agentInternationalAddress.value,
             checkYourAnswersHelper.agenciesTelephoneNumber.value
           )
         )
       )
 
-      val application = applicationBuilder(userAnswers = Some(answers), agentID).build()
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
 
-      val request = FakeRequest(GET, routes.AgentAnswerController.onPageLoad(fakeDraftId).url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[AgentAnswerView]
+      val view = application.injector.instanceOf[CheckYourAnswersView]
 
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(fakeDraftId, expectedSections)(request, messages).toString
+        view(expectedSections)(fakeRequest, messages).toString
 
       application.stop()
     }
+
 
     "redirect to Session Expired for a GET if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None, agentID).build()
+      val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, routes.AgentAnswerController.onPageLoad(fakeDraftId).url)
-
-      val result = route(application, request).value
-
-      status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
-
-      application.stop()
-    }
-
-    "redirect to Session Expired for a POST if no existing data is found" in {
-
-      val application = applicationBuilder(userAnswers = None, agentID).build()
-
-      val request = FakeRequest(POST, routes.AgentAnswerController.onSubmit(fakeDraftId).url)
+      val request = FakeRequest(GET, routes.CheckYourAnswersController.onPageLoad().url)
 
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
+
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
+
+
+    "redirect to the estates progress when submitted" in {
+
+      val mockTrustConnector = mock[SubmissionDraftConnector]
+
+      val userAnswers = emptyUserAnswers
+        .set(AgentARNPage, "SARN123456").success.value
+        .set(AgentTelephoneNumberPage, "123456789").success.value
+        .set(AgentAddressYesNoPage, false).success.value
+        .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
+        .set(AgentNamePage, "Sam Curran Trust").success.value
+        .set(AgentInternalReferencePage, "123456789").success.value
+
+      val application =
+        applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[SubmissionDraftConnector].toInstance(mockTrustConnector))
+          .build()
+
+      when(mockTrustConnector.addAgentDetails(any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK)))
+
+      val request = FakeRequest(POST, submitRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual completedRoute
+
+      application.stop()
+    }
+
   }
 }

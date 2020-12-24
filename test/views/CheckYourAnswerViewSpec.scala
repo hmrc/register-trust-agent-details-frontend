@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package viewmodels
+package views
 
-import base.RegistrationSpecBase
+import views.behaviours.ViewBehaviours
+import views.html.CheckYourAnswersView
 
-class RadioOptionSpec extends RegistrationSpecBase {
+class CheckYourAnswerViewSpec extends ViewBehaviours {
 
-  "Radio Option" must {
+  "checkYourAnswers view" must {
 
-    "build correctly from a key prefix and option" in {
+    val view = viewFor[CheckYourAnswersView](Some(emptyUserAnswers))
 
-      val radioOption = RadioOption("prefix", "option")
+    val applyView = view.apply(Nil)(fakeRequest, messages)
 
-      radioOption.id mustEqual "prefix.option"
-      radioOption.value mustEqual "option"
-      radioOption.messageKey mustEqual "prefix.option"
-    }
+    behave like normalPage(applyView, Some("checkYourAnswers"), "")
+
+    behave like pageWithBackLink(applyView)
   }
 }

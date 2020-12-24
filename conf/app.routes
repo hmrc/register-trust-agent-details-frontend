@@ -19,6 +19,9 @@ GET        /timeout                                                             
 
 GET        /create-agent-services-account                                                           controllers.CreateAgentServicesAccountController.onPageLoad()
 
+GET        /check-your-answers                                                                      controllers.CheckYourAnswersController.onPageLoad
+POST       /check-your-answers                                                                      controllers.CheckYourAnswersController.onSubmit
+
 GET        /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onPageLoad(draftId: String)
 POST       /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onSubmit(draftId: String)
 

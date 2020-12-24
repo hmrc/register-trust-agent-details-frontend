@@ -25,7 +25,7 @@ import play.twirl.api.{Html, HtmlFormat}
 import utils.countryOptions.CountryOptions
 import viewmodels.AnswerRow
 
-class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions, dateFormatter: DateFormatter)
+class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
                                       (userAnswers: UserAnswers, draftId: String, canEdit: Boolean)
                                       (implicit messages: Messages) {
 

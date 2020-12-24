@@ -30,7 +30,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase {
   val formProvider = new AgentNameFormProvider()
   val form = formProvider()
 
-  lazy val agentNameRoute = routes.AgentNameController.onPageLoad(NormalMode,fakeDraftId).url
+  lazy val agentNameRoute = routes.AgentNameController.onPageLoad(fakeDraftId).url
 
   "AgentName Controller" must {
 
@@ -47,7 +47,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode,fakeDraftId)(request, messages).toString
+        view(form, fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -67,7 +67,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode,fakeDraftId)(request, messages).toString
+        view(form.fill("answer"), fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -106,7 +106,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode,fakeDraftId)(request, messages).toString
+        view(boundForm,fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -121,7 +121,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -138,7 +138,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -153,7 +153,7 @@ class AgentNameControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual UnauthorisedController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.UnauthorisedController.onPageLoad().url
 
       application.stop()
     }

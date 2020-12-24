@@ -18,6 +18,7 @@ package connector
 
 import config.FrontendAppConfig
 import javax.inject.Inject
+import models.mappers.AgentDetails
 import models.{SubmissionDraftData, SubmissionDraftId, SubmissionDraftResponse}
 import play.api.libs.json.{JsObject, JsValue, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
@@ -56,5 +57,11 @@ class SubmissionDraftConnector @Inject()(http: HttpClient, config : FrontendAppC
 
   def removeDraft(draftId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
     http.DELETE[HttpResponse](s"$submissionsBaseUrl/$draftId")
+  }
+
+  private def addAgentDetailsUrl() = s"${config.trustsUrl}/agent-details"
+
+  def addAgentDetails(agentDetails: AgentDetails)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
+    http.POST[JsValue, HttpResponse](addAgentDetailsUrl(), Json.toJson(agentDetails))
   }
 }

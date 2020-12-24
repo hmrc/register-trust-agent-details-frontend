@@ -61,6 +61,8 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
 
   lazy val registrationStartUrl: String = configuration.get[String]("urls.registrationStart")
 
+  lazy val registrationProgress: String = configuration.get[String]("urls.registrationProgress")
+
   def registrationProgressUrl(draftId: String): String =
     registrationProgressUrlTemplate.replace(":draftId", draftId)
 

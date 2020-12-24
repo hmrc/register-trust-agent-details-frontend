@@ -54,15 +54,15 @@ trait AgentRoutes {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
           val answers = userAnswers.set(AgentAddressYesNoPage, value = true).success.value
-          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, fakeDraftIdanswers)
-            .mustBe(routes.AgentUKAddressController.onPageLoad(NormalMode, fakeDraftId))
+          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, userAnswers)
+            .mustBe(routes.AgentUKAddressController.onPageLoad(fakeDraftId))
       }
     }
 
     "go to AgentTelephoneNumber from AgentUKAddress Page" in {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
-          navigator.nextPage(AgentUKAddressPage, fakeDraftId, fakeU)(userAnswers)
+          navigator.nextPage(AgentUKAddressPage, fakeDraftId, userAnswers)
             .mustBe(routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId))
       }
     }
@@ -71,16 +71,16 @@ trait AgentRoutes {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
           val answers = userAnswers.set(AgentAddressYesNoPage, value = false).success.value
-          navigator.nextPage(AgentAddressYesNoPage, NormalMode, fakeDraftId, AffinityGroup.Agent)(answers)
-            .mustBe(routes.AgentInternationalAddressController.onPageLoad(NormalMode, fakeDraftId))
+          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, answers)
+            .mustBe(routes.AgentInternationalAddressController.onPageLoad(fakeDraftId))
       }
     }
 
     "go to AgentTelephoneNumber from AgentInternationalAddress Page" in {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
-          navigator.nextPage(AgentInternationalAddressPage, NormalMode, fakeDraftId, AffinityGroup.Agent)(userAnswers)
-            .mustBe(routes.AgentTelephoneNumberController.onPageLoad(NormalMode, fakeDraftId))
+          navigator.nextPage(AgentInternationalAddressPage, fakeDraftId, userAnswers)
+            .mustBe(routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId))
       }
     }
 
@@ -88,17 +88,8 @@ trait AgentRoutes {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
 
-          navigator.nextPage(AgentTelephoneNumberPage, NormalMode, fakeDraftId, AffinityGroup.Agent)(userAnswers)
+          navigator.nextPage(AgentTelephoneNumberPage, fakeDraftId, userAnswers)
             .mustBe(routes.AgentAnswerController.onPageLoad(fakeDraftId))
-      }
-    }
-
-    "go to RegistrationProgress from CheckAgentAnswer Page" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          navigator.nextPage(AgentAnswerPage, NormalMode, fakeDraftId, AffinityGroup.Agent)(userAnswers)
-            .mustBe(controllers.routes.TaskListController.onPageLoad(fakeDraftId))
       }
     }
   }

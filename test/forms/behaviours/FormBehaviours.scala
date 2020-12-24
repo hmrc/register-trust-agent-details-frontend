@@ -16,6 +16,7 @@
 
 package forms.behaviours
 
+import forms.FormSpec
 import models._
 import play.api.data.Form
 

@@ -35,8 +35,7 @@ class AgentAnswerController @Inject()(
                                        actionSet: AgentActionSets,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AgentAnswerView,
-                                       countryOptions : CountryOptions,
-                                       dateFormatter: DateFormatter
+                                       countryOptions : CountryOptions
                                      ) extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -45,7 +44,7 @@ class AgentAnswerController @Inject()(
   def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions, dateFormatter)(request.userAnswers, draftId, canEdit = true)
+      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(request.userAnswers, draftId, canEdit = true)
 
       val sections = Seq(
         AnswerSection(

@@ -36,7 +36,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase {
   val form: Form[String] = formProvider()
   val agencyName = "FirstName LastName"
 
-  lazy val agentTelephoneNumberRoute: String = routes.AgentTelephoneNumberController.onPageLoad(NormalMode, fakeDraftId).url
+  lazy val agentTelephoneNumberRoute: String = routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId).url
 
   "AgentTelephoneNumber Controller" must {
 
@@ -56,7 +56,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode, fakeDraftId, agencyName)(request, messages).toString
+        view(form, fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -148,7 +148,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode, fakeDraftId, agencyName)(request, messages).toString
+        view(boundForm, fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -163,7 +163,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -180,7 +180,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
