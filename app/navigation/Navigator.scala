@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import models.ReadableUserAnswers
 import pages.{Page, QuestionPage}
 import play.api.mvc.Call
 
-@Singleton
 trait Navigator {
 
   def nextPage(page: Page, draftId: String, userAnswers: ReadableUserAnswers): Call

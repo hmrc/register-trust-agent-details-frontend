@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package controllers
 import base.RegistrationSpecBase
 import forms.AgentInternalReferenceFormProvider
 import models.NormalMode
-import pages.agent.AgentInternalReferencePage
+import pages.AgentInternalReferencePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
@@ -30,7 +30,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
   val formProvider = new AgentInternalReferenceFormProvider()
   val form = formProvider()
 
-  lazy val agentInternalReferenceRoute = routes.AgentInternalReferenceController.onPageLoad(NormalMode, fakeDraftId).url
+  lazy val agentInternalReferenceRoute = routes.AgentInternalReferenceController.onPageLoad(fakeDraftId).url
 
   "AgentInternalReference Controller" must {
 
@@ -47,7 +47,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, NormalMode,fakeDraftId)(request, messages).toString
+        view(form,fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -67,7 +67,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode,fakeDraftId)(request, messages).toString
+        view(form.fill("answer"),fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -106,7 +106,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, NormalMode,fakeDraftId)(request, messages).toString
+        view(boundForm, fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -121,7 +121,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }
@@ -138,7 +138,7 @@ class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual routes.SessionExpiredController.onPageLoad().url
 
       application.stop()
     }

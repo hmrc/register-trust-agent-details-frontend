@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,14 +33,7 @@ trait FakeTrustsApp extends GuiceOneAppPerSuite {
 
   def injector: Injector = app.injector
 
-  private lazy val config: Configuration = injector.instanceOf[FrontendAppConfig].configuration
-
-  def fakeFrontendAppConfig: FrontendAppConfig = {
-    new FrontendAppConfig(config) {
-      override def accessibilityLinkUrl(implicit request: Request[_]): String =
-        s"http://localhost:9781/trusts-registration/accessibility?userAction=[]"
-    }
-  }
+  def frontendAppConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
 
   def messagesApi: MessagesApi = injector.instanceOf[MessagesApi]
 

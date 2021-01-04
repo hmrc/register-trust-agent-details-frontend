@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,14 @@
 package controllers
 
 import base.RegistrationSpecBase
-import models.UserAnswers
-import models.core.pages.{InternationalAddress, UKAddress}
-import navigation.Navigator
-import pages.agent.{AgentAddressYesNoPage, AgentInternalReferencePage, AgentInternationalAddressPage, AgentNamePage, AgentTelephoneNumberPage, AgentUKAddressPage}
+import models.{InternationalAddress, UKAddress, UserAnswers}
+import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import viewmodels.AnswerSection
 import uk.gov.hmrc.auth.core.AffinityGroup
-import utils.{CheckYourAnswersHelper, DateFormatter}
 import utils.countryOptions.CountryOptions
+import utils.{CheckYourAnswersHelper, DateFormatter}
+import viewmodels.AnswerSection
 import views.html.AgentAnswerView
 
 
@@ -35,7 +33,6 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
   private val agentID: AffinityGroup.Agent.type = AffinityGroup.Agent
 
   private val countryOptions: CountryOptions = injector.instanceOf[CountryOptions]
-  private val dateFormatterImpl: DateFormatter = injector.instanceOf[DateFormatter]
 
   "AgentAnswer Controller" must {
 

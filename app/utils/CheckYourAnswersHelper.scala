@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@
 package utils
 
 import javax.inject.Inject
-import models.UserAnswers
-import models.core.pages.{InternationalAddress, UKAddress}
-import pages.agent._
+import models.{InternationalAddress, UKAddress, UserAnswers}
+import pages._
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
 import utils.countryOptions.CountryOptions
 import viewmodels.AnswerRow
 
+@deprecated("Use utils.print.AnswerRowConverter")
 class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
                                       (userAnswers: UserAnswers, draftId: String, canEdit: Boolean)
                                       (implicit messages: Messages) {
@@ -53,7 +53,6 @@ class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
 
   def country(code: String, countryOptions: CountryOptions): String =
     countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
-
 
   def internationalAddress(address: InternationalAddress, countryOptions: CountryOptions): Html = {
     val lines =

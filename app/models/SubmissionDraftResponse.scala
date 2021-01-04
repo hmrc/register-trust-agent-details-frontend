@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package models
 
 import java.time.LocalDateTime
 
+import models.RegistrationSubmission.MappedPiece
 import play.api.libs.json.{JsValue, Json, OFormat}
 
 case class SubmissionDraftData(data: JsValue, reference: Option[String])
@@ -38,6 +39,14 @@ object SubmissionDraftId {
 }
 
 object RegistrationSubmission {
+
+  // Piece to be inserted into final registration data. data == JsNull means remove value.
+  case class MappedPiece(elementPath: String, data: JsValue)
+
+  object MappedPiece {
+    implicit lazy val format: OFormat[MappedPiece] = Json.format[MappedPiece]
+  }
+
   // Answer row and section, for display in print summary.
   case class AnswerRow(label: String, answer: String, labelArg: String)
 
@@ -53,4 +62,15 @@ object RegistrationSubmission {
     implicit lazy val format: OFormat[AnswerSection] = Json.format[AnswerSection]
   }
 
+  // Set of data sent by sub-frontend, with user answers, status, any mapped pieces and answer sections.
+  case class DataSet(data: JsValue,
+                     status: Option[Status],
+                     registrationPieces: List[MappedPiece],
+                     answerSections: List[AnswerSection])
+
+  object DataSet {
+    implicit lazy val format: OFormat[DataSet] = Json.format[DataSet]
+  }
+
 }
+

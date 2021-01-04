@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,7 @@
 package utils
 
 import models.UserAnswers
-import models.core.pages.{FullName, UKAddress}
 import org.scalatest.TryValues
-import pages.agent._
 import play.api.libs.json.Json
 
 object TestUserAnswers extends TryValues {
@@ -28,14 +26,4 @@ object TestUserAnswers extends TryValues {
   lazy val userInternalId = "internalId"
 
   def emptyUserAnswers: UserAnswers = models.UserAnswers(draftId, Json.obj(), internalAuthId = userInternalId)
-
-  def withAgent(userAnswers: UserAnswers): UserAnswers = {
-    userAnswers
-      .set(AgentARNPage, "SARN1234567").success.value
-      .set(AgentNamePage, "Agency Name").success.value
-      .set(AgentUKAddressPage, UKAddress("line1", "line2", Some("line3"), Some("line4"), "ab1 1ab")).success.value
-      .set(AgentTelephoneNumberPage, "+1234567890").success.value
-      .set(AgentInternalReferencePage, "1234-5678").success.value
-      .set(AgentAddressYesNoPage, true).success.value
-  }
 }

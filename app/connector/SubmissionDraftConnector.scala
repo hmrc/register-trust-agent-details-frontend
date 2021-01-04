@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,50 +18,23 @@ package connector
 
 import config.FrontendAppConfig
 import javax.inject.Inject
-import models.mappers.AgentDetails
-import models.{SubmissionDraftData, SubmissionDraftId, SubmissionDraftResponse}
-import play.api.libs.json.{JsObject, JsValue, Json}
-import uk.gov.hmrc.http.HttpReads.Implicits.readRaw
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpResponse}
+import models.{RegistrationSubmission, SubmissionDraftResponse}
+import play.api.libs.json.{JsValue, Json}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+import uk.gov.hmrc.http.HttpClient
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class SubmissionDraftConnector @Inject()(http: HttpClient, config : FrontendAppConfig) {
 
-  private val mainSection = "main"
-  private val registrationSection = "registration"
+  val submissionsBaseUrl = s"${config.trustsUrl}/trusts/register/submission-drafts"
 
-  private val submissionsBaseUrl = s"${config.trustsUrl}/trusts/register/submission-drafts"
+  def setDraftSectionSet(draftId: String, section: String, data: RegistrationSubmission.DataSet)
+                        (implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
+    http.POST[JsValue, HttpResponse](s"$submissionsBaseUrl/$draftId/set/$section", Json.toJson(data))
+  }
 
-  private def getDraftSection(draftId: String, section: String)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[SubmissionDraftResponse] = {
+  def getDraftSection(draftId: String, section: String)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[SubmissionDraftResponse] = {
     http.GET[SubmissionDraftResponse](s"$submissionsBaseUrl/$draftId/$section")
-  }
-
-  def setDraftMain(draftId : String, draftData: JsValue, reference: Option[String])
-                  (implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
-    val submissionDraftData = SubmissionDraftData(draftData, reference)
-    http.POST[JsValue, HttpResponse](s"$submissionsBaseUrl/$draftId/$mainSection", Json.toJson(submissionDraftData))
-  }
-
-  def getDraftMain(draftId: String)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[SubmissionDraftResponse] =
-    getDraftSection(draftId, mainSection)
-
-  def getCurrentDraftIds()(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[List[SubmissionDraftId]] = {
-    http.GET[List[SubmissionDraftId]](s"$submissionsBaseUrl")
-  }
-
-  def getRegistrationPieces(draftId: String)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[JsObject] =
-    getDraftSection(draftId, registrationSection).map {
-      section => section.data.as[JsObject]
-    }
-
-  def removeDraft(draftId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
-    http.DELETE[HttpResponse](s"$submissionsBaseUrl/$draftId")
-  }
-
-  private def addAgentDetailsUrl() = s"${config.trustsUrl}/agent-details"
-
-  def addAgentDetails(agentDetails: AgentDetails)(implicit hc: HeaderCarrier, ec : ExecutionContext): Future[HttpResponse] = {
-    http.POST[JsValue, HttpResponse](addAgentDetailsUrl(), Json.toJson(agentDetails))
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,6 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.play.language.LanguageUtils
 
 class DateFormatter @Inject()(config: FrontendAppConfig, languageUtils: LanguageUtils) {
-
-  def savedUntil(date: LocalDateTime)(implicit messages: Messages): String = {
-    formatDateTime(date.plusSeconds(config.ttlInSeconds))
-  }
 
   def formatDateTime(dateTime: LocalDateTime)(implicit messages: Messages): String = {
     formatDate(dateTime.toLocalDate)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,26 @@
 
 package utils.mappers
 
-import models.UserAnswers
-import models.core.pages.{Address, InternationalAddress, UKAddress}
 import models.mappers.AgentDetails
-import org.slf4j.LoggerFactory
-import pages.agent._
+import models.{Address, InternationalAddress, UKAddress, UserAnswers}
+import pages._
+import play.api.Logger
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.{JsError, JsSuccess, Reads}
 
 class AgentDetailsMapper {
 
-  private val logger = LoggerFactory.getLogger("application." + this.getClass.getCanonicalName)
+  private val logger = Logger(getClass)
 
-  def apply(answers: UserAnswers): Option[AgentDetails] = {
-    val readFromUserAnswers: Reads[AgentDetails] =
+  private def readAddress: Reads[Address] = {
+    AgentAddressYesNoPage.path.read[Boolean].flatMap[Address] {
+      case true => AgentUKAddressPage.path.read[UKAddress].widen[Address]
+      case false => AgentInternationalAddressPage.path.read[InternationalAddress].widen[Address]
+    }
+  }
+
+  def build(answers: UserAnswers): Option[AgentDetails] = {
+    lazy val readFromUserAnswers: Reads[AgentDetails] =
       (
           AgentARNPage.path.read[String] and
           AgentNamePage.path.read[String] and
@@ -43,13 +50,6 @@ class AgentDetailsMapper {
       case JsError(errors) =>
         logger.error(s"Failed to rehydrate Individual from UserAnswers due to $errors")
         None
-    }
-  }
-
-  private def readAddress: Reads[Address] = {
-    AgentAddressYesNoPage.path.read[Boolean].flatMap[Address] {
-      case true => AgentUKAddressPage.path.read[UKAddress].widen[Address]
-      case false => AgentInternationalAddressPage.path.read[InternationalAddress].widen[Address]
     }
   }
 

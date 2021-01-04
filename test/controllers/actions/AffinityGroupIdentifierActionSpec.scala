@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,10 +30,10 @@ import scala.concurrent.Future
 class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
   type RetrievalType = Option[String] ~ Option[AffinityGroup] ~ Enrolments
-  val action: DefaultActionBuilder = app.injector.instanceOf[DefaultActionBuilder]
-  val mockAuthConnector: AuthConnector = mock[AuthConnector]
-  val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
-  val fakeAction: Action[AnyContent] = action { _ => Results.Ok }
+  lazy val action: DefaultActionBuilder = app.injector.instanceOf[DefaultActionBuilder]
+  lazy val mockAuthConnector: AuthConnector = mock[AuthConnector]
+  lazy val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
+  lazy val fakeAction: Action[AnyContent] = action { _ => Results.Ok }
 
   val utr = "0987654321"
 
@@ -142,7 +142,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result).get must startWith(fakeFrontendAppConfig.loginUrl)
+        redirectLocation(result).get must startWith(appConfig.loginUrl)
         application.stop()
       }
     }
@@ -158,7 +158,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result).get must startWith(fakeFrontendAppConfig.loginUrl)
+        redirectLocation(result).get must startWith(appConfig.loginUrl)
         application.stop()
       }
     }

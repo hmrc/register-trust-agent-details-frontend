@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,8 @@ package controllers
 
 import base.RegistrationSpecBase
 import forms.UKAddressFormProvider
-import models.NormalMode
-import models.core.pages.UKAddress
-import pages.agent.{AgentNamePage, AgentUKAddressPage}
+import models.UKAddress
+import pages.{AgentNamePage, AgentUKAddressPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
@@ -74,7 +73,7 @@ class AgentUKAddressControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")), NormalMode,fakeDraftId,agencyName)(request, messages).toString
+        view(form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")), fakeDraftId,agencyName)(request, messages).toString
 
       application.stop()
     }

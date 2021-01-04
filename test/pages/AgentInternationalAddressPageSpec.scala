@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,7 @@
 
 package pages
 
-import models.core.pages.InternationalAddress
-import pages.agent.AgentInternationalAddressPage
+import models.InternationalAddress
 import pages.behaviours.PageBehaviours
 
 class AgentInternationalAddressPageSpec extends PageBehaviours {

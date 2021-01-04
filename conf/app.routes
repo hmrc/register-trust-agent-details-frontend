@@ -1,5 +1,5 @@
 # microservice specific routes
-GET        /accessibility                                                                           controllers.AccessibilityStatementController.onPageLoad(userAction: String)
+
 GET        /assets/*file                                                                            controllers.Assets.versioned(path="/public", file: Asset)
 
 GET        /                                                                                        controllers.IndexController.onPageLoad(draftId: String)
@@ -10,17 +10,13 @@ GET        /language/:lang                                                      
 
 GET        /this-service-has-been-reset                                                             controllers.SessionExpiredController.onPageLoad()
 
-GET        /feature-not-available                                                                   controllers.FeatureNotAvailableController.onPageLoad()
-
 GET        /unauthorised                                                                            controllers.UnauthorisedController.onPageLoad()
 
 GET        /keep-alive                                                                              controllers.SessionTimeoutController.keepAlive
 GET        /timeout                                                                                 controllers.SessionTimeoutController.timeout
 
+# Needs to remain in trusts-frontend
 GET        /create-agent-services-account                                                           controllers.CreateAgentServicesAccountController.onPageLoad()
-
-GET        /check-your-answers                                                                      controllers.CheckYourAnswersController.onPageLoad
-POST       /check-your-answers                                                                      controllers.CheckYourAnswersController.onSubmit
 
 GET        /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onPageLoad(draftId: String)
 POST       /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onSubmit(draftId: String)

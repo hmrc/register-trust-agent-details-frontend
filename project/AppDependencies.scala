@@ -23,7 +23,6 @@ object AppDependencies {
     "org.pegdown"              % "pegdown"                % "1.6.0",
     "org.scalatest"           %% "scalatest"              % "3.0.8",
     "org.scalatestplus.play"  %% "scalatestplus-play"     % "4.0.3",
-    "uk.gov.hmrc"             %% "hmrctest"               % "3.9.0-play-26",
     "org.jsoup"                % "jsoup"                  % "1.12.1",
     "com.typesafe.play"       %% "play-test"              % PlayVersion.current,
     "org.mockito"              % "mockito-all"            % "1.10.19",

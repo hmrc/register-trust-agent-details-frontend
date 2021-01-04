@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,9 @@
 
 package pages
 
-import models.UserAnswers
-import models.core.pages.{InternationalAddress, UKAddress}
-import pages.agent._
-import pages.behaviours.PageBehaviours
+import models.{InternationalAddress, UKAddress, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
+import pages.behaviours.PageBehaviours
 
 class AgentAddressYesNoPageSpec extends PageBehaviours {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,106 +16,61 @@
 
 package repositories
 
+import config.FrontendAppConfig
 import connector.SubmissionDraftConnector
 import javax.inject.Inject
-import models.UserAnswers
-import pages.agent.AgentInternalReferencePage
+import models.{ReadOnlyUserAnswers, UserAnswers}
 import play.api.http
 import play.api.i18n.Messages
 import play.api.libs.json._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import utils.DateFormatter
-import viewmodels.DraftRegistration
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DefaultRegistrationsRepository @Inject()(dateFormatter: DateFormatter,
-                                               submissionDraftConnector: SubmissionDraftConnector
-                                              )(implicit ec: ExecutionContext) extends RegistrationsRepository {
+class DefaultRegistrationsRepository @Inject()(submissionDraftConnector: SubmissionDraftConnector,
+                                               config: FrontendAppConfig,
+                                               submissionSetFactory: SubmissionSetFactory
+                                        )(implicit ec: ExecutionContext) extends RegistrationsRepository {
 
-  override def get(draftId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = {
-    submissionDraftConnector.getDraftMain(draftId).map {
-      response => Some(response.data.as[UserAnswers])
-    }
-  }
+  private val userAnswersSection = config.repositoryKey
+  private val mainAnswersSection = "main"
 
-  override def getMostRecentDraftId()(implicit hc: HeaderCarrier) : Future[Option[String]] = {
-    submissionDraftConnector.getCurrentDraftIds().map(_.headOption.map(_.draftId))
-  }
-
-  override def listDrafts()(implicit hc: HeaderCarrier, messages: Messages): Future[List[DraftRegistration]] = {
-    submissionDraftConnector.getCurrentDraftIds().map {
-      draftIds =>
-        draftIds.flatMap {
-          x => x.reference.map {
-            reference => DraftRegistration(x.draftId, reference, dateFormatter.savedUntil(x.createdAt))
-          }
-        }
-    }
-  }
-
-  override def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    submissionDraftConnector.setDraftMain(
-      draftId = userAnswers.draftId,
-      draftData = Json.toJson(userAnswers),
-      reference = userAnswers.get(AgentInternalReferencePage)
-    ).map {
+  override def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): Future[Boolean] = {
+    submissionDraftConnector.setDraftSectionSet(
+      userAnswers.draftId,
+      userAnswersSection,
+      submissionSetFactory.createFrom(userAnswers)
+    ) map {
       response => response.status == http.Status.OK
     }
   }
 
-  private def decodePath(encodedPath: String): JsPath =
-    encodedPath.split('/').foldLeft[JsPath](
-      JsPath
-    )(
-      (cur: JsPath, component: String) => cur \ component
-    )
-
-  private def addSection(key: String, section: JsValue, data: JsValue): JsResult[JsValue] = {
-    val path = decodePath(key).json
-    val transform = __.json.update(path.put(section))
-
-    data.transform(transform)
-  }
-
-  override def addDraftRegistrationSections(draftId: String, registrationJson: JsValue)(implicit hc: HeaderCarrier) : Future[JsValue] = {
-    submissionDraftConnector.getRegistrationPieces(draftId).map {
-      pieces =>
-        val added: JsResult[JsValue] = pieces.keys.foldLeft[JsResult[JsValue]](
-          JsSuccess(registrationJson)
-        )(
-          (cur, key) => cur.flatMap(addSection(key, pieces(key), _))
-        )
-
-        added match {
-          case JsSuccess(value, _) => value
-          case _ => registrationJson
+  override def get(draftId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = {
+    submissionDraftConnector.getDraftSection(draftId, userAnswersSection).map {
+      response =>
+        response.data.validate[UserAnswers] match {
+          case JsSuccess(userAnswers, _) => Some(userAnswers)
+          case _ => None
         }
     }
   }
 
-  override def getDraft(draftId: String)(implicit headerCarrier: HeaderCarrier, messages: Messages): Future[Option[DraftRegistration]] =
-    listDrafts().map {
-      drafts =>
-        drafts.find(_.draftId == draftId)
+  override def getMainAnswers(draftId: String)(implicit hc: HeaderCarrier): Future[Option[ReadOnlyUserAnswers]] = {
+    submissionDraftConnector.getDraftSection(draftId, mainAnswersSection).map {
+      response =>
+        response.data.validate[ReadOnlyUserAnswers] match {
+          case JsSuccess(userAnswers, _) => Some(userAnswers)
+          case _ => None
+        }
     }
-
-  override def removeDraft(draftId: String)(implicit hc: HeaderCarrier): Future[HttpResponse] =
-    submissionDraftConnector.removeDraft(draftId)
+  }
 }
 
 trait RegistrationsRepository {
+
+  def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): Future[Boolean]
+
   def get(draftId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]]
 
-  def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier): Future[Boolean]
-
-  def listDrafts()(implicit hc: HeaderCarrier, messages: Messages): Future[List[DraftRegistration]]
-
-  def getMostRecentDraftId()(implicit hc: HeaderCarrier) : Future[Option[String]]
-
-  def addDraftRegistrationSections(draftId: String, registrationJson: JsValue)(implicit hc: HeaderCarrier) : Future[JsValue]
-
-  def getDraft(draftId: String)(implicit hc: HeaderCarrier, messages: Messages): Future[Option[DraftRegistration]]
-
-  def removeDraft(draftId: String)(implicit hc: HeaderCarrier): Future[HttpResponse]
+  def getMainAnswers(draftId: String)(implicit hc: HeaderCarrier): Future[Option[ReadOnlyUserAnswers]]
 }

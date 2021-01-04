@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@ import controllers.actions.AgentActionSets
 import javax.inject.Inject
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
-import pages.agent.AgentAnswerPage
+import pages.AgentAnswerPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
-import utils.{CheckYourAnswersHelper, DateFormatter}
 import viewmodels.AnswerSection
 import views.html.AgentAnswerView
 

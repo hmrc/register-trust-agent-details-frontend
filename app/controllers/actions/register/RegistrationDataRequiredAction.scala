@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,15 @@ class RegistrationDataRequiredActionImpl @Inject()(implicit val executionContext
       case None =>
         Future.successful(Left(Redirect(controllers.routes.SessionExpiredController.onPageLoad())))
       case Some(data) =>
-        Future.successful(Right(RegistrationDataRequest(request.request, request.internalId, request.sessionId, data, request.affinityGroup, request.enrolments, request.agentARN)))
+        Future.successful(Right(RegistrationDataRequest(
+          request.request,
+          request.internalId,
+          request.sessionId,
+          data,
+          request.affinityGroup,
+          request.enrolments,
+          request.agentARN)
+        ))
     }
   }
 }

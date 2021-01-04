@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.http.HeaderNames
 import play.api.mvc.Result
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolment, Enrolments}
+import controllers.routes._
 
 import scala.concurrent.Future
 

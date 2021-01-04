@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.InternationalAddressFormProvider
 import javax.inject.Inject
 import navigation.Navigator
-import pages.agent.{AgentInternationalAddressPage, AgentNamePage}
+import pages.{AgentInternationalAddressPage, AgentNamePage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}

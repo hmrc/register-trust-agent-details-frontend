@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ class AgentActionSets @Inject()(identify: RegistrationIdentifierAction,
 
   def identifiedUserWithData(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen hasAgentAffinityGroup() andThen getData(draftId) andThen requireData
-
 
   def requiredAnswerWithAgent[T](draftId: String, requiredAnswer: RequiredAnswer[T])
                                     (implicit reads: Reads[T]): ActionBuilder[RegistrationDataRequest, AnyContent] =

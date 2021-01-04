@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,11 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.TryValues
 import pages._
-import pages.agent._
 import play.api.libs.json.{JsValue, Json}
+import models.UserAnswerImplicits._
 
 trait UserAnswersGenerator extends TryValues {
   self: Generators =>
-
-  import models.core.UserAnswerImplicits._
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
     arbitrary[(AgentInternationalAddressPage.type, JsValue)] ::

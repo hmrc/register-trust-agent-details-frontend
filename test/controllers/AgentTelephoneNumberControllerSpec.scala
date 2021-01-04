@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package controllers
 
 import base.RegistrationSpecBase
 import forms.AgentTelephoneNumberFormProvider
-import models.{NormalMode, UserAnswers}
-import pages.agent.{AgentNamePage, AgentTelephoneNumberPage}
+import models.UserAnswers
+import pages.{AgentNamePage, AgentTelephoneNumberPage}
 import play.api.Application
 import play.api.data.Form
 import play.api.mvc.{AnyContentAsFormUrlEncoded, Result}
@@ -78,7 +78,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), NormalMode, fakeDraftId, agencyName)(request, messages).toString
+        view(form.fill("answer"), fakeDraftId, agencyName)(request, messages).toString
 
       application.stop()
     }
@@ -100,7 +100,7 @@ class AgentTelephoneNumberControllerSpec extends RegistrationSpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(NormalMode, fakeDraftId).url
+      redirectLocation(result).value mustEqual routes.AgentNameController.onPageLoad(fakeDraftId).url
 
       application.stop()
     }

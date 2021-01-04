@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,19 +18,17 @@ package controllers
 
 import config.FrontendAppConfig
 import javax.inject.{Inject, Singleton}
+import play.api.Configuration
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import play.api.{Configuration, Environment}
-import uk.gov.hmrc.play.bootstrap.config.AuthRedirects
-import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import scala.concurrent.Future
 
 @Singleton
 class SessionTimeoutController @Inject()(val appConfig: FrontendAppConfig,
                                          val config: Configuration,
-                                         val env: Environment,
-                                         mcc: MessagesControllerComponents) extends FrontendController(mcc) with AuthRedirects {
-
+                                         override val controllerComponents: MessagesControllerComponents
+                                        ) extends FrontendBaseController {
 
   val keepAlive: Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok.withSession(request.session))

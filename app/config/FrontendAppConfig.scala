@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,10 +30,10 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
   private final val ENGLISH = "en"
   private final val WELSH = "cy"
 
-  private val contactHost = configuration.get[String]("contact-frontend.host")
-  private val contactFormServiceIdentifier = "trusts"
+  val repositoryKey: String = "agentDetails"
 
-  lazy val serviceName: String = configuration.get[String]("serviceName")
+  private lazy val contactHost = configuration.get[String]("contact-frontend.host")
+  private val contactFormServiceIdentifier = "trusts"
 
   private def loadConfig(key: String) = configuration.get[String](key)
 
@@ -46,14 +46,8 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
   val betaFeedbackUrl = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier"
   val betaFeedbackUnauthenticatedUrl = s"$contactHost/contact/beta-feedback-unauthenticated?service=$contactFormServiceIdentifier"
 
-  val whoShouldRegisterUrl: String = configuration.get[String]("urls.whoShouldRegister")
-  val trustsAndTaxesUrl: String = configuration.get[String]("urls.trustsAndTaxes")
-  val trustsHelplineUrl: String = configuration.get[String]("urls.trustsHelpline")
-  val ggSignInUrl: String = configuration.get[String]("urls.ggSignIn")
-
   lazy val loginUrl: String = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
-  lazy val lostUtrUrl : String = configuration.get[String]("urls.lostUtr")
   lazy val logoutUrl: String = loadConfig("urls.logout")
 
   lazy val registrationProgressUrlTemplate: String =
@@ -61,17 +55,13 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
 
   lazy val registrationStartUrl: String = configuration.get[String]("urls.registrationStart")
 
-  lazy val registrationProgress: String = configuration.get[String]("urls.registrationProgress")
-
   def registrationProgressUrl(draftId: String): String =
     registrationProgressUrlTemplate.replace(":draftId", draftId)
 
   def routeToSwitchLanguage: String => Call =
     (lang: String) => controllers.routes.LanguageSwitchController.switchToLanguage(lang)
 
-
-  lazy val otacUrl : String = configuration.get[String]("urls.otacLogin")
-
+  // TODO point to create-agent-services-account in trusts-frontend
   lazy val agentsSubscriptionsUrl : String = configuration.get[String]("urls.agentSubscriptions")
   lazy val agentServiceRegistrationUrl = s"$agentsSubscriptionsUrl?continue=$loginContinueUrl"
 
@@ -79,26 +69,16 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
   lazy val locationCanonicalListNonUK: String = loadConfig("location.canonical.list.nonUK")
 
   lazy val languageTranslationEnabled: Boolean =
-    configuration.get[Boolean]("microservice.services.features.welsh-translation")
-
-  lazy val ttlInSeconds = configuration.get[Int]("mongodb.registration.ttlSeconds")
+    configuration.get[Boolean]("features.welsh-translation")
 
   lazy val trustsUrl = configuration.get[Service]("microservice.services.trusts").baseUrl
 
   lazy val authUrl = configuration.get[Service]("microservice.services.auth").baseUrl
 
-  lazy val trustsStoreUrl: String = configuration.get[Service]("microservice.services.trusts-store").baseUrl + "/trusts-store"
-
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang(ENGLISH),
     "cymraeg" -> Lang(WELSH)
   )
-
-  lazy val auditSubmissions : Boolean =
-    configuration.get[Boolean]("microservice.services.features.auditing.submissions.enabled")
-
-  lazy val auditCannotCreateRegistration : Boolean =
-    configuration.get[Boolean]("microservice.services.features.auditing.cannotCreateRegistration.enabled")
 
   lazy val maintainATrustFrontendUrl : String =
     configuration.get[String]("urls.maintainATrust")
@@ -106,12 +86,11 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
   lazy val countdownLength: String = configuration.get[String]("timeout.countdown")
   lazy val timeoutLength: String = configuration.get[String]("timeout.length")
 
-  private val day: Int = configuration.get[Int]("minimumDate.day")
-  private val month: Int = configuration.get[Int]("minimumDate.month")
-  private val year: Int = configuration.get[Int]("minimumDate.year")
-  lazy val minDate: LocalDate = LocalDate.of(year, month, day)
+  private val day: Int = configuration.get[Int]("dates.minimum.day")
+  private val month: Int = configuration.get[Int]("dates.minimum.month")
+  private val year: Int = configuration.get[Int]("dates.minimum.year")
 
-  lazy val assetValueUpperLimitExclusive: Long = configuration.get[Long]("assetValueUpperLimitExclusive")
+  lazy val minDate: LocalDate = LocalDate.of(year, month, day)
 
   private lazy val accessibilityBaseLinkUrl: String = configuration.get[String]("urls.accessibility")
 

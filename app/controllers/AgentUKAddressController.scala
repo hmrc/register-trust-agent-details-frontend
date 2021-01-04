@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.UKAddressFormProvider
 import javax.inject.Inject
 import navigation.Navigator
-import pages.agent.{AgentNamePage, AgentUKAddressPage}
+import pages.{AgentNamePage, AgentUKAddressPage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -44,7 +44,6 @@ class AgentUKAddressController @Inject()(
 
   private def actions(draftId: String) =
     actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
-
 
   def onPageLoad(draftId : String): Action[AnyContent] = actions(draftId) {
     implicit request =>
