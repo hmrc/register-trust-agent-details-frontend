@@ -16,12 +16,12 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.UnauthorisedView
 
-class UnauthorisedControllerSpec extends RegistrationSpecBase {
+class UnauthorisedControllerSpec extends SpecBase {
 
   "Unauthorised Controller" must {
 

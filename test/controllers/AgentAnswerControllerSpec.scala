@@ -16,20 +16,18 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import models.{InternationalAddress, UKAddress, UserAnswers}
 import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import print.AgentDetailsPrintHelper
 import uk.gov.hmrc.auth.core.AffinityGroup
-import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
-import viewmodels.AnswerSection
 import views.html.AgentAnswerView
 
 
-class AgentAnswerControllerSpec extends RegistrationSpecBase {
+class AgentAnswerControllerSpec extends SpecBase {
 
   private val agentID: AffinityGroup.Agent.type = AffinityGroup.Agent
 

@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import forms.AgentNameFormProvider
 import pages.AgentNamePage
 import play.api.test.FakeRequest
@@ -24,7 +24,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
 import views.html.AgentNameView
 
-class AgentNameControllerSpec extends RegistrationSpecBase {
+class AgentNameControllerSpec extends SpecBase {
 
   val formProvider = new AgentNameFormProvider()
   val form = formProvider()

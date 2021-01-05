@@ -16,12 +16,12 @@
 
 package navigation
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import generators.Generators
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.Page
 
-class NavigatorSpec extends RegistrationSpecBase
+class NavigatorSpec extends SpecBase
   with ScalaCheckPropertyChecks
   with Generators
   with AgentRoutes

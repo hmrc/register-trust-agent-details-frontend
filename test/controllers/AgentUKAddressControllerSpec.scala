@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import forms.UKAddressFormProvider
 import models.UKAddress
 import pages.{AgentNamePage, AgentUKAddressPage}
@@ -25,7 +25,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
 import views.html.AgentUKAddressView
 
-class AgentUKAddressControllerSpec extends RegistrationSpecBase {
+class AgentUKAddressControllerSpec extends SpecBase {
 
   val formProvider = new UKAddressFormProvider()
   val form = formProvider()

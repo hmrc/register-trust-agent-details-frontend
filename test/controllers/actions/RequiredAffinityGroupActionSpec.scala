@@ -16,7 +16,7 @@
 
 package controllers.actions
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import models.requests.IdentifierRequest
 import org.scalatest.EitherValues
 import org.scalatest.concurrent.ScalaFutures
@@ -28,7 +28,7 @@ import controllers.routes._
 
 import scala.concurrent.Future
 
-class RequiredAffinityGroupActionSpec extends RegistrationSpecBase with MockitoSugar with ScalaFutures with EitherValues {
+class RequiredAffinityGroupActionSpec extends SpecBase with MockitoSugar with ScalaFutures with EitherValues {
 
   class Harness[T]()
     extends RequiredAgentAffinityGroupAction() {

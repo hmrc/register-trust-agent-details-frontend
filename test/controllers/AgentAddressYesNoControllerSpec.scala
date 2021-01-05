@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import forms.YesNoFormProvider
 import pages.{AgentAddressYesNoPage, AgentNamePage}
 import play.api.test.FakeRequest
@@ -24,7 +24,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
 import views.html.AgentAddressYesNoView
 
-class AgentAddressYesNoControllerSpec extends RegistrationSpecBase {
+class AgentAddressYesNoControllerSpec extends SpecBase {
 
   val form = new YesNoFormProvider().withPrefix("agentAddressYesNo")
   val name = "name"

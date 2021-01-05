@@ -16,9 +16,9 @@
 
 package forms.mappings
 
-import base.RegistrationSpecBase
+import base.SpecBase
 
-class TelephoneNumberSpec extends RegistrationSpecBase {
+class TelephoneNumberSpec extends SpecBase {
 
   "Telephone number" must {
 

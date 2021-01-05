@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import forms.InternationalAddressFormProvider
 import models.{InternationalAddress, UserAnswers}
 import pages.{AgentInternationalAddressPage, AgentNamePage}
@@ -32,7 +32,7 @@ import views.html.AgentInternationalAddressView
 
 import scala.concurrent.Future
 
-class AgentInternationalAddressControllerSpec extends RegistrationSpecBase {
+class AgentInternationalAddressControllerSpec extends SpecBase {
 
   val formProvider = new InternationalAddressFormProvider()
   val form: Form[InternationalAddress] = formProvider()

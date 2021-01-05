@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import forms.AgentInternalReferenceFormProvider
 import models.NormalMode
 import pages.AgentInternalReferencePage
@@ -25,7 +25,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
 import views.html.AgentInternalReferenceView
 
-class AgentInternalReferenceControllerSpec extends RegistrationSpecBase {
+class AgentInternalReferenceControllerSpec extends SpecBase {
 
   val formProvider = new AgentInternalReferenceFormProvider()
   val form = formProvider()

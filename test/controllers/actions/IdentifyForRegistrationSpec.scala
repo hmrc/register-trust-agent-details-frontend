@@ -16,7 +16,7 @@
 
 package controllers.actions
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import config.FrontendAppConfig
 import controllers.actions.register.RegistrationIdentifierAction
 import models.requests.IdentifierRequest
@@ -29,7 +29,7 @@ import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
 
 import scala.concurrent.Future
 
-class IdentifyForRegistrationSpec extends RegistrationSpecBase {
+class IdentifyForRegistrationSpec extends SpecBase {
 
   type RetrievalType = Option[String] ~ Option[AffinityGroup] ~ Enrolments
 

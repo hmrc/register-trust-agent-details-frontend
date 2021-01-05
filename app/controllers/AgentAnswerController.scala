@@ -25,9 +25,7 @@ import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import print.AgentDetailsPrintHelper
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
-import viewmodels.AnswerSection
 import views.html.AgentAnswerView
 
 class AgentAnswerController @Inject()(

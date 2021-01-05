@@ -18,7 +18,7 @@ package repositories
 
 import java.time.LocalDateTime
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import config.FrontendAppConfig
 import connector.SubmissionDraftConnector
 import models.Status.InProgress
@@ -34,7 +34,7 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-class RegistrationRepositorySpec extends RegistrationSpecBase with MustMatchers with MockitoSugar {
+class RegistrationRepositorySpec extends SpecBase with MustMatchers with MockitoSugar {
 
   private val unusedSubmissionSetFactory = mock[SubmissionSetFactory]
 

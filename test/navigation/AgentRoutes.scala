@@ -16,7 +16,7 @@
 
 package navigation
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import controllers.routes
 import generators.Generators
 import models.UserAnswers
@@ -26,7 +26,7 @@ import pages._
 
 trait AgentRoutes {
 
-  self: ScalaCheckPropertyChecks with Generators with RegistrationSpecBase =>
+  self: ScalaCheckPropertyChecks with Generators with SpecBase =>
 
   def agentRoutes()(implicit navigator: Navigator) = {
 

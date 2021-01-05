@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.OptionValues
@@ -29,7 +29,7 @@ import utils.TestUserAnswers
 
 import scala.concurrent.Future
 
-class LogoutControllerSpec extends RegistrationSpecBase with OptionValues {
+class LogoutControllerSpec extends SpecBase with OptionValues {
 
   "Logout Controller" must {
 

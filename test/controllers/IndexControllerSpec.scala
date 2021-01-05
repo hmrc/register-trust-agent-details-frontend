@@ -16,7 +16,7 @@
 
 package controllers
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.Application
@@ -28,7 +28,7 @@ import utils.TestUserAnswers
 
 import scala.concurrent.Future
 
-class IndexControllerSpec extends RegistrationSpecBase {
+class IndexControllerSpec extends SpecBase {
 
   "IndexController Controller" must {
 

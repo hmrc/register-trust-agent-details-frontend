@@ -16,10 +16,10 @@
 
 package config
 
-import base.RegistrationSpecBase
+import base.SpecBase
 import play.api.i18n.{Lang, MessagesImpl}
 
-class FrontendAppConfigSpec extends RegistrationSpecBase {
+class FrontendAppConfigSpec extends SpecBase {
 
   val config: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
 
