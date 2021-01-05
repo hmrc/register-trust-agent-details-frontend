@@ -53,17 +53,13 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
   lazy val registrationProgressUrlTemplate: String =
     configuration.get[String]("urls.registrationProgress")
 
-  lazy val registrationStartUrl: String = configuration.get[String]("urls.registrationStart")
+  lazy val createAgentServicesAccountUrl: String = configuration.get[String]("urls.createAgentServicesAccount")
 
   def registrationProgressUrl(draftId: String): String =
     registrationProgressUrlTemplate.replace(":draftId", draftId)
 
   def routeToSwitchLanguage: String => Call =
     (lang: String) => controllers.routes.LanguageSwitchController.switchToLanguage(lang)
-
-  // TODO point to create-agent-services-account in trusts-frontend
-  lazy val agentsSubscriptionsUrl : String = configuration.get[String]("urls.agentSubscriptions")
-  lazy val agentServiceRegistrationUrl = s"$agentsSubscriptionsUrl?continue=$loginContinueUrl"
 
   lazy val locationCanonicalList: String = loadConfig("location.canonical.list.all")
   lazy val locationCanonicalListNonUK: String = loadConfig("location.canonical.list.nonUK")

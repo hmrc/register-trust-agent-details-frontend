@@ -16,12 +16,15 @@
 
 package navigation
 
-import javax.inject.Singleton
 import models.ReadableUserAnswers
 import pages.{Page, QuestionPage}
 import play.api.mvc.Call
 
 trait Navigator {
+
+  def defaultRoute(draftId: String): PartialFunction[Page, ReadableUserAnswers => Call] = {
+    case _ => _ => controllers.routes.IndexController.onPageLoad(draftId)
+  }
 
   def nextPage(page: Page, draftId: String, userAnswers: ReadableUserAnswers): Call
 

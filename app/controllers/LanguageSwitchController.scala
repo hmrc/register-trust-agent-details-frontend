@@ -30,7 +30,7 @@ class LanguageSwitchController @Inject()(
                                           val controllerComponents: MessagesControllerComponents
                                         ) extends FrontendBaseController with I18nSupport {
 
-  private val fallbackURL = appConfig.registrationStartUrl
+  private val fallbackURL = appConfig.loginContinueUrl
 
   private def languageMap: Map[String, Lang] = appConfig.languageMap
 

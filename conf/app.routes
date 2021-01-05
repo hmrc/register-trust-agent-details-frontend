@@ -15,9 +15,6 @@ GET        /unauthorised                                                        
 GET        /keep-alive                                                                              controllers.SessionTimeoutController.keepAlive
 GET        /timeout                                                                                 controllers.SessionTimeoutController.timeout
 
-# Needs to remain in trusts-frontend
-GET        /create-agent-services-account                                                           controllers.CreateAgentServicesAccountController.onPageLoad()
-
 GET        /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onPageLoad(draftId: String)
 POST       /:draftId/client-reference                                                               controllers.AgentInternalReferenceController.onSubmit(draftId: String)
 

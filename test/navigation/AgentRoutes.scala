@@ -52,7 +52,7 @@ trait AgentRoutes {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
           val answers = userAnswers.set(AgentAddressYesNoPage, value = true).success.value
-          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, userAnswers)
+          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, answers)
             .mustBe(routes.AgentUKAddressController.onPageLoad(fakeDraftId))
       }
     }

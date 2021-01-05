@@ -61,7 +61,7 @@ class AffinityGroupIdentifierActionSpec extends RegistrationSpecBase {
           val result = new AffinityGroupIdentifierAction(fakeAction, trustsAuth, appConfig).apply(fakeRequest)
 
           status(result) mustBe SEE_OTHER
-          redirectLocation(result) mustBe Some(controllers.routes.CreateAgentServicesAccountController.onPageLoad().url)
+          redirectLocation(result).value mustBe "http://localhost:9781/trusts-registration/create-agent-services-account"
           application.stop()
         }
       }
