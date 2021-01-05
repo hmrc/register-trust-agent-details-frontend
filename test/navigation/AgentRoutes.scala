@@ -51,8 +51,8 @@ trait AgentRoutes {
     "go to AgentUKAddress from AgentAddressYesNo Page when user answers yes" in {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
-          val answers = userAnswers.set(AgentAddressYesNoPage, value = true).success.value
-          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, answers)
+          val answers = userAnswers.set(AgentAddressUKYesNoPage, value = true).success.value
+          navigator.nextPage(AgentAddressUKYesNoPage, fakeDraftId, answers)
             .mustBe(routes.AgentUKAddressController.onPageLoad(fakeDraftId))
       }
     }
@@ -68,8 +68,8 @@ trait AgentRoutes {
     "go to AgentInternationalAddress from AgentAddressYesNo Page when user answers no" in {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
-          val answers = userAnswers.set(AgentAddressYesNoPage, value = false).success.value
-          navigator.nextPage(AgentAddressYesNoPage, fakeDraftId, answers)
+          val answers = userAnswers.set(AgentAddressUKYesNoPage, value = false).success.value
+          navigator.nextPage(AgentAddressUKYesNoPage, fakeDraftId, answers)
             .mustBe(routes.AgentInternationalAddressController.onPageLoad(fakeDraftId))
       }
     }

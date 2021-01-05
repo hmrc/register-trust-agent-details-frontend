@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import forms.YesNoFormProvider
-import pages.{AgentAddressYesNoPage, AgentNamePage}
+import pages.{AgentAddressUKYesNoPage, AgentNamePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
@@ -57,7 +57,7 @@ class AgentAddressYesNoControllerSpec extends SpecBase {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = emptyUserAnswers
-        .set(AgentAddressYesNoPage, true).success.value
+        .set(AgentAddressUKYesNoPage, true).success.value
         .set(AgentNamePage, name).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()

@@ -24,18 +24,18 @@ class AgentAddressYesNoPageSpec extends PageBehaviours {
 
   "AgentAddressYesNoPage" must {
 
-    beRetrievable[Boolean](AgentAddressYesNoPage)
+    beRetrievable[Boolean](AgentAddressUKYesNoPage)
 
-    beSettable[Boolean](AgentAddressYesNoPage)
+    beSettable[Boolean](AgentAddressUKYesNoPage)
 
-    beRemovable[Boolean](AgentAddressYesNoPage)
+    beRemovable[Boolean](AgentAddressUKYesNoPage)
   }
 
   "remove AgentUKAddressPage when AgentAddressYesNoPage is set to false" in {
     forAll(arbitrary[UserAnswers], arbitrary[String]) {
       (initial, str) =>
         val answers: UserAnswers = initial.set(AgentUKAddressPage,UKAddress(str, str, Some(str), Some(str), str) ).success.value
-        val result = answers.set(AgentAddressYesNoPage, false).success.value
+        val result = answers.set(AgentAddressUKYesNoPage, false).success.value
 
         result.get(AgentUKAddressPage) mustNot be(defined)
     }
@@ -45,7 +45,7 @@ class AgentAddressYesNoPageSpec extends PageBehaviours {
     forAll(arbitrary[UserAnswers], arbitrary[String]) {
       (initial, str) =>
         val answers: UserAnswers = initial.set(AgentInternationalAddressPage,InternationalAddress(str, str, Some(str), str) ).success.value
-        val result = answers.set(AgentAddressYesNoPage, true).success.value
+        val result = answers.set(AgentAddressUKYesNoPage, true).success.value
 
         result.get(AgentInternationalAddressPage) mustNot be(defined)
     }

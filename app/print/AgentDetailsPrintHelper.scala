@@ -52,7 +52,7 @@ class AgentDetailsPrintHelper @Inject()(answerRowConverter: AnswerRowConverter,
     Seq(
       bound.stringQuestion(AgentInternalReferencePage, "agentInternalReference", routes.AgentInternalReferenceController.onPageLoad(draftId).url),
       bound.stringQuestion(AgentNamePage, "agentName", routes.AgentNameController.onPageLoad(draftId).url),
-      bound.yesNoQuestion(AgentAddressYesNoPage, "agentAddressYesNo", routes.AgentAddressYesNoController.onPageLoad(draftId).url),
+      bound.yesNoQuestion(AgentAddressUKYesNoPage, "agentAddressUKYesNo", routes.AgentAddressYesNoController.onPageLoad(draftId).url),
       bound.addressQuestion(AgentUKAddressPage, "site.address.uk", routes.AgentUKAddressController.onPageLoad(draftId).url),
       bound.addressQuestion(AgentInternationalAddressPage, "site.address.international", routes.AgentInternationalAddressController.onPageLoad(draftId).url),
       bound.stringQuestion(AgentTelephoneNumberPage, "agentTelephoneNumber", routes.AgentTelephoneNumberController.onPageLoad(draftId).url)

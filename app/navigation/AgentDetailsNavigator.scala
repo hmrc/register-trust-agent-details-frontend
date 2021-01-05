@@ -36,8 +36,8 @@ class AgentDetailsNavigator @Inject()(config: FrontendAppConfig) extends Navigat
   }
 
   private def yesNoNavigation(draftId: String): PartialFunction[Page, ReadableUserAnswers => Call] = {
-    case AgentAddressYesNoPage => ua =>
-      yesNoNav(ua, AgentAddressYesNoPage,
+    case AgentAddressUKYesNoPage => ua =>
+      yesNoNav(ua, AgentAddressUKYesNoPage,
         controllers.routes.AgentUKAddressController.onPageLoad(draftId),
         controllers.routes.AgentInternationalAddressController.onPageLoad(draftId))
   }

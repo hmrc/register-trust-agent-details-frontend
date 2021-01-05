@@ -41,7 +41,7 @@ class AgentAnswerControllerSpec extends SpecBase {
         emptyUserAnswers
           .set(AgentTelephoneNumberPage, "123456789").success.value
           .set(AgentUKAddressPage, UKAddress("Line1", "Line2", None, Some("TownOrCity"), "NE62RT")).success.value
-          .set(AgentAddressYesNoPage, true).success.value
+          .set(AgentAddressUKYesNoPage, true).success.value
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 
@@ -71,7 +71,7 @@ class AgentAnswerControllerSpec extends SpecBase {
         emptyUserAnswers
           .set(AgentTelephoneNumberPage, "123456789").success.value
           .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
-          .set(AgentAddressYesNoPage, false).success.value
+          .set(AgentAddressUKYesNoPage, false).success.value
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 

@@ -20,7 +20,7 @@ import controllers.actions.{AgentActionSets, RequiredAnswer}
 import forms.YesNoFormProvider
 import javax.inject.Inject
 import navigation.Navigator
-import pages.{AgentAddressYesNoPage, AgentNamePage}
+import pages.{AgentAddressUKYesNoPage, AgentNamePage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -50,7 +50,7 @@ class AgentAddressYesNoController @Inject()(
 
       val name = request.userAnswers.get(AgentNamePage).get
 
-      val preparedForm = request.userAnswers.get(AgentAddressYesNoPage) match {
+      val preparedForm = request.userAnswers.get(AgentAddressUKYesNoPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -69,9 +69,9 @@ class AgentAddressYesNoController @Inject()(
 
         value => {
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentAddressYesNoPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentAddressUKYesNoPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AgentAddressYesNoPage, draftId, updatedAnswers))
+          } yield Redirect(navigator.nextPage(AgentAddressUKYesNoPage, draftId, updatedAnswers))
         }
       )
   }

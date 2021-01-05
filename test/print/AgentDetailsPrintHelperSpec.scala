@@ -17,7 +17,7 @@
 package print
 
 import base.SpecBaseHelpers
-import models.UKAddress
+import models.{InternationalAddress, UKAddress}
 import org.scalatest.FreeSpec
 import org.scalatest.MustMatchers.convertToAnyMustWrapper
 import pages._
@@ -32,12 +32,12 @@ class AgentDetailsPrintHelperSpec extends FreeSpec with SpecBaseHelpers {
 
   "Agent details printer" - {
 
-    "print section for UK based agent" - {
+    "print section for UK based agent" in {
 
       val userAnswers = emptyUserAnswers
         .set(AgentInternalReferencePage, "CRN/12.1").success.value
         .set(AgentNamePage, agentName).success.value
-        .set(AgentAddressYesNoPage, true).success.value
+        .set(AgentAddressUKYesNoPage, true).success.value
         .set(AgentUKAddressPage, UKAddress("line1", "line2", postCode = "NE981ZZ")).success.value
         .set(AgentTelephoneNumberPage, "+telephone").success.value
 
@@ -48,8 +48,31 @@ class AgentDetailsPrintHelperSpec extends FreeSpec with SpecBaseHelpers {
         Seq(
           AnswerRow("agentInternalReference.checkYourAnswersLabel", Html("CRN/12.1"), Some(controllers.routes.AgentInternalReferenceController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(controllers.routes.AgentNameController.onPageLoad(fakeDraftId).url), agentName),
-          AnswerRow("agentAddressYesNo.checkYourAnswersLabel", Html("Yes"), Some(controllers.routes.AgentAddressYesNoController.onPageLoad(fakeDraftId).url), agentName),
+          AnswerRow("agentAddressUKYesNo.checkYourAnswersLabel", Html("Yes"), Some(controllers.routes.AgentAddressYesNoController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("site.address.uk.checkYourAnswersLabel", Html("line1<br />line2<br />NE981ZZ"), Some(controllers.routes.AgentUKAddressController.onPageLoad(fakeDraftId).url), agentName),
+          AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("+telephone"), Some(controllers.routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId).url), agentName)
+        )
+      )
+    }
+
+    "print section for international based agent" in {
+
+      val userAnswers = emptyUserAnswers
+        .set(AgentInternalReferencePage, "CRN/12.1").success.value
+        .set(AgentNamePage, agentName).success.value
+        .set(AgentAddressUKYesNoPage, false).success.value
+        .set(AgentInternationalAddressPage, InternationalAddress("line1", "line2", country = "FR")).success.value
+        .set(AgentTelephoneNumberPage, "+telephone").success.value
+
+      val result = helper.printSection(userAnswers, agentName, fakeDraftId)
+
+      result mustBe AnswerSection(
+        None,
+        Seq(
+          AnswerRow("agentInternalReference.checkYourAnswersLabel", Html("CRN/12.1"), Some(controllers.routes.AgentInternalReferenceController.onPageLoad(fakeDraftId).url), agentName),
+          AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(controllers.routes.AgentNameController.onPageLoad(fakeDraftId).url), agentName),
+          AnswerRow("agentAddressUKYesNo.checkYourAnswersLabel", Html("No"), Some(controllers.routes.AgentAddressYesNoController.onPageLoad(fakeDraftId).url), agentName),
+          AnswerRow("site.address.international.checkYourAnswersLabel", Html("line1<br />line2<br />France"), Some(controllers.routes.AgentInternationalAddressController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("+telephone"), Some(controllers.routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId).url), agentName)
         )
       )

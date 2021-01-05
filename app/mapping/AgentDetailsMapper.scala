@@ -28,7 +28,7 @@ class AgentDetailsMapper {
   private val logger = Logger(getClass)
 
   private def readAddress: Reads[Address] = {
-    AgentAddressYesNoPage.path.read[Boolean].flatMap[Address] {
+    AgentAddressUKYesNoPage.path.read[Boolean].flatMap[Address] {
       case true => AgentUKAddressPage.path.read[UKAddress].widen[Address]
       case false => AgentInternationalAddressPage.path.read[InternationalAddress].widen[Address]
     }
