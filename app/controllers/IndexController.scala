@@ -22,7 +22,7 @@ import models.UserAnswers
 import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
@@ -37,20 +37,21 @@ class IndexController @Inject()(
   implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
+  private def redirectToCheckAnswers(draftId: String): Call =
+    controllers.routes.AgentAnswerController.onPageLoad(draftId)
 
+  private def redirectToStart(draftId: String): Call =
+    controllers.routes.AgentInternalReferenceController.onPageLoad(draftId)
+
+  def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
     repository.get(draftId) flatMap {
-      case Some(userAnswers) =>
-        Future.successful(redirect(userAnswers, draftId))
+      case Some(_) =>
+        Future.successful(Redirect(redirectToCheckAnswers(draftId)))
       case _ =>
         val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier)
         repository.set(userAnswers) map {
-          _ => redirect(userAnswers, draftId)
+          _ => Redirect(redirectToStart(draftId))
         }
     }
-  }
-
-  private def redirect(userAnswers: UserAnswers, draftId: String) = {
-    Ok
   }
 }
