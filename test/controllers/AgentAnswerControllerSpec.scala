@@ -21,6 +21,7 @@ import models.{InternationalAddress, UKAddress, UserAnswers}
 import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import print.AgentDetailsPrintHelper
 import uk.gov.hmrc.auth.core.AffinityGroup
 import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
@@ -46,22 +47,11 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers, fakeDraftId, canEdit = true)
-
-      val expectedSections = Seq(
-        AnswerSection(
-          None,
-          Seq(
-            checkYourAnswersHelper.agentInternalReference.value,
-            checkYourAnswersHelper.agentName.value,
-            checkYourAnswersHelper.agentAddressYesNo.value,
-            checkYourAnswersHelper.agentUKAddress.value,
-            checkYourAnswersHelper.agenciesTelephoneNumber.value
-          )
-        )
-      )
-
       val application = applicationBuilder(userAnswers = Some(answers), agentID).build()
+
+      val printHelper = application.injector.instanceOf[AgentDetailsPrintHelper]
+
+      val answerSection = printHelper.checkDetailsSection(answers, "Sam Curran Trust", fakeDraftId)
 
       val request = FakeRequest(GET, routes.AgentAnswerController.onPageLoad(fakeDraftId).url)
 
@@ -72,7 +62,7 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(fakeDraftId, expectedSections)(request, messages).toString
+        view(fakeDraftId, Seq(answerSection))(request, messages).toString
 
       application.stop()
     }
@@ -87,22 +77,11 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
           .set(AgentNamePage, "Sam Curran Trust").success.value
           .set(AgentInternalReferencePage, "123456789").success.value
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(answers, fakeDraftId, canEdit = true)
-
-      val expectedSections = Seq(
-        AnswerSection(
-          None,
-          Seq(
-            checkYourAnswersHelper.agentInternalReference.value,
-            checkYourAnswersHelper.agentName.value,
-            checkYourAnswersHelper.agentAddressYesNo.value,
-            checkYourAnswersHelper.agentInternationalAddress.value,
-            checkYourAnswersHelper.agenciesTelephoneNumber.value
-          )
-        )
-      )
-
       val application = applicationBuilder(userAnswers = Some(answers), agentID).build()
+
+      val printHelper = application.injector.instanceOf[AgentDetailsPrintHelper]
+
+      val answerSection = printHelper.checkDetailsSection(answers, "Sam Curran Trust", fakeDraftId)
 
       val request = FakeRequest(GET, routes.AgentAnswerController.onPageLoad(fakeDraftId).url)
 
@@ -113,7 +92,7 @@ class AgentAnswerControllerSpec extends RegistrationSpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(fakeDraftId, expectedSections)(request, messages).toString
+        view(fakeDraftId, Seq(answerSection))(request, messages).toString
 
       application.stop()
     }
