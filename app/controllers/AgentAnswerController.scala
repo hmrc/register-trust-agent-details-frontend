@@ -20,9 +20,10 @@ import controllers.actions.AgentActionSets
 import javax.inject.Inject
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
-import pages.AgentAnswerPage
+import pages.{AgentAnswerPage, AgentNamePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
+import print.AgentDetailsPrintHelper
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
@@ -35,7 +36,8 @@ class AgentAnswerController @Inject()(
                                        actionSet: AgentActionSets,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AgentAnswerView,
-                                       countryOptions : CountryOptions
+                                       countryOptions : CountryOptions,
+                                       printHelper: AgentDetailsPrintHelper
                                      ) extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -44,23 +46,11 @@ class AgentAnswerController @Inject()(
   def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
     implicit request =>
 
-      val checkYourAnswersHelper = new CheckYourAnswersHelper(countryOptions)(request.userAnswers, draftId, canEdit = true)
+      val name = request.userAnswers.get(AgentNamePage).getOrElse("")
 
-      val sections = Seq(
-        AnswerSection(
-          None,
-          Seq(
-            checkYourAnswersHelper.agentInternalReference,
-            checkYourAnswersHelper.agentName,
-            checkYourAnswersHelper.agentAddressYesNo,
-            checkYourAnswersHelper.agentUKAddress,
-            checkYourAnswersHelper.agentInternationalAddress,
-            checkYourAnswersHelper.agenciesTelephoneNumber
-          ).flatten
-        )
-      )
+      val answers = printHelper.checkDetailsSection(request.userAnswers, name, draftId)
 
-      Ok(view(draftId ,sections))
+      Ok(view(draftId, Seq(answers)))
   }
 
   def onSubmit(draftId: String): Action[AnyContent] = actions(draftId) {

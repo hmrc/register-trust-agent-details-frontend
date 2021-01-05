@@ -30,20 +30,23 @@ class AgentDetailsPrintHelper @Inject()(answerRowConverter: AnswerRowConverter,
 
   def printSection(userAnswers: UserAnswers, name: String, draftId: String)(implicit messages: Messages): AnswerSection = {
     AnswerSection(
-      None, // Todo do we have a heading on print draft for agent details?
-      answers(userAnswers, name, draftId, canEdit = false)
+      headingKey = None, // Todo do we have a heading on print draft for agent details?
+      rows = answers(userAnswers, name, draftId, canEdit = false),
+      sectionKey = None
     )
   }
 
   def checkDetailsSection(userAnswers: UserAnswers, name: String, draftId: String)(implicit messages: Messages): AnswerSection = {
     AnswerSection(
-      None,
-      answers(userAnswers, name, draftId, canEdit = true)
+      headingKey = None,
+      rows = answers(userAnswers, name, draftId, canEdit = true),
+      sectionKey = None
     )
   }
 
   def answers(userAnswers: UserAnswers, name: String, draftId: String, canEdit: Boolean)
              (implicit messages: Messages): Seq[AnswerRow] = {
+
     val bound: answerRowConverter.Bound = answerRowConverter.bind(userAnswers, name, countryOptions, canEdit = canEdit)
 
     Seq(

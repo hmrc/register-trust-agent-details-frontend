@@ -45,8 +45,10 @@ class SubmissionSetFactory @Inject()(agentMapper: AgentDetailsMapper,
   private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]) = {
     if (status.contains(Status.Completed)) {
       agentMapper.build(userAnswers) match {
-        case Some(assets) => mappedPieces(Json.toJson(assets))
-        case _ => mappedPieces(JsNull)
+        case Some(agent) =>
+          mappedPieces(Json.toJson(agent))
+        case _ =>
+          mappedPieces(JsNull)
       }
     } else {
       mappedPieces(JsNull)
