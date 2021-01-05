@@ -54,7 +54,7 @@ object CheckAnswersFormatters {
         Some(HtmlFormat.escape(address.line2)),
         address.line3.map(HtmlFormat.escape),
         address.line4.map(HtmlFormat.escape),
-        Some(HtmlFormat.escape(address.postcode))
+        Some(HtmlFormat.escape(address.postCode))
       ).flatten
 
     Html(lines.mkString("<br />"))

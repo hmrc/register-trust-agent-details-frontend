@@ -48,7 +48,7 @@ class AgentDetailsMapper {
       case JsSuccess(value, _) =>
         Some(value)
       case JsError(errors) =>
-        logger.error(s"Failed to rehydrate Individual from UserAnswers due to $errors")
+        logger.error(s"Failed to rehydrate Agent from UserAnswers due to $errors")
         None
     }
   }

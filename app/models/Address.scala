@@ -25,7 +25,7 @@ final case class UKAddress(
                             line2: String,
                             line3: Option[String] = None,
                             line4: Option[String] = None,
-                            postcode: String
+                            postCode: String
                           ) extends Address
 
 object UKAddress {
