@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package utils.print
+package print
 
 import java.time.LocalDate
 
@@ -23,8 +23,8 @@ import models.{Address, FullName, UserAnswers}
 import play.api.i18n.Messages
 import play.api.libs.json.Reads
 import play.twirl.api.HtmlFormat
+import print.CheckAnswersFormatters.{addressFormatter, dateFormatter, yesOrNo}
 import queries.Gettable
-import utils.answers.CheckAnswersFormatters.{addressFormatter, dateFormatter, yesOrNo}
 import utils.countryOptions.CountryOptions
 import viewmodels.AnswerRow
 

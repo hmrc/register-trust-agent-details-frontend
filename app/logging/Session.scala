@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package utils
+package logging
 
-object AccessibilityHelper {
+import uk.gov.hmrc.http.HeaderCarrier
 
-  def formatReferenceNumber(referenceNumber: String): String = {
-    val trnFormatter = referenceNumber.replace(" ", "").replace("", " ").trim()
-    trnFormatter
-  }
-
+object Session {
+  def id(hc: HeaderCarrier): String = hc.sessionId.map(_.value).getOrElse("No Session ID available")
 }

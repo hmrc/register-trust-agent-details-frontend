@@ -18,6 +18,7 @@ package controllers.actions
 
 import com.google.inject.Inject
 import config.FrontendAppConfig
+import logging.Session
 import models.requests.IdentifierRequest
 import play.api.Logging
 import play.api.mvc.Results._
@@ -28,7 +29,6 @@ import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
 import uk.gov.hmrc.play.HeaderCarrierConverter
-import utils.Session
 
 import scala.concurrent.{ExecutionContext, Future}
 

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package utils.mappers
+package mapping
 
-import models.mappers.AgentDetails
-import models.{Address, InternationalAddress, UKAddress, UserAnswers}
+import mapping.models.AgentDetails
+import _root_.models._
 import pages._
 import play.api.Logger
 import play.api.libs.functional.syntax.toFunctionalBuilderOps

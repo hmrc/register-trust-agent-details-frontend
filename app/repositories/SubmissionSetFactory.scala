@@ -17,12 +17,12 @@
 package repositories
 
 import javax.inject.Inject
+import mapping.AgentDetailsMapper
 import models._
 import pages.AgentNamePage
 import play.api.i18n.Messages
 import play.api.libs.json.{JsNull, JsValue, Json}
-import utils.mappers.AgentDetailsMapper
-import utils.print.AgentDetailsPrintHelper
+import print.AgentDetailsPrintHelper
 import viewmodels.{AnswerRow, AnswerSection}
 
 class SubmissionSetFactory @Inject()(agentMapper: AgentDetailsMapper,

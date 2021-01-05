@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package utils.answers
+package print
 
 import java.time.format.DateTimeFormatter
 
@@ -75,7 +75,7 @@ object CheckAnswersFormatters {
   def addressFormatter(address: Address, countryOptions: CountryOptions): Html = {
     address match {
       case a: UKAddress => ukAddress(a)
-      case a:InternationalAddress => internationalAddress(a, countryOptions)
+      case a: InternationalAddress => internationalAddress(a, countryOptions)
     }
   }
 

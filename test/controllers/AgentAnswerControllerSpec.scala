@@ -22,8 +22,8 @@ import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
+import utils.CheckYourAnswersHelper
 import utils.countryOptions.CountryOptions
-import utils.{CheckYourAnswersHelper, DateFormatter}
 import viewmodels.AnswerSection
 import views.html.AgentAnswerView
 

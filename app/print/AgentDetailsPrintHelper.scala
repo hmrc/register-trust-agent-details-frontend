@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package utils.print
+package print
 
 import com.google.inject.Inject
 import controllers.routes

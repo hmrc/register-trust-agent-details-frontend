@@ -24,7 +24,7 @@ import play.twirl.api.{Html, HtmlFormat}
 import utils.countryOptions.CountryOptions
 import viewmodels.AnswerRow
 
-@deprecated("Use utils.print.AnswerRowConverter")
+@deprecated("Use print.AnswerRowConverter")
 class CheckYourAnswersHelper @Inject()(countryOptions: CountryOptions)
                                       (userAnswers: UserAnswers, draftId: String, canEdit: Boolean)
                                       (implicit messages: Messages) {

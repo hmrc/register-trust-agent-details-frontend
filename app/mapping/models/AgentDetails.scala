@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package models.mappers
+package mapping.models
 
 import models.Address
 import play.api.libs.functional.syntax._
