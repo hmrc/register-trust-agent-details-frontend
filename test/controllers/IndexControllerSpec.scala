@@ -19,6 +19,7 @@ package controllers
 import base.SpecBase
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
+import pages.AgentTelephoneNumberPage
 import play.api.Application
 import play.api.mvc.Result
 import play.api.test.FakeRequest
@@ -51,9 +52,12 @@ class IndexControllerSpec extends SpecBase {
 
     "Redirect to Check Answers for existing session" in {
 
-      val application: Application = applicationBuilder(userAnswers = Some(TestUserAnswers.emptyUserAnswers), AffinityGroup.Agent).build()
+      val userAnswers = TestUserAnswers.emptyUserAnswers
+        .set(AgentTelephoneNumberPage, "telephone").success.value
 
-      when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(TestUserAnswers.emptyUserAnswers)))
+      val application: Application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
+
+      when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
 
       val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
 

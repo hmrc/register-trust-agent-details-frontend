@@ -18,12 +18,15 @@ package controllers
 
 import controllers.actions.register.RegistrationIdentifierAction
 import javax.inject.Inject
+import logging.Session
 import models.UserAnswers
+import pages.AgentTelephoneNumberPage
 import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, Result}
 import repositories.RegistrationsRepository
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -45,13 +48,24 @@ class IndexController @Inject()(
 
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
     repository.get(draftId) flatMap {
-      case Some(_) =>
-        Future.successful(Redirect(redirectToCheckAnswers(draftId)))
+      case Some(answers) =>
+        Future.successful(redirect(answers, draftId))
       case _ =>
         val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier)
         repository.set(userAnswers) map {
-          _ => Redirect(redirectToStart(draftId))
+          _ => redirect(userAnswers, draftId)
         }
+    }
+  }
+
+  private def redirect(userAnswers: UserAnswers, draftId: String)(implicit hc: HeaderCarrier): Result = {
+    userAnswers.get(AgentTelephoneNumberPage) match {
+      case Some(_) =>
+        logger.info(s"[${Session.id(hc)}] Sending user to check agent answers")
+        Redirect(redirectToCheckAnswers(draftId))
+      case None =>
+        logger.info(s"[${Session.id(hc)}] Starting journey for agent details")
+        Redirect(redirectToStart(draftId))
     }
   }
 }
