@@ -17,22 +17,27 @@
 package controllers.actions
 
 import javax.inject.Inject
+import logging.Session
 import models.requests.IdentifierRequest
+import play.api.Logging
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{ActionFilter, Result}
 import uk.gov.hmrc.auth.core._
+import uk.gov.hmrc.play.HeaderCarrierConverter
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 sealed trait RequiredAgentAction extends ActionFilter[IdentifierRequest]
 
-class RequiredAgentAffinityGroupAction @Inject()(implicit val executionContext: ExecutionContext) extends RequiredAgentAction {
+class RequiredAgentAffinityGroupAction @Inject()(implicit val executionContext: ExecutionContext) extends RequiredAgentAction with Logging {
   override protected def filter[A](request: IdentifierRequest[A]): Future[Option[Result]] = {
     request.affinityGroup match {
       case AffinityGroup.Agent =>
         Future.successful(None)
       case _ =>
+        val hc = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+        logger.info(s"${Session.id(hc)} User is unauthorised as in Organisation affinity")
         Future.successful(Some(Redirect(controllers.routes.UnauthorisedController.onPageLoad())))
     }
   }

@@ -40,7 +40,7 @@ class AgentAddressYesNoController @Inject()(
                                              view: AgentAddressYesNoView
                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form: Form[Boolean] = yesNoFormProvider.withPrefix("agentAddressYesNo")
+  val form: Form[Boolean] = yesNoFormProvider.withPrefix("agentAddressUKYesNo")
 
   private def actions(draftId: String) =
     actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
