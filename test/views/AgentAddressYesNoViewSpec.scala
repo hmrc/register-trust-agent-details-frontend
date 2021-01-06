@@ -25,7 +25,7 @@ import views.html.AgentAddressYesNoView
 
 class AgentAddressYesNoViewSpec extends YesNoViewBehaviours {
 
-  val messageKeyPrefix = "agentAddressYesNo"
+  val messageKeyPrefix = "agentAddressUKYesNo"
 
   val name = "First Last"
 

@@ -26,7 +26,7 @@ import views.html.AgentAddressYesNoView
 
 class AgentAddressYesNoControllerSpec extends SpecBase {
 
-  val form = new YesNoFormProvider().withPrefix("agentAddressYesNo")
+  val form = new YesNoFormProvider().withPrefix("agentAddressUKYesNo")
   val name = "name"
 
   lazy val agentAddressYesNoRoute = routes.AgentAddressYesNoController.onPageLoad(fakeDraftId).url
