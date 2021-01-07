@@ -26,7 +26,7 @@ trait InternationalAddressViewBehaviours extends ViewBehaviours {
 
 
   val errorKey = "value"
-  val errorMessage = "error.number"
+  val errorMessage = "error.required"
   val error = FormError(errorKey, errorMessage)
 
   val form: Form[InternationalAddress]

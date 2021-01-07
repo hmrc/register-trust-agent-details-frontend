@@ -68,7 +68,7 @@ trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
         "show an error in the value field's label" in {
 
           val errorKey = "value"
-          val errorMessage = "error.number"
+          val errorMessage = "error.required"
           val error = FormError(errorKey, errorMessage)
 
           val doc = asDocument(createView(form.withError(error)))

@@ -15,35 +15,31 @@
  *@
 
 @import controllers.routes._
-@import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
+@import viewmodels.AnswerSection
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF
 )
 
-@(draftId: String, answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
+@(draftId: String, answerSections: Seq[AnswerSection])(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = messages("agentAnswer.title")
 ) {
 
-@components.back_link()
+    @components.back_link()
 
-@components.heading("agentAnswer.heading")
+    @components.heading("agentAnswer.heading")
 
-@for(section <- answerSections){
-    @{
-        section match {
-                    case a: AnswerSection => components.answer_section(a)
-                    case r: RepeaterAnswerSection => components.repeater_answer_section(r)
+    @for(section <- answerSections){
+        @{
+            components.answer_section(section)
         }
     }
-}
 
     @formHelper(action = AgentAnswerController.onSubmit(draftId), 'autoComplete -> "off") {
         @components.submit_button()
-
     }
 }
 

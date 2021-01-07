@@ -1,161 +1,99 @@
-checkYourAnswers.title = Check Your Answers
-checkYourAnswers.heading = Check Your Answers
-checkYourAnswers.guidance = Guidance for check your answers
+unauthorised.title = Ni allwch ddefnyddio’r gwasanaeth hwn gyda’r cyfrif hwn
+unauthorised.heading = Ni allwch ddefnyddio’r gwasanaeth hwn gyda’r cyfrif hwn
 
-date.day = Day
-date.month = Month
-date.year = Year
+timeout.title = Bydd eich cais yn dod i ben cyn hir
+timeout.message = Byddwn yn ailosod eich cais os na fyddwch yn ymateb cyn pen
+timeout.keep-alive-button = Yn eich blaen â’r cais
 
-address.country = Country
-address.country.select = Select a country
+session_expired.title = Er eich diogelwch, mae’r gwasanaeth hwn wedi’i ailosod
+session_expired.heading = Er eich diogelwch, mae’r gwasanaeth hwn wedi’i ailosod
+session_expired.guidance = Mae’r manylion a roddwyd gennych wedi’u dileu gan nad ydych wedi mynd yn eich blaen â’r gwasanaeth ers 15 munud.
 
-unauthorised.title = You can’t access this service with this account
-unauthorised.heading = You can’t access this service with this account
+error.browser.title.prefix = Gwall:
+error.boolean = Rhowch ateb
+error.summary.title = Mae problem wedi codi
 
-#timeout dialog
-timeout.title=Your application will time out soon
-timeout.message=We will reset your application if you do not respond in
-timeout.keep-alive-button=Continue application
+site.back = Yn ôl
+site.delete = Tynnu
+site.edit = Newid
+site.continue = Yn eich blaen
+site.hidden-edit = Newid {0}
+site.no = Na
+site.yes = Iawn
+site.save.continue = Cadw ac yn eich blaen
+site.service_name = Cofrestru Ymddiriedolaeth a’i Chynnal
+site.error = Gwall:
+site.sign_out = Allgofnodi
 
-session_expired.title = For your security, this service has been reset
-session_expired.heading = For your security, this service has been reset
-session_expired.guidance = The details you have given have been deleted because you did not continue the service for 15 minutes.
+site.address.uk.title = Beth yw’r cyfeiriad?
+site.address.uk.heading = Beth yw cyfeiriad {0}?
+site.address.uk.line1 = Llinell cyfeiriad 1
+site.address.uk.line2 = Llinell cyfeiriad 2
+site.address.uk.line3 = Llinell cyfeiriad 3 (dewisol)
+site.address.uk.line4 = Llinell cyfeiriad 4 (dewisol)
+site.address.uk.postcode = Cod Post
+site.address.uk.postcode.hint = Er enghraifft, AB1 1AB
+site.address.uk.checkYourAnswersLabel = Beth yw cyfeiriad {0}?
 
-error.browser.title.prefix = Error:
-error.boolean = Please give an answer
-error.date.day_blank = Enter a day
-error.date.day_invalid = Give a correct day using numbers 1 to 31
-error.date.month_blank = Enter a month
-error.date.month_invalid = Give a correct month using numbers 1 to 12
-error.date.year_blank = Enter a year
-error.date.year_invalid = Give a correct year
-error.integer = Give an answer in whole numbers
-error.non_numeric = Give a value using only numbers
-error.number = Please enter a valid number
-error.required = Please enter a value
-error.summary.title = There is a problem
-error.postcodeInvalid = Enter a real postcode
+ukAddress.error.line1.required = Nodwch linell cyfeiriad 1
+ukAddress.error.line2.required = Nodwch linell cyfeiriad 2
+ukAddress.error.postcode.required = Nodwch god post
+ukAddress.error.line1.length = Mae’n rhaid i linell cyfeiriad 1 fod yn 35 o gymeriadau neu lai
+ukAddress.error.line2.length = Mae’n rhaid i linell cyfeiriad 2 fod yn 35 o gymeriadau neu lai
+ukAddress.error.line3.length = Mae’n rhaid i linell cyfeiriad 3 fod yn 35 o gymeriadau neu lai
+ukAddress.error.line4.length = Mae’n rhaid i linell cyfeiriad 4 fod yn 35 o gymeriadau neu lai
+ukAddress.error.line1.invalidCharacters = Mae’n rhaid i linell cyfeiriad 1 gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
+ukAddress.error.line2.invalidCharacters = Mae’n rhaid i linell cyfeiriad 2 gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
+ukAddress.error.line3.invalidCharacters = Mae’n rhaid i linell cyfeiriad 3 gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
+ukAddress.error.line4.invalidCharacters = Mae’n rhaid i linell cyfeiriad 4 gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
+ukAddress.error.postcode.invalidCharacters = Nodwch god post go iawn
 
-dateOfBirth.error.required.all = Enter a date of birth
-dateOfBirth.error.required.two = The date of birth must include {0} and {1}
-dateOfBirth.error.required = The date of birth must include {0}
-dateOfBirth.error.invalid = Enter a real date of birth
-dateOfBirth.error.future = Date of birth must be today or in the past
-dateOfBirth.error.past = Date of birth must be after 31 December 1499
+site.address.international.title = Beth yw’r cyfeiriad?
+site.address.international.heading = Beth yw cyfeiriad {0}?
+site.address.international.checkYourAnswersLabel = Beth yw cyfeiriad {0}?
+site.address.international.line1 = Llinell cyfeiriad 1
+site.address.international.line2 = Llinell cyfeiriad 2
+site.address.international.line3 = Llinell cyfeiriad 3 (dewisol)
+site.address.international.country = Gwlad
+address.country.select = Dewiswch wlad
 
+internationalAddress.error.line1.required = Nodwch linell cyfeiriad 1
+internationalAddress.error.line2.required = Nodwch linell cyfeiriad 2
+internationalAddress.error.country.required = Dewiswch wlad
+internationalAddress.error.line1.length = Mae’n rhaid i linell cyfeiriad 1 fod yn 35 o gymeriadau neu lai
+internationalAddress.error.line2.length = Mae’n rhaid i linell cyfeiriad 2 fod yn 35 o gymeriadau neu lai
+internationalAddress.error.line3.length = Mae’n rhaid i linell cyfeiriad 3 fod yn 35 o gymeriadau neu lai
+internationalAddress.error.line1.invalidCharacters = Mae’n rhaid i linell cyfeiriad 1 gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
+internationalAddress.error.line2.invalidCharacters = Mae’n rhaid i linell cyfeiriad 2 gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
+internationalAddress.error.line3.invalidCharacters = Mae’n rhaid i linell cyfeiriad 3 gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
 
-site.back = Back
-site.delete = Remove
-site.edit = Change
-site.cancel = Cancel
-site.continue = Continue
-site.hidden-cancel = Cancel {0}
-site.hidden-continue = Continue {0}
-site.try-again = Try again
-site.hidden-delete = Remove {0}
-site.hidden-edit = Change {0}
-site.no = No
-site.yes = Yes
-site.save.continue = Save and continue
-site.service_name = Register and Maintain a Trust
-site.textarea.char_limit = (Limit is {0} characters)
-site.inprogress = In Progress
-site.complete = Completed
-site.onlyContinue = Continue
-site.date.hint = For example, 31 3 1980.
-site.warning = Warning
-site.error = Error:
-site.confirm-send = Confirm and send
-site.address = Address
-site.utr = Unique Taxpayer Reference
-site.sign_out = Sign out
-site.print-or-save = Print or save this page
+agentInternalReference.title = Beth yw’ch cyfeirnod mewnol ar gyfer y cleient hwn?
+agentInternalReference.heading = Beth yw’ch cyfeirnod mewnol ar gyfer y cleient hwn?
+agentInternalReference.checkYourAnswersLabel = Beth yw’ch cyfeirnod mewnol ar gyfer y cleient hwn?
+agentInternalReference.paragraph1 = Bydd y cyfeirnod hwn yn eich helpu i nodi’r ymddiriedolaeth hon yn eich cofrestriadau sydd wedi’u cadw.
+agentInternalReference.hint = Mae’n rhaid iddo gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig.
+agentInternalReference.error.required = Nodwch eich cyfeirnod mewnol ar gyfer y cleient hwn
+agentInternalReference.error.length = Mae’n rhaid i’ch cyfeirnod mewnol ar gyfer y cleient hwn fod yn 56 o gymeriadau neu lai
+agentInternalReference.error.invalidFormat = Mae’n rhaid i’r cyfeirnod mewnol ar gyfer y cleient hwn gynnwys y llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
 
+agentTelephoneNumber.title = Beth yw rhif ffôn yr asiantaeth?
+agentTelephoneNumber.heading = Beth yw rhif ffôn {0}?
+agentTelephoneNumber.checkYourAnswersLabel = Beth yw rhif ffôn {0}?
+agentTelephoneNumber.hint = Byddwn yn defnyddio’r rhif ffôn hwn i gysylltu â chi ynghylch cofrestriad yr ymddiriedolaeth hon. Ar gyfer rhifau rhyngwladol, cofiwch nodi cod y wlad
+agentTelephoneNumber.error.required = Nodwch rif ffôn yr asiantaeth
+agentTelephoneNumber.error.invalid.characters = Nodwch rif ffôn fel 01632 960 001, 07700 900 982 neu +44 0808 157 0192
 
+agentName.title = Beth yw enw’r asiantaeth sy’n cofrestru’r ymddiriedolaeth hon?
+agentName.heading = Beth yw enw’r asiantaeth sy’n cofrestru’r ymddiriedolaeth hon?
+agentName.checkYourAnswersLabel = Beth yw enw’r asiantaeth sy’n cofrestru’r ymddiriedolaeth hon?
+agentName.error.required = Nodwch enw’r asiantaeth
+agentName.error.length = Mae’n rhaid i enw’r asiantaeth fod yn 56 o gymeriadau neu lai
+agentName.error.invalidFormat = Mae’n rhaid i enw’r asiantaeth gynnwys llythrennau a i z, y rhifau 0 i 9, ampersandau (&), collnodau, comas, blaenslaesau, atalnodau llawn, cysylltnodau, cromfachau crwn a bylchau yn unig
 
-site.address.uk.title = What is the address?
-site.address.uk.heading = What is {0}’s address?
-site.address.uk.line1 = Address line 1
-site.address.uk.line2 = Address line 2
-site.address.uk.line3 = Address line 3 (optional)
-site.address.uk.line4 = Address line 4 (optional)
-site.address.uk.postcode = Postcode
-site.address.uk.postcode.hint = For example AB1 1AB.
-site.address.uk.checkYourAnswersLabel = What is {0}’s address?
+agentAddressUKYesNo.title = A yw cyfeiriad yr asiantaeth yn y DU?
+agentAddressUKYesNo.heading = A yw cyfeiriad {0} yn y DU?
+agentAddressUKYesNo.checkYourAnswersLabel = A yw cyfeiriad {0} yn y DU?
+agentAddressUKYesNo.error.required = Dewiswch ‘Iawn’ os yw cyfeiriad yr asiantaeth yn y DU
 
-ukAddress.error.line1.required = Enter address line 1
-ukAddress.error.line2.required = Enter address line 2
-ukAddress.error.postcode.required = Enter a postcode
-ukAddress.error.line1.length = Address line 1 must be 35 characters or less
-ukAddress.error.line2.length = Address line 2 must be 35 characters or less
-ukAddress.error.line3.length = Address line 3 must be 35 characters or less
-ukAddress.error.line4.length = Address line 4 must be 35 characters or less
-ukAddress.error.line1.invalidCharacters = Address line 1 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-ukAddress.error.line2.invalidCharacters = Address line 2 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-ukAddress.error.line3.invalidCharacters = Address line 3 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-ukAddress.error.line4.invalidCharacters = Address line 4 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-ukAddress.error.postcode.invalidCharacters = Enter a real postcode
-
-
-
-site.address.international.title = What is the address?
-site.address.international.heading = What is {0}’s address?
-site.address.international.checkYourAnswersLabel = What is {0}’s address?
-site.address.international.line1 = Address line 1
-site.address.international.line2 = Address line 2
-site.address.international.line3 = Address line 3 (optional)
-site.address.international.country = Country
-
-internationalAddress.error.line1.required = Enter address line 1
-internationalAddress.error.line2.required = Enter address line 2
-internationalAddress.error.country.required = Select a country
-internationalAddress.error.line1.length = Address line 1 must be 35 characters or less
-internationalAddress.error.line2.length = Address line 2 must be 35 characters or less
-internationalAddress.error.line3.length = Address line 3 must be 35 characters or less
-internationalAddress.error.line1.invalidCharacters = Address line 1 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-internationalAddress.error.line2.invalidCharacters = Address line 2 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-internationalAddress.error.line3.invalidCharacters = Address line 3 must only include letters a to z, numbers, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-
-
-# Agent journey
-
-agentInternalReference.title = What is your internal reference for this client?
-agentInternalReference.heading = What is your internal reference for this client?
-agentInternalReference.checkYourAnswersLabel = What is your internal reference for this client?
-agentInternalReference.paragraph1 = This reference will help you identify this trust in your saved registrations.
-agentInternalReference.hint = It must only include letters a to z, numbers 0 to 9, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces.
-agentInternalReference.error.required = Enter your internal reference for this client
-agentInternalReference.error.length = Your internal reference for this client must be 56 characters or less
-agentInternalReference.error.invalidFormat = The internal reference for this client must only include letters a to z, numbers 0 to 9, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-
-
-agentTelephoneNumber.title = What is the agency’s telephone number?
-agentTelephoneNumber.heading = What is {0}’s telephone number?
-agentTelephoneNumber.checkYourAnswersLabel = What is {0}’s telephone number?
-agentTelephoneNumber.hint = We will use this number to contact you about this trust’s registration. For international numbers include the country code.
-agentTelephoneNumber.error.required = Enter the agency’s telephone number
-agentTelephoneNumber.error.invalid.characters = Enter a telephone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
-
-
-agentName.title = What is the name of the agency registering this trust?
-agentName.heading = What is the name of the agency registering this trust?
-agentName.checkYourAnswersLabel = What is the name of the agency registering this trust?
-agentName.error.required = Enter the agency’s name
-agentName.error.length = Agency’s name must be 56 characters or less
-agentName.error.invalidFormat = Agency’s name must only include letters a to z, numbers 0 to 9, ampersands (&), apostrophes, commas, forward slashes, full stops, hyphens, round brackets and spaces
-
-
-agentAddressUKYesNo.title = Is the agency’s address in the UK?
-agentAddressUKYesNo.heading = Is {0}’s address in the UK?
-agentAddressUKYesNo.checkYourAnswersLabel = Is {0}’s address in the UK?
-agentAddressUKYesNo.error.required = Select yes if the agency’s address is in the UK
-
-
-agentAnswer.title = Check agency details
-agentAnswer.heading = Check agency details
-
-
-
-# Footer
-
-footer.links.accessibility.text = Accessibility
+agentAnswer.title = Gwirio manylion yr asiantaeth
+agentAnswer.heading = Gwirio manylion yr asiantaeth

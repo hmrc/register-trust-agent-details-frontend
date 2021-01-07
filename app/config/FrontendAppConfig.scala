@@ -16,13 +16,12 @@
 
 package config
 
-import java.net.{URI, URLEncoder}
-import java.time.LocalDate
-
 import com.google.inject.{Inject, Singleton}
 import play.api.Configuration
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, Request}
+
+import java.net.{URI, URLEncoder}
 
 @Singleton
 class FrontendAppConfig @Inject()(val configuration: Configuration) {
@@ -81,12 +80,6 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
 
   lazy val countdownLength: String = configuration.get[String]("timeout.countdown")
   lazy val timeoutLength: String = configuration.get[String]("timeout.length")
-
-  private val day: Int = configuration.get[Int]("dates.minimum.day")
-  private val month: Int = configuration.get[Int]("dates.minimum.month")
-  private val year: Int = configuration.get[Int]("dates.minimum.year")
-
-  lazy val minDate: LocalDate = LocalDate.of(year, month, day)
 
   private lazy val accessibilityBaseLinkUrl: String = configuration.get[String]("urls.accessibility")
 
