@@ -18,7 +18,6 @@ package controllers
 
 import base.SpecBase
 import forms.AgentInternalReferenceFormProvider
-import models.NormalMode
 import pages.AgentInternalReferencePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

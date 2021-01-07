@@ -16,7 +16,6 @@
 
 package base
 
-import config.FrontendAppConfig
 import controllers.actions.register._
 import controllers.actions.{FakeDraftIdRetrievalActionProvider, _}
 import models.UserAnswers

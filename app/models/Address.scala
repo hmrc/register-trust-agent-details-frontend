@@ -16,7 +16,8 @@
 
 package models
 
-import play.api.libs.json.{Json, OFormat, Reads, Writes}
+import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
 import scala.language.implicitConversions
 
@@ -30,7 +31,36 @@ final case class UKAddress(
 
 object UKAddress {
 
-  implicit lazy val formats: OFormat[UKAddress] = Json.format[UKAddress]
+  implicit lazy val formats: Format[UKAddress] = Format.apply(reads, writes)
+
+  implicit lazy val reads: Reads[UKAddress] = {
+    (
+      (__ \ "line1").read[String] and
+        (__ \ "line2").read[String] and
+        (__ \ "line3").readNullable[String] and
+        (__ \ "line4").readNullable[String] and
+        (__ \ "postCode").read[String]
+      ) (UKAddress.apply _)
+  }
+
+  implicit lazy val writes: Writes[UKAddress] = {
+    (
+      (__ \ 'line1).write[String] and
+        (__ \ 'line2).write[String] and
+        (__ \ 'line3).writeNullable[String] and
+        (__ \ 'line4).writeNullable[String] and
+        (__ \ 'postCode).write[String] and
+        (__ \ 'country).write[String]
+      ).apply(address => (
+      address.line1,
+      address.line2,
+      address.line3,
+      address.line4,
+      address.postCode,
+      "GB"
+    ))
+  }
+
 }
 
 final case class InternationalAddress(

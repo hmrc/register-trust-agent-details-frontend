@@ -20,10 +20,9 @@ import config.FrontendAppConfig
 import controllers.actions.TrustsAuthorisedFunctions
 import org.scalatest.TestSuite
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.Configuration
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.inject.Injector
-import play.api.mvc.{BodyParsers, Request}
+import play.api.mvc.BodyParsers
 import play.api.test.FakeRequest
 
 import scala.concurrent.ExecutionContext

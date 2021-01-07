@@ -16,10 +16,9 @@
 
 package models
 
-import java.time.LocalDateTime
-
-import models.RegistrationSubmission.MappedPiece
 import play.api.libs.json.{JsValue, Json, OFormat}
+
+import java.time.LocalDateTime
 
 case class SubmissionDraftData(data: JsValue, reference: Option[String])
 

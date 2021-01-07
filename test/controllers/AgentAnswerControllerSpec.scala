@@ -23,15 +23,11 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import print.AgentDetailsPrintHelper
 import uk.gov.hmrc.auth.core.AffinityGroup
-import utils.countryOptions.CountryOptions
 import views.html.AgentAnswerView
-
 
 class AgentAnswerControllerSpec extends SpecBase {
 
   private val agentID: AffinityGroup.Agent.type = AffinityGroup.Agent
-
-  private val countryOptions: CountryOptions = injector.instanceOf[CountryOptions]
 
   "AgentAnswer Controller" must {
 

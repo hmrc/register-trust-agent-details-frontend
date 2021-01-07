@@ -17,8 +17,6 @@
 package controllers
 
 import base.SpecBase
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
 import org.scalatest.OptionValues
 import play.api.Application
 import play.api.mvc.Result
