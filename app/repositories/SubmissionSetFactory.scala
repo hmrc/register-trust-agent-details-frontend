@@ -40,7 +40,7 @@ class SubmissionSetFactory @Inject()(agentMapper: AgentDetailsMapper,
   }
 
   private def mappedPieces(agentJson: JsValue) =
-    List(RegistrationSubmission.MappedPiece("trust/entities/agent", agentJson))
+    List(RegistrationSubmission.MappedPiece("agentDetails", agentJson))
 
   private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]) = {
     if (status.contains(Status.Completed)) {
