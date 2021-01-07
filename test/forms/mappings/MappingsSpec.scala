@@ -37,13 +37,11 @@ object MappingsSpec {
 
 class MappingsSpec extends WordSpec with MustMatchers with OptionValues with Mappings {
 
-  import MappingsSpec._
-
   "text" must {
 
     val testForm: Form[String] =
       Form(
-        "value" -> text()
+        "value" -> text("error.required")
       )
 
     "bind a valid string" in {
@@ -106,52 +104,12 @@ class MappingsSpec extends WordSpec with MustMatchers with OptionValues with Map
 
     "not bind an invalid postcode due to format" in {
       val result = testForm.bind(Map("value" -> "AA1 1A"))
-      result.errors must contain(FormError("value", "error.postcodeInvalid"))
+      result.errors must contain(FormError("value", "ukAddress.error.postcode.invalidCharacters"))
     }
 
     "not bind an invalid postcode due to too many spaces" in {
       val result = testForm.bind(Map("value" -> "AA1  1AA"))
-      result.errors must contain(FormError("value", "error.postcodeInvalid"))
-    }
-  }
-
-  "currency" must {
-
-    val testForm : Form[String] =
-      Form(
-        "value" -> currency()
-      )
-
-    val validCurency = Seq(
-      "1",
-      "999",
-      "999999",
-      "999999999",
-      "999999999999"
-    )
-
-    validCurency.foreach {
-      p =>
-        s"bind a valid currency $p" in {
-          val result = testForm.bind(Map("value" -> p))
-          result.get mustEqual p
-        }
-    }
-
-    "not bind an empty map" in {
-      val result = testForm.bind(Map.empty[String, String])
-      result.errors must contain(FormError("value", "assetMoneyValue.error.required"))
-    }
-
-    "return a custom error message" in {
-      val form = Form("value" -> postcode("custom.error"))
-      val result = form.bind(Map("value" -> ""))
-      result.errors must contain(FormError("value", "custom.error"))
-    }
-
-    "unbind a valid value" in {
-      val result = testForm.fill("999999")
-      result.apply("value").value.value mustEqual "999999"
+      result.errors must contain(FormError("value", "ukAddress.error.postcode.invalidCharacters"))
     }
   }
 
@@ -159,7 +117,7 @@ class MappingsSpec extends WordSpec with MustMatchers with OptionValues with Map
 
     val testForm: Form[Boolean] =
       Form(
-        "value" -> boolean()
+        "value" -> boolean("error.required")
       )
 
     "bind true" in {
@@ -190,61 +148,6 @@ class MappingsSpec extends WordSpec with MustMatchers with OptionValues with Map
     "unbind" in {
       val result = testForm.fill(true)
       result.apply("value").value.value mustEqual "true"
-    }
-  }
-
-  "int" must {
-
-    val testForm: Form[Int] =
-      Form(
-        "value" -> int()
-      )
-
-    "bind a valid integer" in {
-      val result = testForm.bind(Map("value" -> "1"))
-      result.get mustEqual 1
-    }
-
-    "bind a valid number with commas" in {
-      val result = testForm.bind(Map("value" -> "123,456"))
-      result.get mustEqual 123456
-    }
-
-    "not bind an empty value" in {
-      val result = testForm.bind(Map("value" -> ""))
-      result.errors must contain(FormError("value", "error.required"))
-    }
-
-    "not bind an empty map" in {
-      val result = testForm.bind(Map.empty[String, String])
-      result.errors must contain(FormError("value", "error.required"))
-    }
-
-    "unbind a valid value" in {
-      val result = testForm.fill(123)
-      result.apply("value").value.value mustEqual "123"
-    }
-  }
-
-  "enumerable" must {
-
-    val testForm = Form(
-      "value" -> enumerable[Foo]()
-    )
-
-    "bind a valid option" in {
-      val result = testForm.bind(Map("value" -> "Bar"))
-      result.get mustEqual Bar
-    }
-
-    "not bind an invalid option" in {
-      val result = testForm.bind(Map("value" -> "Not Bar"))
-      result.errors must contain(FormError("value", "error.invalid"))
-    }
-
-    "not bind an empty map" in {
-      val result = testForm.bind(Map.empty[String, String])
-      result.errors must contain(FormError("value", "error.required"))
     }
   }
 }

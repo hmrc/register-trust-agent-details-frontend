@@ -58,7 +58,7 @@ class UKAddressFormProvider @Inject() extends Mappings {
             ))),
 
       "postcode" ->
-        postcode("ukAddress.error.postcode.required")
+        postcode()
           .verifying(
             firstError(
               isNotEmpty("postcode", "ukAddress.error.postcode.required"),

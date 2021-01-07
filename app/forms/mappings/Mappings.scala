@@ -16,56 +16,19 @@
 
 package forms.mappings
 
-import java.time.LocalDate
-
-import models.Enumerable
 import play.api.data.FieldMapping
 import play.api.data.Forms.of
 
 trait Mappings extends Formatters with Constraints {
 
-  protected def nino(errorKey: String = "error.required"): FieldMapping[String] =
-    of(ninoFormatter(errorKey))
-
-  protected def text(errorKey: String = "error.required"): FieldMapping[String] =
+  protected def text(errorKey: String): FieldMapping[String] =
     of(stringFormatter(errorKey))
 
-  protected def postcode(requiredKey : String = "error.required",
-                         invalidKey : String = "error.postcodeInvalid") : FieldMapping[String] =
+  protected def postcode(requiredKey : String = "ukAddress.error.postcode.required",
+                         invalidKey : String = "ukAddress.error.postcode.invalidCharacters") : FieldMapping[String] =
     of(postcodeFormatter(requiredKey, invalidKey))
 
-  protected def currency(requiredKey : String = "assetMoneyValue.error.required",
-                         invalidKey : String = "assetMoneyValue.error.invalidFormat") : FieldMapping[String] =
-    of(currencyFormatter(requiredKey, invalidKey))
-
-  protected def int(requiredKey: String = "error.required",
-                    wholeNumberKey: String = "error.wholeNumber",
-                    nonNumericKey: String = "error.nonNumeric"): FieldMapping[Int] =
-    of(intFormatter(requiredKey, wholeNumberKey, nonNumericKey))
-
-  protected def boolean(requiredKey: String = "error.required",
+  protected def boolean(requiredKey: String,
                         invalidKey: String = "error.boolean"): FieldMapping[Boolean] =
     of(booleanFormatter(requiredKey, invalidKey))
-
-
-  protected def enumerable[A](requiredKey: String = "error.required",
-                              invalidKey: String = "error.invalid")(implicit ev: Enumerable[A]): FieldMapping[A] =
-    of(enumerableFormatter[A](requiredKey, invalidKey))
-
-  protected def localDate(
-                           invalidKey: String,
-                           allRequiredKey: String,
-                           twoRequiredKey: String,
-                           requiredKey: String): FieldMapping[LocalDate] =
-    of(new LocalDateFormatter(invalidKey, allRequiredKey, twoRequiredKey, requiredKey))
-
-  protected def longValue(prefix: String, maxValueKey: String, maxValue: Long): FieldMapping[Long] =
-    of(longValueFormatter(
-      s"$prefix.error.required",
-      s"$prefix.error.whole",
-      s"$prefix.error.invalid",
-      maxValueKey,
-      s"$prefix.error.zero",
-      maxValue
-    ))
 }
