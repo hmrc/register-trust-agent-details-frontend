@@ -18,10 +18,10 @@ package controllers
 
 import base.SpecBase
 import config.FrontendAppConfig
+import play.api.Configuration
 import play.api.mvc.{AnyContent, MessagesControllerComponents, Request}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import play.api.{Configuration, Environment}
 
 class SessionTimeoutControllerSpec extends SpecBase {
 
