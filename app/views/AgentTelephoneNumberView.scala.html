@@ -33,13 +33,13 @@
 
         @components.error_summary(form.errors)
 
-        @components.input_text(
+        @components.input_tele(
             field = form("value"),
             label = messages("agentTelephoneNumber.heading", agencyName),
             labelClass = Some("heading-large"),
             hint = Some(messages(s"agentTelephoneNumber.hint")),
             labelAsHeading = true,
-            inputMode = Some("numeric")
+            autocomplete = Some("tel")
         )
 
         @components.submit_button()
