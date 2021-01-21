@@ -7,7 +7,8 @@ timeout.keep-alive-button=Continue application
 
 session_expired.title = For your security, this service has been reset
 session_expired.heading = For your security, this service has been reset
-session_expired.guidance = The details you have given have been deleted because you did not continue the service for 15 minutes.
+session_expired.guidance = This is because you have been inactive on the service for 15 minutes.
+session_expired.guidance.2 = You will need to sign in to continue registering the trust.
 
 error.browser.title.prefix = Error:
 error.boolean = Please give an answer
@@ -24,6 +25,7 @@ site.save.continue = Save and continue
 site.service_name = Register and Maintain a Trust
 site.error = Error:
 site.sign_out = Sign out
+site.sign_in = Sign in
 
 site.address.uk.title = What is the address?
 site.address.uk.heading = What is {0}’s address?
