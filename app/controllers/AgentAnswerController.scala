@@ -17,16 +17,18 @@
 package controllers
 
 import controllers.actions.AgentActionSets
-import javax.inject.Inject
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
 import pages.{AgentAnswerPage, AgentNamePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import print.AgentDetailsPrintHelper
+import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.countryOptions.CountryOptions
 import views.html.AgentAnswerView
+
+import javax.inject.Inject
+import scala.concurrent.ExecutionContext
 
 class AgentAnswerController @Inject()(
                                        override val messagesApi: MessagesApi,
@@ -34,9 +36,9 @@ class AgentAnswerController @Inject()(
                                        actionSet: AgentActionSets,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: AgentAnswerView,
-                                       countryOptions : CountryOptions,
+                                       registrationsRepository: RegistrationsRepository,
                                        printHelper: AgentDetailsPrintHelper
-                                     ) extends FrontendBaseController with I18nSupport {
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     actionSet.identifiedUserWithData(draftId)
@@ -51,8 +53,11 @@ class AgentAnswerController @Inject()(
       Ok(view(draftId, Seq(answers)))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId) {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
     implicit request =>
-      Redirect(navigator.nextPage(AgentAnswerPage, draftId, request.userAnswers))
+      // need to set user answers in case user has been redirected here from trusts-frontend after data adjusted
+      registrationsRepository.set(request.userAnswers) map { _ =>
+        Redirect(navigator.nextPage(AgentAnswerPage, draftId, request.userAnswers))
+      }
   }
 }
