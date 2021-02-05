@@ -103,6 +103,8 @@ class AgentAnswerControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
 
+      redirectLocation(result).value mustBe fakeNavigator.desiredRoute.url
+
       verify(registrationsRepository).set(eqTo(userAnswers))(any(), any())
     }
 
