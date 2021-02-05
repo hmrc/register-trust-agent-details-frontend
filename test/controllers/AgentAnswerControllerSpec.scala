@@ -18,6 +18,8 @@ package controllers
 
 import base.SpecBase
 import models.{InternationalAddress, UKAddress, UserAnswers}
+import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.Mockito.verify
 import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -33,13 +35,12 @@ class AgentAnswerControllerSpec extends SpecBase {
 
     "return OK and the correct view for a UK address GET" in {
 
-      val answers: UserAnswers =
-        emptyUserAnswers
-          .set(AgentTelephoneNumberPage, "123456789").success.value
-          .set(AgentUKAddressPage, UKAddress("Line1", "Line2", None, Some("TownOrCity"), "NE62RT")).success.value
-          .set(AgentAddressUKYesNoPage, true).success.value
-          .set(AgentNamePage, "Sam Curran Trust").success.value
-          .set(AgentInternalReferencePage, "123456789").success.value
+      val answers: UserAnswers = emptyUserAnswers
+        .set(AgentTelephoneNumberPage, "123456789").success.value
+        .set(AgentUKAddressPage, UKAddress("Line1", "Line2", None, Some("TownOrCity"), "NE62RT")).success.value
+        .set(AgentAddressUKYesNoPage, true).success.value
+        .set(AgentNamePage, "Sam Curran Trust").success.value
+        .set(AgentInternalReferencePage, "123456789").success.value
 
       val application = applicationBuilder(userAnswers = Some(answers), agentID).build()
 
@@ -63,13 +64,12 @@ class AgentAnswerControllerSpec extends SpecBase {
 
     "return OK and the correct view for a International address GET" in {
 
-      val answers: UserAnswers =
-        emptyUserAnswers
-          .set(AgentTelephoneNumberPage, "123456789").success.value
-          .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
-          .set(AgentAddressUKYesNoPage, false).success.value
-          .set(AgentNamePage, "Sam Curran Trust").success.value
-          .set(AgentInternalReferencePage, "123456789").success.value
+      val answers: UserAnswers = emptyUserAnswers
+        .set(AgentTelephoneNumberPage, "123456789").success.value
+        .set(AgentInternationalAddressPage, InternationalAddress("Line1", "Line2", None, "Country")).success.value
+        .set(AgentAddressUKYesNoPage, false).success.value
+        .set(AgentNamePage, "Sam Curran Trust").success.value
+        .set(AgentInternalReferencePage, "123456789").success.value
 
       val application = applicationBuilder(userAnswers = Some(answers), agentID).build()
 
@@ -89,6 +89,23 @@ class AgentAnswerControllerSpec extends SpecBase {
         view(fakeDraftId, Seq(answerSection))(request, messages).toString
 
       application.stop()
+    }
+
+    "set user answers and redirect to next page on submit" in {
+
+      val userAnswers = emptyUserAnswers
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers), agentID).build()
+
+      val request = FakeRequest(POST, routes.AgentAnswerController.onSubmit(fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustBe fakeNavigator.desiredRoute.url
+
+      verify(registrationsRepository).set(eqTo(userAnswers))(any(), any())
     }
 
     "redirect to Session Expired for a GET if no existing data is found" in {
