@@ -21,12 +21,9 @@ import controllers.routes
 import models.UserAnswers
 import pages._
 import play.api.i18n.Messages
-import utils.countryOptions.CountryOptions
 import viewmodels.{AnswerRow, AnswerSection}
 
-class AgentDetailsPrintHelper @Inject()(answerRowConverter: AnswerRowConverter,
-                                        countryOptions: CountryOptions
-                                          ) {
+class AgentDetailsPrintHelper @Inject()(answerRowConverter: AnswerRowConverter) {
 
   def printSection(userAnswers: UserAnswers, name: String, draftId: String)(implicit messages: Messages): AnswerSection = {
     AnswerSection(
@@ -47,7 +44,7 @@ class AgentDetailsPrintHelper @Inject()(answerRowConverter: AnswerRowConverter,
   def answers(userAnswers: UserAnswers, name: String, draftId: String, canEdit: Boolean)
              (implicit messages: Messages): Seq[AnswerRow] = {
 
-    val bound: answerRowConverter.Bound = answerRowConverter.bind(userAnswers, name, countryOptions, canEdit = canEdit)
+    val bound: answerRowConverter.Bound = answerRowConverter.bind(userAnswers, name, canEdit = canEdit)
 
     Seq(
       bound.stringQuestion(AgentInternalReferencePage, "agentInternalReference", routes.AgentInternalReferenceController.onPageLoad(draftId).url),
