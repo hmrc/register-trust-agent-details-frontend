@@ -18,7 +18,7 @@ package config
 
 import com.google.inject.{Inject, Singleton}
 import play.api.Configuration
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Lang
 import play.api.mvc.{Call, Request}
 
 import java.net.{URI, URLEncoder}
@@ -87,12 +87,4 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
     s"$accessibilityBaseLinkUrl?userAction=$userAction"
   }
 
-  def helplineUrl(implicit messages: Messages): String = {
-    val path = messages.lang.code match {
-      case WELSH => "urls.welshHelpline"
-      case _ => "urls.trustsHelpline"
-    }
-
-    configuration.get[String](path)
-  }
 }

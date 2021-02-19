@@ -16,38 +16,21 @@
 
 package print
 
-import java.time.LocalDate
-
 import com.google.inject.Inject
-import models.{Address, FullName, UserAnswers}
+import models.{Address, UserAnswers}
 import play.api.i18n.Messages
 import play.api.libs.json.Reads
 import play.twirl.api.HtmlFormat
-import print.CheckAnswersFormatters.{addressFormatter, dateFormatter, yesOrNo}
 import queries.Gettable
-import utils.countryOptions.CountryOptions
 import viewmodels.AnswerRow
 
-class AnswerRowConverter @Inject()() {
+class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatters) {
 
-  def bind(userAnswers: UserAnswers, name: String, countryOptions: CountryOptions, canEdit: Boolean)
-          (implicit messages: Messages): Bound = new Bound(userAnswers, name, countryOptions, canEdit)
+  def bind(userAnswers: UserAnswers, name: String, canEdit: Boolean)
+          (implicit messages: Messages): Bound = new Bound(userAnswers, name, canEdit)
 
-  class Bound(userAnswers: UserAnswers, name: String, countryOptions: CountryOptions, canEdit: Boolean)
+  class Bound(userAnswers: UserAnswers, name: String, canEdit: Boolean)
              (implicit messages: Messages) {
-
-    def nameQuestion(query: Gettable[FullName],
-                     labelKey: String,
-                     changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          HtmlFormat.escape(x.toString),
-          Some(changeUrl),
-          canEdit = canEdit
-        )
-      }
-    }
 
     def stringQuestion(query: Gettable[String],
                        labelKey: String,
@@ -69,7 +52,7 @@ class AnswerRowConverter @Inject()() {
       userAnswers.get(query) map {x =>
         AnswerRow(
           s"$labelKey.checkYourAnswersLabel",
-          yesOrNo(x),
+          checkAnswersFormatters.yesOrNo(x),
           Some(changeUrl),
           name,
           canEdit = canEdit
@@ -77,19 +60,6 @@ class AnswerRowConverter @Inject()() {
       }
     }
 
-    def dateQuestion(query: Gettable[LocalDate],
-                     labelKey: String,
-                     changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          HtmlFormat.escape(x.format(dateFormatter)),
-          Some(changeUrl),
-          name,
-          canEdit = canEdit
-        )
-      }
-    }
     def addressQuestion[T <: Address](query: Gettable[T],
                                       labelKey: String,
                                       changeUrl: String)
@@ -97,7 +67,7 @@ class AnswerRowConverter @Inject()() {
       userAnswers.get(query) map { x =>
         AnswerRow(
           s"$labelKey.checkYourAnswersLabel",
-          addressFormatter(x, countryOptions),
+          checkAnswersFormatters.addressFormatter(x),
           Some(changeUrl),
           name,
           canEdit = canEdit

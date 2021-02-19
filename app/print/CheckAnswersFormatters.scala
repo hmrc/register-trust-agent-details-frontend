@@ -16,20 +16,14 @@
 
 package print
 
-import java.time.format.DateTimeFormatter
-
 import models.{Address, InternationalAddress, UKAddress}
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
 import utils.countryOptions.CountryOptions
 
-object CheckAnswersFormatters {
+import javax.inject.Inject
 
-  val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
-
-  def utr(answer: String): Html = {
-    HtmlFormat.escape(answer)
-  }
+class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
 
   def yesOrNo(answer: Boolean)(implicit messages: Messages): Html = {
     if (answer) {
@@ -39,15 +33,10 @@ object CheckAnswersFormatters {
     }
   }
 
-  def country(code: String, countryOptions: CountryOptions): String =
+  def country(code: String): String =
     countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
 
-  def answer[T](key: String, answer: T)(implicit messages: Messages): Html =
-    HtmlFormat.escape(messages(s"$key.$answer"))
-
-  def escape(x: String): Html = HtmlFormat.escape(x)
-
-  def ukAddress(address: UKAddress): Html = {
+  private def ukAddress(address: UKAddress): Html = {
     val lines =
       Seq(
         Some(HtmlFormat.escape(address.line1)),
@@ -60,22 +49,22 @@ object CheckAnswersFormatters {
     Html(lines.mkString("<br />"))
   }
 
-  def internationalAddress(address: InternationalAddress, countryOptions: CountryOptions): Html = {
+  private def internationalAddress(address: InternationalAddress): Html = {
     val lines =
       Seq(
         Some(HtmlFormat.escape(address.line1)),
         Some(HtmlFormat.escape(address.line2)),
         address.line3.map(HtmlFormat.escape),
-        Some(country(address.country, countryOptions))
+        Some(country(address.country))
       ).flatten
 
     Html(lines.mkString("<br />"))
   }
 
-  def addressFormatter(address: Address, countryOptions: CountryOptions): Html = {
+  def addressFormatter(address: Address): Html = {
     address match {
       case a: UKAddress => ukAddress(a)
-      case a: InternationalAddress => internationalAddress(a, countryOptions)
+      case a: InternationalAddress => internationalAddress(a)
     }
   }
 
