@@ -33,7 +33,7 @@ class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
     }
   }
 
-  def country(code: String): String =
+  private def country(code: String): String =
     countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
 
   private def ukAddress(address: UKAddress): Html = {

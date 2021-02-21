@@ -20,7 +20,7 @@ import com.google.inject.Inject
 import models.{Address, UserAnswers}
 import play.api.i18n.Messages
 import play.api.libs.json.Reads
-import play.twirl.api.HtmlFormat
+import play.twirl.api.{Html, HtmlFormat}
 import queries.Gettable
 import viewmodels.AnswerRow
 
@@ -35,41 +35,35 @@ class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatter
     def stringQuestion(query: Gettable[String],
                        labelKey: String,
                        changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          HtmlFormat.escape(x),
-          Some(changeUrl),
-          name,
-          canEdit = canEdit
-        )
-      }
+      val format = (x: String) => HtmlFormat.escape(x)
+      question(query, labelKey, format, changeUrl)
     }
 
     def yesNoQuestion(query: Gettable[Boolean],
                       labelKey: String,
                       changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          checkAnswersFormatters.yesOrNo(x),
-          Some(changeUrl),
-          name,
-          canEdit = canEdit
-        )
-      }
+      val format = (x: Boolean) => checkAnswersFormatters.yesOrNo(x)
+      question(query, labelKey, format, changeUrl)
     }
 
     def addressQuestion[T <: Address](query: Gettable[T],
                                       labelKey: String,
                                       changeUrl: String)
                                      (implicit reads: Reads[T]): Option[AnswerRow] = {
+      val format = (x: T) => checkAnswersFormatters.addressFormatter(x)
+      question(query, labelKey, format, changeUrl)
+    }
+
+    private def question[T](query: Gettable[T],
+                            labelKey: String,
+                            format: T => Html,
+                            changeUrl: String)(implicit rds: Reads[T]): Option[AnswerRow] = {
       userAnswers.get(query) map { x =>
         AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          checkAnswersFormatters.addressFormatter(x),
-          Some(changeUrl),
-          name,
+          label = s"$labelKey.checkYourAnswersLabel",
+          answer = format(x),
+          changeUrl = Some(changeUrl),
+          labelArg = name,
           canEdit = canEdit
         )
       }
