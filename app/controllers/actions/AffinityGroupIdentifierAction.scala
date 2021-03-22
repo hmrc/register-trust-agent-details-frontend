@@ -28,7 +28,7 @@ import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
-import uk.gov.hmrc.play.HeaderCarrierConverter
+import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -43,7 +43,7 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
                              action: Action[A]
                             ) = {
 
-    val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     def redirectToCreateAgentServicesAccount(reason: String): Future[Result] = {
       logger.info(s"[authoriseAgent][Session ID: ${Session.id(hc)}]: Agent services account required - $reason")
@@ -81,7 +81,7 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
     val enrolmentKey = "HMRC-TERS-ORG"
     val identifier = "SAUTR"
 
-    val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     val continueWithoutEnrolment =
       action(IdentifierRequest(request, internalId, AffinityGroup.Organisation, enrolments))
@@ -109,7 +109,7 @@ class AffinityGroupIdentifierAction[A] @Inject()(action: Action[A],
 
   def apply(request: Request[A]): Future[Result] = {
 
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
+    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     val retrievals = Retrievals.internalId and
       Retrievals.affinityGroup and
