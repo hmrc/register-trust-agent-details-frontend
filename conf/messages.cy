@@ -37,7 +37,6 @@ internationalAddress.error.line2.length=Mae’n rhaid i gyfeiriad – llinell 2 
 internationalAddress.error.line2.required=Nodwch gyfeiriad – llinell 2
 internationalAddress.error.line3.invalidCharacters=Mae’n rhaid i gyfeiriad – llinell 3 gynnwys y llythrennau a i z yn unig
 internationalAddress.error.line3.length=Mae’n rhaid i gyfeiriad – llinell 3 fod yn 35 o gymeriadau neu lai
-Key=English
 session_expired.guidance=Mae hyn oherwydd eich bod wedi bod yn segur ar y gwasanaeth ers 15 munud.
 session_expired.guidance.2=Bydd angen i chi fewngofnodi er mwyn mynd yn eich blaen i gofrestru’r ymddiriedolaeth.
 session_expired.heading=Er eich diogelwch
