@@ -87,4 +87,6 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
     s"$accessibilityBaseLinkUrl?userAction=$userAction"
   }
 
+  def registerTrustAsTrusteeUrl: String = configuration.get[String]("urls.registerTrustAsTrustee")
+
 }
