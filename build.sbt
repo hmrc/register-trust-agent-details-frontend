@@ -5,7 +5,7 @@ import uk.gov.hmrc.DefaultBuildSettings
 val appName = "register-trust-agent-details-frontend"
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory)
+  .enablePlugins(PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
     DefaultBuildSettings.scalaSettings,
