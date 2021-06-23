@@ -15,12 +15,13 @@
  *@
 
 @import controllers.routes._
-@import views.html.components.{ErrorSummary, InputText, SubmitButton}
+@import views.html.components.{ErrorSummary, Heading, InputText, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     error_summary: ErrorSummary,
+    heading: Heading,
     inputText: InputText,
     submitButton: SubmitButton
 )
@@ -38,14 +39,17 @@
 
         @error_summary(form.errors)
 
+        @heading("agentInternalReference.heading")
+
+        @optionalHtmlContent
+
         @inputText(
           field = form("value"),
           inputClass = Some("agent-internal-reference"),
           label = messages("agentInternalReference.heading"),
           labelClass = Some("govuk-heading-l"),
           hint = Some(messages(s"agentInternalReference.hint")),
-          optionalHtmlContent = Some(optionalHtmlContent),
-          labelAsHeading = true
+          labelAsHeading = false
         )
 
         @submitButton()

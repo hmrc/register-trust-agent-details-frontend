@@ -16,6 +16,8 @@
 
 package viewmodels
 
-case class AnswerSection(headingKey: Option[String] = None,
-                         rows: Seq[AnswerRow] = Nil,
-                         sectionKey: Option[String] = None) extends Section
+case class RepeaterAnswerSection (headingKey: String,
+                                  relevanceRow: AnswerRow,
+                                  rows: Seq[RepeaterAnswerRow],
+                                  addLinkKey: String,
+                                  addLinkUrl: String) extends Section
