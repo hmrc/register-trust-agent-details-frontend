@@ -18,6 +18,7 @@ package views
 
 import play.api.data.{Field, Form, FormError}
 import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.html.components.{RadioItem, Text}
 import viewmodels.RadioOption
 
 object ViewUtils {
@@ -26,11 +27,8 @@ object ViewUtils {
     if (form.hasErrors || form.hasGlobalErrors) s"${messages("error.browser.title.prefix")} " else ""
   }
 
-  def breadcrumbTitle(title: String, section: Option[String])(implicit messages: Messages): String = {
-    section match {
-      case Some(sect) => s"$title - $sect - ${messages("site.service_name")} - GOV.UK"
-      case _ => s"$title - ${messages("site.service_name")} - GOV.UK"
-    }
+  def breadcrumbTitle(title: String)(implicit messages: Messages): String = {
+    s"$title - ${messages("site.service_section")} - ${messages("service.name")} - GOV.UK"
   }
 
   def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil): String = {

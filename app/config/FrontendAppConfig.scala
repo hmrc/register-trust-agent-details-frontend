@@ -36,9 +36,6 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
 
   val repositoryKey: String = "agent-details"
 
-  private lazy val contactHost = configuration.get[String]("contact-frontend.host")
-  private val contactFormServiceIdentifier = "trusts"
-
   private def loadConfig(key: String) = configuration.get[String](key)
 
   val analyticsToken: String = configuration.get[String](s"google-analytics.token")
@@ -78,8 +75,8 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
   lazy val maintainATrustFrontendUrl : String =
     configuration.get[String]("urls.maintainATrust")
 
-  lazy val countdownLength: String = configuration.get[String]("timeout.countdown")
-  lazy val timeoutLength: String = configuration.get[String]("timeout.length")
+  lazy val countdownLength: Int = configuration.get[Int]("timeout.countdown")
+  lazy val timeoutLength: Int = configuration.get[Int]("timeout.length")
 
   private lazy val accessibilityBaseLinkUrl: String = configuration.get[String]("urls.accessibility")
 
