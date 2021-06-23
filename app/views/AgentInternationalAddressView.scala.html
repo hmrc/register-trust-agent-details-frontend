@@ -16,12 +16,13 @@
 
 @import controllers.routes._
 @import utils.InputOption
-@import views.html.components.{ErrorSummary, SubmitButton}
+@import views.html.components.{ErrorSummary, InternationalAddress, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     error_summary: ErrorSummary,
+    internationalAddress: InternationalAddress,
     submitButton: SubmitButton
 )
 
@@ -36,15 +37,12 @@
 
         @error_summary(form.errors)
 
-        <fieldset>
-
-            <legend>
-                @components.heading("site.address.international.heading", Some(agencyName))
-            </legend>
-
-            @components.international_address(form, countryOptions)
-
-        </fieldset>
+        @internationalAddress(
+            form = form,
+            legend = messages("site.address.international.heading", Some(agencyName)),
+            legendAsHeading = true,
+            countryOptions = countryOptions
+        )
 
         @submitButton(submitClass = Some("countryLookupHelper"))
     }
