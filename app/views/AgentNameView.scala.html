@@ -19,7 +19,8 @@
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-    error_summary: ErrorSummary
+    error_summary: ErrorSummary,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
@@ -41,6 +42,6 @@
           autocomplete = Some("name")
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

@@ -19,7 +19,8 @@
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-    error_summary: ErrorSummary
+    error_summary: ErrorSummary,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], draftId: String, agencyName: String)(implicit request: Request[_], messages: Messages)
@@ -43,6 +44,6 @@
 
         </fieldset>
 
-        @components.submit_button()
+        @submitButton()
     }
 }

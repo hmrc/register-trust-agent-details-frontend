@@ -19,7 +19,8 @@
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton
 )
 
 @(draftId: String, answerSections: Seq[AnswerSection])(implicit request: Request[_], messages: Messages)
@@ -38,7 +39,7 @@
     }
 
     @formHelper(action = AgentAnswerController.onSubmit(draftId), 'autoComplete -> "off") {
-        @components.submit_button()
+        @submitButton()
     }
 }
 

@@ -19,7 +19,8 @@
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], countryOptions: Seq[InputOption], draftId: String, agencyName: String)(implicit request: Request[_], messages: Messages)
@@ -43,6 +44,6 @@
 
         </fieldset>
 
-        @components.submit_button(submitClass = Some("countryLookupHelper"))
+        @submitButton(submitClass = Some("countryLookupHelper"))
     }
 }
