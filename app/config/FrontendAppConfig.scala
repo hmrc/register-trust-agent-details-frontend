@@ -20,14 +20,19 @@ import com.google.inject.{Inject, Singleton}
 import play.api.Configuration
 import play.api.i18n.Lang
 import play.api.mvc.{Call, Request}
-
 import java.net.{URI, URLEncoder}
 
+import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
+
 @Singleton
-class FrontendAppConfig @Inject()(val configuration: Configuration) {
+class FrontendAppConfig @Inject()(val configuration: Configuration,
+                                  contactFrontendConfig: ContactFrontendConfig) {
 
   private final val ENGLISH = "en"
   private final val WELSH = "cy"
+
+  private val contactHost = configuration.get[String]("contact-frontend.host")
+  private val contactFormServiceIdentifier = "trusts"
 
   val repositoryKey: String = "agent-details"
 
@@ -38,11 +43,7 @@ class FrontendAppConfig @Inject()(val configuration: Configuration) {
 
   val analyticsToken: String = configuration.get[String](s"google-analytics.token")
 
-  val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
-  val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
-
-  val betaFeedbackUrl = s"$contactHost/contact/beta-feedback?service=$contactFormServiceIdentifier"
-  val betaFeedbackUnauthenticatedUrl = s"$contactHost/contact/beta-feedback-unauthenticated?service=$contactFormServiceIdentifier"
+  val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl.get}/contact/beta-feedback?service=${contactFrontendConfig.serviceId.get}"
 
   lazy val loginUrl: String = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
