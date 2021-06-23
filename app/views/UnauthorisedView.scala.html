@@ -15,11 +15,12 @@
  *@
 
 @import config.FrontendAppConfig
-@import views.html.components.{BulletList}
+@import views.html.components.{Heading, BulletList}
 
 @this(
     main_template: MainTemplate,
     config: FrontendAppConfig,
+    heading: Heading,
     bulletList: BulletList
 )
 
@@ -30,7 +31,7 @@
  canSignOut = false
 ) {
 
- @components.heading("unauthorised.heading")
+ @heading("unauthorised.heading")
 
  <p>@messages("unauthorised.p1")</p>
 
