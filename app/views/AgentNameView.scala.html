@@ -15,12 +15,13 @@
  *@
 
 @import controllers.routes._
-@import views.html.components.{ErrorSummary, SubmitButton}
+@import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     error_summary: ErrorSummary,
+    inputText: InputText,
     submitButton: SubmitButton
 )
 
@@ -35,7 +36,7 @@
 
         @error_summary(form.errors)
 
-        @components.input_text(
+        @inputText(
           field = form("value"),
           label = messages("agentName.heading"),
           labelAsHeading = true,
