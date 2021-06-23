@@ -14,31 +14,23 @@
  * limitations under the License.
  *@
 
-@import controllers.routes._
-@import viewmodels.AnswerSection
+@import viewmodels.AddRow
+@import views.html.components.AddToRow
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+ addToRow: AddToRow
 )
 
-@(draftId: String, answerSections: Seq[AnswerSection])(implicit request: Request[_], messages: Messages)
+@(data: Seq[AddRow], id: String, entity : String)(implicit messages: Messages)
 
-@main_template(
-    title = messages("agentAnswer.title"),
-    showBackLink = true
-) {
+@if(data.nonEmpty){
+<h2 class="govuk-heading-m" id="data-list-heading--@id">@messages(s"site.$id")</h2>
 
-    @components.heading("agentAnswer.heading")
-
-    @for(section <- answerSections){
-        @{
-            components.answer_section(section)
-        }
-    }
-
-    @formHelper(action = AgentAnswerController.onSubmit(draftId), 'autoComplete -> "off") {
-        @components.submit_button()
-    }
+<div class="govuk-form-group">
+ <dl id="data-list--@id" class="hmrc-add-to-a-list hmrc-add-to-a-list--short">
+  @for(item <- data) {
+   @addToRow(item)
+  }
+ </dl>
+</div>
 }
-

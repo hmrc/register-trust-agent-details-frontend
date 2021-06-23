@@ -26,12 +26,11 @@
 @optionalHtmlContent = {<p>@messages("agentInternalReference.paragraph1")</p>}
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("agentInternalReference.title")}"
+    title = s"${errorPrefix(form)}${messages("agentInternalReference.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = AgentInternalReferenceController.onSubmit(draftId), 'autoComplete -> "off") {
-
-        @components.back_link()
 
         @components.error_summary(form.errors)
 
