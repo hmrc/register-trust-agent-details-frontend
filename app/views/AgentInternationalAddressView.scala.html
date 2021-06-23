@@ -31,7 +31,7 @@
 
     @formHelper(action = AgentInternationalAddressController.onSubmit(draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         <fieldset>
 

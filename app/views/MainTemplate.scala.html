@@ -20,74 +20,74 @@
 @import resources._
 
 @this(
-appConfig: FrontendAppConfig,
-govukLayout: GovukLayout,
-hmrcHead: HmrcHead,
-hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
-hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
-hmrcStandardFooter: HmrcStandardFooter,
-hmrcStandardHeader: HmrcStandardHeader,
-standardBetaBanner: StandardBetaBanner,
-hmrcScripts: HmrcScripts,
-stylesheets: Stylesheets,
-govukBackLink: GovukBackLink,
-hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper
+    appConfig: FrontendAppConfig,
+    govukLayout: GovukLayout,
+    hmrcHead: HmrcHead,
+    hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
+    hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
+    hmrcStandardFooter: HmrcStandardFooter,
+    hmrcStandardHeader: HmrcStandardHeader,
+    standardBetaBanner: StandardBetaBanner,
+    hmrcScripts: HmrcScripts,
+    stylesheets: Stylesheets,
+    govukBackLink: GovukBackLink,
+    hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper
 )
 
 @(title: String,
-sidebarLinks: Option[Html] = None,
-contentHeader: Option[Html] = None,
-bodyClasses: Option[String] = None,
-mainClass: Option[String] = None,
-scriptElem: Option[Html] = None,
-timeoutEnabled: Boolean = true,
-canSignOut: Boolean = true,
-showBackLink: Boolean = false
+    sidebarLinks: Option[Html] = None,
+    contentHeader: Option[Html] = None,
+    bodyClasses: Option[String] = None,
+    mainClass: Option[String] = None,
+    scriptElem: Option[Html] = None,
+    timeoutEnabled: Boolean = true,
+    canSignOut: Boolean = true,
+    showBackLink: Boolean = false
 )(mainContent: Html)(implicit request: Request[_], messages: Messages)
 
 @headScripts = {
-@if(timeoutEnabled) {
-@hmrcTimeoutDialogHelper(
-signOutUrl = controllers.routes.SessionTimeoutController.timeout.url,
-keepAliveUrl = Some(controllers.routes.SessionTimeoutController.keepAlive.url),
-timeout = Some(appConfig.timeoutLength),
-countdown = Some(appConfig.countdownLength),
-title = Some(messages("timeout.title")),
-message = Some(messages("timeout.message")),
-keepAliveButtonText = Some(messages("timeout.keep-alive-button"))
-)
-}
+    @if(timeoutEnabled) {
+        @hmrcTimeoutDialogHelper(
+            signOutUrl = controllers.routes.SessionTimeoutController.timeout.url,
+            keepAliveUrl = Some(controllers.routes.SessionTimeoutController.keepAlive.url),
+            timeout = Some(appConfig.timeoutLength),
+            countdown = Some(appConfig.countdownLength),
+            title = Some(messages("timeout.title")),
+            message = Some(messages("timeout.message")),
+            keepAliveButtonText = Some(messages("timeout.keep-alive-button"))
+        )
+    }
 
-@stylesheets()
+    @stylesheets()
 }
 
 @beforeContentBlock = {
-@hmrcLanguageSelectHelper()
-@if(showBackLink) {
-@govukBackLink(BackLink(
-attributes = Map("id" -> "back-link"), classes="js-enabled", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
-))
-}
+    @hmrcLanguageSelectHelper()
+    @if(showBackLink) {
+        @govukBackLink(BackLink(
+            attributes = Map("id" -> "back-link"), classes="js-enabled", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
+        ))
+    }
 }
 
 @mainContentWithGetHelp = {
-@mainContent
-@hmrcReportTechnicalIssueHelper()
+    @mainContent
+    @hmrcReportTechnicalIssueHelper()
 }
 
 @govukLayout(
-pageTitle = Some(breadcrumbTitle(title)),
-headBlock = Some(hmrcHead(
-headBlock = Some(headScripts)
-)),
-headerBlock = Some(hmrcStandardHeader(
-serviceUrl = Some(appConfig.trustsUrl),
-signOutUrl = if(canSignOut) Some(controllers.routes.LogoutController.logout().url) else None,
-phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl))
-)),
-beforeContentBlock = Some(beforeContentBlock),
-scriptsBlock = Some(hmrcScripts()),
-footerBlock = Some(hmrcStandardFooter(
-accessibilityStatementUrl = Some(appConfig.accessibilityLinkUrl)
-))
+    pageTitle = Some(breadcrumbTitle(title)),
+    headBlock = Some(hmrcHead(
+        headBlock = Some(headScripts)
+    )),
+    headerBlock = Some(hmrcStandardHeader(
+        serviceUrl = Some(appConfig.trustsUrl),
+        signOutUrl = if(canSignOut) Some(controllers.routes.LogoutController.logout().url) else None,
+        phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl))
+    )),
+    beforeContentBlock = Some(beforeContentBlock),
+    scriptsBlock = Some(hmrcScripts()),
+    footerBlock = Some(hmrcStandardFooter(
+        accessibilityStatementUrl = Some(appConfig.accessibilityLinkUrl)
+    ))
 )(mainContentWithGetHelp)
