@@ -36,7 +36,7 @@
 
         @error_summary(form.errors)
 
-        @ukAddress(form, messages("site.address.uk.heading", Some(agencyName)))
+        @ukAddress(form, messages("site.address.uk.heading", agencyName))
 
         @submitButton()
     }
