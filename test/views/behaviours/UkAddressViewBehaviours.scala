@@ -26,15 +26,14 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
 
 
   val errorKey = "value"
-  val errorMessage = "error.required"
+  val errorMessage = "error.number"
   val error = FormError(errorKey, errorMessage)
 
   val form: Form[UKAddress]
 
   def ukAddressPage(createView: Form[UKAddress] => HtmlFormat.Appendable,
-                    sectionKey: Option[String],
                     messageKeyPrefix: Option[String],
-                         args : String*) = {
+                         args: String*) = {
 
     val prefix = messageKeyPrefix.getOrElse("site.address.uk")
 
@@ -59,7 +58,7 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
         "not render an error summary" in {
 
           val doc = asDocument(createView(form))
-          assertNotRenderedById(doc, "error-summary-heading")
+          assertNotRenderedById(doc, "error-summary-title")
         }
       }
 
@@ -68,7 +67,7 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", ViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(s"$prefix.title", args: _*)}""", sectionKey.map(messages(_))))
+          assertEqualsValue(doc, "title", ViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(s"$prefix.title", args: _*)}"""))
         }
       }
 
@@ -79,14 +78,14 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
           "show an error summary" in {
 
             val doc = asDocument(createView(form.withError(FormError(field._1, "error"))))
-            assertRenderedById(doc, "error-summary-heading")
+            assertRenderedById(doc, "error-summary-title")
           }
 
           s"show an error in the label for field '$field'" in {
 
             val doc = asDocument(createView(form.withError(FormError(field._1, "error"))))
-            val errorSpan = doc.getElementsByClass("error-message").first
-            errorSpan.parent.getElementsByClass("form-label").attr("for") mustBe field._1
+            val errorSpan = doc.getElementsByClass("govuk-error-message").first
+            errorSpan.parent.getElementsByClass("govuk-label").attr("for") mustBe field._1
           }
         }
       }

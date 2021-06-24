@@ -37,10 +37,11 @@ class AgentInternalReferenceViewSpec extends StringViewBehaviours {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, fakeDraftId)(fakeRequest, messages)
 
-    behave like normalPage(applyView(form), None, messageKeyPrefix)
+    behave like normalPage(applyView(form), messageKeyPrefix)
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like stringPage(form, applyView, None, messageKeyPrefix)
+    behave like stringPage(form, applyView, messageKeyPrefix, None)
+
   }
 }

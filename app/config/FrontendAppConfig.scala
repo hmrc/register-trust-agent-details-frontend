@@ -31,9 +31,6 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
   private final val ENGLISH = "en"
   private final val WELSH = "cy"
 
-  private val contactHost = configuration.get[String]("contact-frontend.host")
-  private val contactFormServiceIdentifier = "trusts"
-
   val repositoryKey: String = "agent-details"
 
   private def loadConfig(key: String) = configuration.get[String](key)
