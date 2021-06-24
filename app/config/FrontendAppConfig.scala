@@ -19,9 +19,7 @@ package config
 import com.google.inject.{Inject, Singleton}
 import play.api.Configuration
 import play.api.i18n.Lang
-import play.api.mvc.{Call, Request}
-import java.net.{URI, URLEncoder}
-
+import play.api.mvc.Call
 import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 
 @Singleton
@@ -74,13 +72,6 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
 
   lazy val countdownLength: Int = configuration.get[Int]("timeout.countdown")
   lazy val timeoutLength: Int = configuration.get[Int]("timeout.length")
-
-  private lazy val accessibilityBaseLinkUrl: String = configuration.get[String]("urls.accessibility")
-
-  def accessibilityLinkUrl(implicit request: Request[_]): String = {
-    val userAction = URLEncoder.encode(new URI(request.uri).getPath, "UTF-8")
-    s"$accessibilityBaseLinkUrl?userAction=$userAction"
-  }
 
   def registerTrustAsTrusteeUrl: String = configuration.get[String]("urls.registerTrustAsTrustee")
 
