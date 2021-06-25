@@ -1,3 +1,5 @@
+service.name = Register and Maintain a Trust
+
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 unauthorised.p1 = To use the Trust Registration Service, you need to log in with a Government Gateway Account for an organisation.
@@ -28,7 +30,6 @@ site.hidden-edit = Change {0}
 site.no = No
 site.yes = Yes
 site.save.continue = Save and continue
-site.service_name = Register and Maintain a Trust
 site.error = Error:
 site.sign_out = Sign out
 site.sign_in = Sign in
@@ -63,7 +64,7 @@ site.address.international.line1 = Address line 1
 site.address.international.line2 = Address line 2
 site.address.international.line3 = Address line 3 (optional)
 site.address.international.country = Country
-address.country.select = Select a country
+site.address.country.select = Select a country
 
 internationalAddress.error.line1.required = Enter address line 1
 internationalAddress.error.line2.required = Enter address line 2

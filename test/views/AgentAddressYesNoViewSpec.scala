@@ -41,11 +41,11 @@ class AgentAddressYesNoViewSpec extends YesNoViewBehaviours {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, fakeDraftId, name)(fakeRequest, messages)
 
-    behave like dynamicTitlePage(applyView(form), None, messageKeyPrefix, name)
+    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, name)
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, None, messageKeyPrefix, None, Seq(name))
+    behave like yesNoPage(form, applyView, messageKeyPrefix, None, Seq(name))
 
     behave like pageWithASubmitButton(applyView(form))
   }

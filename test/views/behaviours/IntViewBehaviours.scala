@@ -26,8 +26,8 @@ trait IntViewBehaviours extends QuestionViewBehaviours[Int] {
 
   def intPage(form: Form[Int],
               createView: Form[Int] => HtmlFormat.Appendable,
-              sectionKey: Option[String],
-              messageKeyPrefix: String): Unit = {
+              messageKeyPrefix: String,
+              expectedFormAction: String): Unit = {
 
     "behave like a page with an integer value field" when {
 
@@ -60,21 +60,20 @@ trait IntViewBehaviours extends QuestionViewBehaviours[Int] {
         "show an error summary" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertRenderedById(doc, "error-summary-heading")
+          assertRenderedById(doc, "error-summary-title")
         }
 
-        "show an error in the value field's label" in {
+        "show an error associated with the value field" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          val errorSpan = doc.getElementsByClass("error-message").first
-          errorSpan.text mustBe s"""${messages(errorPrefix)} ${messages(errorMessage)}"""
-          errorSpan.text mustBe messages(errorMessage)
+          val errorSpan = doc.getElementsByClass("govuk-error-message").first
+          errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
         }
 
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", ViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")}""", sectionKey.map(messages(_))))
+          assertEqualsValue(doc, "title", ViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")}"""))
         }
       }
     }

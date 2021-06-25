@@ -18,16 +18,20 @@ package views.behaviours
 
 import play.api.data.{Form, FormError}
 import play.twirl.api.HtmlFormat
+import utils.InputOption
+import utils.countryOptions.CountryOptionsNonUK
 import views.ViewUtils
 
 trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
 
   val answer = "ES"
 
+  val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options
+
   def selectCountryPage(form: Form[String],
                  createView: Form[String] => HtmlFormat.Appendable,
-                 sectionKey: Option[String],
                  messageKeyPrefix: String,
+                 messageKeyParam: String,
                  expectedHintKey: Option[String] = None) = {
 
     "behave like a page with a string value field" when {
@@ -38,7 +42,7 @@ trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
 
           val doc = asDocument(createView(form))
           val expectedHintText = expectedHintKey map (k => messages(k))
-          assertContainsLabel(doc, "value", messages(s"$messageKeyPrefix.heading"), expectedHintText)
+          assertContainsLabel(doc, "value", messages(s"$messageKeyPrefix.heading", messageKeyParam), expectedHintText)
         }
 
         "contain an input for the value" in {
@@ -62,24 +66,24 @@ trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
         "show an error summary" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertRenderedById(doc, "error-summary-heading")
+          assertRenderedById(doc, "error-summary-title")
         }
 
         "show an error in the value field's label" in {
 
           val errorKey = "value"
-          val errorMessage = "error.required"
+          val errorMessage = "error.number"
           val error = FormError(errorKey, errorMessage)
 
           val doc = asDocument(createView(form.withError(error)))
-          val errorSpan = doc.getElementsByClass("error-message").first
+          val errorSpan = doc.getElementsByClass("govuk-error-message").first
           errorSpan.text mustBe s"""${messages(errorPrefix)} ${messages(errorMessage)}"""
         }
 
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", ViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")}""", sectionKey.map(messages(_))))
+          assertEqualsValue(doc, "title", ViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title")}"""))
         }
       }
     }

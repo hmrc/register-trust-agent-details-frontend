@@ -15,31 +15,31 @@
  *@
 
 @import controllers.routes._
-@import viewmodels.AnswerSection
+@import viewmodels.{AnswerSection, Section}
+@import views.html.components.{Heading, SubmitButton}
+@import utils.SectionFormatter.formatSections
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    heading: Heading,
+    govukSummaryList: GovukSummaryList,
+    submitButton: SubmitButton
 )
 
-@(draftId: String, answerSections: Seq[AnswerSection])(implicit request: Request[_], messages: Messages)
+@(draftId: String, answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("agentAnswer.title")
+    title = messages("agentAnswer.title"),
+    showBackLink = true
 ) {
 
-    @components.back_link()
+    @heading("agentAnswer.heading")
 
-    @components.heading("agentAnswer.heading")
-
-    @for(section <- answerSections){
-        @{
-            components.answer_section(section)
-        }
-    }
+    @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
 
     @formHelper(action = AgentAnswerController.onSubmit(draftId), 'autoComplete -> "off") {
-        @components.submit_button()
+        @submitButton()
     }
 }
 

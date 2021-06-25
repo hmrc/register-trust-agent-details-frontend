@@ -1,4 +1,6 @@
-address.country.select=Dewiswch wlad
+service.name=Cofrestru Ymddiriedolaeth a’i Chynnal
+
+site.address.country.select=Dewiswch wlad
 agentAddressUKYesNo.checkYourAnswersLabel=A yw cyfeiriad {0} yn y DU?
 agentAddressUKYesNo.error.required=Dewiswch ‘Iawn’ os yw cyfeiriad yr asiantaeth yn y DU
 agentAddressUKYesNo.heading=A yw cyfeiriad {0} yn y DU?
@@ -65,7 +67,6 @@ site.error=Gwall:
 site.hidden-edit=Newid {0}
 site.no=Na
 site.save.continue=Cadw ac yn eich blaen
-site.service_name=Cofrestru Ymddiriedolaeth a’i Chynnal
 site.sign_in=Mewngofnodi
 site.sign_out=Allgofnodi
 site.yes=Iawn

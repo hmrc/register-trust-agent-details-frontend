@@ -15,10 +15,15 @@
  *@
 
 @import controllers.routes._
+@import views.html.components.{ErrorSummary, Heading, InputText, SubmitButton}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    error_summary: ErrorSummary,
+    heading: Heading,
+    inputText: InputText,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
@@ -26,25 +31,27 @@
 @optionalHtmlContent = {<p>@messages("agentInternalReference.paragraph1")</p>}
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("agentInternalReference.title")}"
+    title = s"${errorPrefix(form)}${messages("agentInternalReference.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = AgentInternalReferenceController.onSubmit(draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @error_summary(form.errors)
 
-        @components.error_summary(form.errors)
+        @heading("agentInternalReference.heading")
 
-        @components.input_text(
+        @optionalHtmlContent
+
+        @inputText(
           field = form("value"),
           inputClass = Some("agent-internal-reference"),
           label = messages("agentInternalReference.heading"),
-          labelClass = Some("heading-large"),
+          labelClass = Some("govuk-visually-hidden"),
           hint = Some(messages(s"agentInternalReference.hint")),
-          optionalHtmlContent = Some(optionalHtmlContent),
-          labelAsHeading = true
+          labelAsHeading = false
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }
