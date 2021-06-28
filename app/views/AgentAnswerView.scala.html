@@ -34,11 +34,11 @@
     showBackLink = true
 ) {
 
-    @heading("agentAnswer.heading")
-
-    @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
-
     @formHelper(action = AgentAnswerController.onSubmit(draftId), 'autoComplete -> "off") {
+        @heading("agentAnswer.heading")
+
+        @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
+
         @submitButton()
     }
 }
