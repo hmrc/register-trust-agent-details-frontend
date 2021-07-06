@@ -67,7 +67,7 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
     "cymraeg" -> Lang(WELSH)
   )
 
-  lazy val maintainATrustFrontendUrl : String =
+  lazy val maintainATrustFrontendUrl: String =
     configuration.get[String]("urls.maintainATrust")
 
   lazy val countdownLength: Int = configuration.get[Int]("timeout.countdown")
