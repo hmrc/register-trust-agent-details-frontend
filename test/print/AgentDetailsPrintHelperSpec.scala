@@ -44,14 +44,15 @@ class AgentDetailsPrintHelperSpec extends FreeSpec with SpecBaseHelpers {
       val result = helper.printSection(userAnswers, agentName, fakeDraftId)
 
       result mustBe AnswerSection(
-        None,
-        Seq(
+        headingKey = None,
+        rows = Seq(
           AnswerRow("agentInternalReference.checkYourAnswersLabel", Html("CRN/12.1"), Some(controllers.routes.AgentInternalReferenceController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(controllers.routes.AgentNameController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentAddressUKYesNo.checkYourAnswersLabel", Html("Yes"), Some(controllers.routes.AgentAddressYesNoController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("site.address.uk.checkYourAnswersLabel", Html("line1<br />line2<br />NE981ZZ"), Some(controllers.routes.AgentUKAddressController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("+telephone"), Some(controllers.routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId).url), agentName)
-        )
+        ),
+        sectionKey = Some("answerPage.section.agent.heading")
       )
     }
 
@@ -67,14 +68,15 @@ class AgentDetailsPrintHelperSpec extends FreeSpec with SpecBaseHelpers {
       val result = helper.printSection(userAnswers, agentName, fakeDraftId)
 
       result mustBe AnswerSection(
-        None,
-        Seq(
+        headingKey = None,
+        rows = Seq(
           AnswerRow("agentInternalReference.checkYourAnswersLabel", Html("CRN/12.1"), Some(controllers.routes.AgentInternalReferenceController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentName.checkYourAnswersLabel", Html(agentName), Some(controllers.routes.AgentNameController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentAddressUKYesNo.checkYourAnswersLabel", Html("No"), Some(controllers.routes.AgentAddressYesNoController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("site.address.international.checkYourAnswersLabel", Html("line1<br />line2<br />France"), Some(controllers.routes.AgentInternationalAddressController.onPageLoad(fakeDraftId).url), agentName),
           AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", Html("+telephone"), Some(controllers.routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId).url), agentName)
-        )
+        ),
+        sectionKey = Some("answerPage.section.agent.heading")
       )
     }
 

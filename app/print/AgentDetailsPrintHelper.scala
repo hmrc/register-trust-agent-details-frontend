@@ -27,17 +27,14 @@ class AgentDetailsPrintHelper @Inject()(answerRowConverter: AnswerRowConverter) 
 
   def printSection(userAnswers: UserAnswers, name: String, draftId: String)(implicit messages: Messages): AnswerSection = {
     AnswerSection(
-      headingKey = None, // Todo do we have a heading on print draft for agent details?
       rows = answers(userAnswers, name, draftId, canEdit = false),
-      sectionKey = None
+      sectionKey = Some("answerPage.section.agent.heading")
     )
   }
 
   def checkDetailsSection(userAnswers: UserAnswers, name: String, draftId: String)(implicit messages: Messages): AnswerSection = {
     AnswerSection(
-      headingKey = None,
-      rows = answers(userAnswers, name, draftId, canEdit = true),
-      sectionKey = None
+      rows = answers(userAnswers, name, draftId, canEdit = true)
     )
   }
 
