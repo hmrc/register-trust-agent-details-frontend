@@ -16,7 +16,6 @@
 
 package repositories
 
-import javax.inject.Inject
 import mapping.AgentDetailsMapper
 import models._
 import pages.AgentNamePage
@@ -25,6 +24,8 @@ import play.api.libs.json.{JsNull, JsValue, Json}
 import print.AgentDetailsPrintHelper
 import viewmodels.{AnswerRow, AnswerSection}
 
+import javax.inject.Inject
+
 class SubmissionSetFactory @Inject()(agentMapper: AgentDetailsMapper,
                                      printHelper: AgentDetailsPrintHelper) {
 
@@ -32,17 +33,17 @@ class SubmissionSetFactory @Inject()(agentMapper: AgentDetailsMapper,
     val status = Some(Status.Completed) // TODO Do we need to evaluate this at runtime based on UserAnswers?
 
     RegistrationSubmission.DataSet(
-      Json.toJson(userAnswers),
-      status,
-      mappedDataIfCompleted(userAnswers, status),
-      answerSectionsIfCompleted(userAnswers, status)
+      data = Json.toJson(userAnswers),
+      status = status,
+      registrationPieces = mappedDataIfCompleted(userAnswers, status),
+      answerSections = answerSectionsIfCompleted(userAnswers, status)
     )
   }
 
   private def mappedPieces(agentJson: JsValue) =
     List(RegistrationSubmission.MappedPiece("agentDetails", agentJson))
 
-  private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]) = {
+  private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
     if (status.contains(Status.Completed)) {
       agentMapper.build(userAnswers) match {
         case Some(agent) =>
@@ -68,26 +69,27 @@ class SubmissionSetFactory @Inject()(agentMapper: AgentDetailsMapper,
         userAnswers.draftId
       )
 
-      val answersWithHeadings = List(
-        AnswerSection(
-          section.headingKey,
-          section.rows,
-          Some(Messages("answerPage.section.agent.heading"))
-        )
-      )
-
-      answersWithHeadings.map(convertForSubmission)
+      convertForSubmission(section) :: Nil
 
     } else {
       List.empty
     }
   }
 
-  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {
-    RegistrationSubmission.AnswerRow(row.label, row.answer.toString, row.labelArg)
+  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
+    RegistrationSubmission.AnswerSection(
+      headingKey = section.headingKey,
+      rows = section.rows.map(convertForSubmission),
+      sectionKey = section.sectionKey
+    )
   }
 
-  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
-    RegistrationSubmission.AnswerSection(section.headingKey, section.rows.map(convertForSubmission), section.sectionKey)
+  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {
+    RegistrationSubmission.AnswerRow(
+      label = row.label,
+      answer = row.answer.toString,
+      labelArg = row.labelArg
+    )
   }
+
 }
