@@ -15,14 +15,14 @@
  *@
 
 @import controllers.routes._
-@import views.html.components.{ErrorSummary, Heading, InputText, SubmitButton}
+@import views.html.components.{ErrorSummary, Heading, InputCharacterCount, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     error_summary: ErrorSummary,
     heading: Heading,
-    inputText: InputText,
+    characterCount: InputCharacterCount,
     submitButton: SubmitButton
 )
 
@@ -43,13 +43,14 @@
 
         @optionalHtmlContent
 
-        @inputText(
-          field = form("value"),
-          inputClass = Some("agent-internal-reference"),
-          label = messages("agentInternalReference.heading"),
-          labelClass = Some("govuk-visually-hidden"),
-          hint = Some(messages(s"agentInternalReference.hint")),
-          labelAsHeading = false
+        @characterCount(
+            field = form("value"),
+            id = "value",
+            name = "value",
+            label = messages("agentInternalReference.heading"),
+            isPageHeading = false,
+            hint = Some(messages("agentInternalReference.hint")),
+            maxLength = Some(56)
         )
 
         @submitButton()
