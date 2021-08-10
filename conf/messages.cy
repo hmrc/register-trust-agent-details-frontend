@@ -70,6 +70,7 @@ site.save.continue=Cadw ac yn eich blaen
 site.sign_in=Mewngofnodi
 site.sign_out=Allgofnodi
 site.yes=Iawn
+site.service_section = Manylion yr asiant
 timeout.keep-alive-button=Yn eich blaen â’r cais
 timeout.message=Byddwn yn ailosod eich cais os na fyddwch yn ymateb cyn pen
 timeout.title=Bydd eich cais yn dod i ben cyn hir

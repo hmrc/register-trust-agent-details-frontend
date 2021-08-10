@@ -33,7 +33,7 @@ site.save.continue = Save and continue
 site.error = Error:
 site.sign_out = Sign out
 site.sign_in = Sign in
-
+site.service_section = Agent details
 site.address.uk.title = What is the address?
 site.address.uk.heading = What is {0}’s address?
 site.address.uk.line1 = Address line 1
