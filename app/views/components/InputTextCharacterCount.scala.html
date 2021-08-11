@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.hmrcfrontend.views.viewmodels.language.{Cy, En}
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
 @this(
@@ -37,7 +38,8 @@
     inputMode: Option[String] = None,
     maxLength: Option[Int],
     threshold: Option[Int] = Some(0),
-    maxWords: Option[Int] = Some(0)
+    maxWords: Option[Int] = None,
+    countMessageClasses: String = ""
 )(implicit messages: Messages)
 
 @attrs = {
@@ -53,34 +55,46 @@
     else ""
 }
 
-<div class="govuk-character-count" data-module="govuk-character-count" @attrs>
-    @govukInput(
-        Input(
-            id = id,
-            name = name,
-            describedBy = Some(s"${id}-info"),
-            label = Label(
-                isPageHeading = isPageHeading,
-                classes = labelClasses,
-                content = Text(label)
-            ),
-            autocomplete = autocomplete,
-            hint = hint.map(hint => Hint(content = Text(hint))),
-            errorMessage = field.error map { e =>
-                ErrorMessage(content = Text(messages(e.message, e.args: _*)))
-            },
-            spellcheck = Some(false),
-            inputmode = inputMode,
-            prefix = prefix.map(prefix => PrefixOrSuffix(content = Text(prefix))),
-            suffix = suffix.map(suffix => PrefixOrSuffix(content = Text(suffix))),
-            classes = if(inputClass.isDefined) inputClass.get else "govuk-js-character-count"
-        ).withFormField(field)
-    )
-    @govukHint(Hint(id=Some(id+"-info"),
-        classes = "govuk-character-count__message",
-        attributes = Map("aria-live"->"polite"),
-        content = Text(messages("site.characterCount.info", maxLength.filter(_ > 0).orElse(maxWords).getOrElse(messages("site.characterCount.undefined")), maxWords.filter(_ > 0).fold(messages("site.characterCount.characters"))(_ => messages("site.characterCount.words"))))
-    ))
-</div>
+@defining(if(messages.lang.code == "cy") Cy else En) { messagesLanguage =>
+    <div class="hmrc-character-count" data-module="hmrc-character-count" data-language="@{messagesLanguage.code}" @attrs>
+        @govukInput(
+            Input(
+                id = id,
+                name = name,
+                describedBy = Some(s"${id}-info"),
+                label = Label(
+                    isPageHeading = isPageHeading,
+                    classes = labelClasses,
+                    content = Text(label)
+                ),
+                autocomplete = autocomplete,
+                hint = hint.map(hint => Hint(content = Text(hint))),
+                errorMessage = field.error map { e =>
+                    ErrorMessage(content = Text(messages(e.message, e.args: _*)))
+                },
+                spellcheck = Some(false),
+                inputmode = inputMode,
+                prefix = prefix.map(prefix => PrefixOrSuffix(content = Text(prefix))),
+                suffix = suffix.map(suffix => PrefixOrSuffix(content = Text(suffix))),
+                classes = if(inputClass.isDefined) inputClass.get else "hmrc-js-character-count"
+            ).withFormField(field)
+        )
+        @if(messagesLanguage == Cy) {
+            @govukHint(Hint(
+                content = Text("Gallwch nodi hyd at " + maxLength.getOrElse(maxWords.getOrElse(0)) + {if(maxWords.isDefined) " o eiriau" else " o gymeriadau"}),
+                id = Some(id + "-info"),
+                classes = "hmrc-character-count__message" + {if (countMessageClasses == "") "" else " " + countMessageClasses},
+                attributes = Map("aria-live" -> "polite")
+            ))
+        } else {
+            @govukHint(Hint(
+                content = Text("You can enter up to " + maxLength.getOrElse(maxWords.getOrElse(0)) + {if(maxWords.isDefined) " words" else " characters"}),
+                id = Some(id + "-info"),
+                classes = "hmrc-character-count__message" + {if (countMessageClasses == "") "" else " " + countMessageClasses},
+                attributes = Map("aria-live" -> "polite")
+            ))
+        }
+    </div>
+}
 
 
