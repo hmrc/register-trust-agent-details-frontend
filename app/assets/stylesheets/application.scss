@@ -37,9 +37,3 @@ p {
 h2 {
  @extend .govuk-heading-m
 }
-
-textarea.no-resize-wrap {
-	resize: none;
-	white-space: nowrap;
-	overflow: hidden;
-}
