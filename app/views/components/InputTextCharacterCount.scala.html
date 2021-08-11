@@ -79,7 +79,7 @@
     @govukHint(Hint(id=Some(id+"-info"),
         classes = "govuk-character-count__message",
         attributes = Map("aria-live"->"polite"),
-        content = Text("You can enter up to " + maxLength.filter(_ > 0).orElse(maxWords).getOrElse("undefined") + " " + maxWords.filter(_ > 0).fold("characters")(_ => "words"))
+        content = Text(messages("site.characterCount.info", maxLength.filter(_ > 0).orElse(maxWords).getOrElse(messages("site.characterCount.undefined")), maxWords.filter(_ > 0).fold(messages("site.characterCount.characters"))(_ => messages("site.characterCount.words"))))
     ))
 </div>
 
