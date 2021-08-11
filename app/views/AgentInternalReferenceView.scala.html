@@ -15,14 +15,14 @@
  *@
 
 @import controllers.routes._
-@import views.html.components.{ErrorSummary, Heading, InputCharacterCount, SubmitButton}
+@import views.html.components.{ErrorSummary, Heading, InputTextCharacterCount, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     error_summary: ErrorSummary,
     heading: Heading,
-    characterCount: InputCharacterCount,
+    characterCount: InputTextCharacterCount,
     submitButton: SubmitButton
 )
 
@@ -47,9 +47,8 @@
             field = form("value"),
             id = "value",
             name = "value",
-            rows = 1,
-            classes = "no-resize-wrap",
             label = messages("agentInternalReference.heading"),
+            isLabelHidden = true,
             isPageHeading = false,
             hint = Some(messages("agentInternalReference.hint")),
             maxLength = Some(56)
