@@ -1,11 +1,13 @@
 $(document).ready(function() {
 
 $("textarea").keydown(function(e){
-    // Enter was pressed
-    if (e.keyCode == 13)
+    // Shift + Enter was pressed
+    if (e.keyCode == 13 && e.shiftKey)
     {
-        // prevent default behavior
         e.preventDefault();
+    } else if (e.keyCode == 13) {
+        e.preventDefault();
+        $(".govuk-button").trigger("click");
     }
 });
 
