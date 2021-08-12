@@ -76,7 +76,7 @@
                 inputmode = inputMode,
                 prefix = prefix.map(prefix => PrefixOrSuffix(content = Text(prefix))),
                 suffix = suffix.map(suffix => PrefixOrSuffix(content = Text(suffix))),
-                classes = if(inputClass.isDefined) inputClass.get else "hmrc-js-character-count"
+                classes = "hmrc-js-character-count" + {if (inputClass.isDefined) {" " + inputClass.get} else ""}
             ).withFormField(field)
         )
         @if(messagesLanguage == Cy) {
