@@ -88,6 +88,34 @@ class ConstraintsSpec extends WordSpec with ScalaCheckPropertyChecks with  MustM
     }
   }
 
+  "inRange" must {
+
+    "return Valid for a number between the threshold" in {
+      val result = inRange(1, 10, "error.range").apply(5)
+      result mustEqual Valid
+    }
+
+    "return Valid for a number equal to the lower threshold" in {
+      val result = inRange(1, 10, "error.range").apply(1)
+      result mustEqual Valid
+    }
+
+    "return Valid for a number equal to the upper threshold" in {
+      val result = inRange(1, 10, "error.range").apply(10)
+      result mustEqual Valid
+    }
+
+    "return Invalid for a number above the threshold" in {
+      val result = inRange(1, 10, "error.range").apply(20)
+      result mustEqual Invalid("error.range", 1,10)
+    }
+
+    "return Invalid for a number below the threshold" in {
+      val result = inRange(5, 10, "error.range").apply(1)
+      result mustEqual Invalid("error.range", 5, 10)
+    }
+  }
+
   "regexp" must {
 
     "return Valid for an input that matches the expression" in {
