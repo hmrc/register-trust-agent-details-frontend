@@ -35,8 +35,8 @@ lazy val root = (project in file("."))
     PlayKeys.playDefaultPort := 8847,
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;" +
       ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
-      ".*ControllerConfiguration;.*LanguageSwitchController;.*models;.*views.html.*;.*config.Service;.*models.Mode;",
-    ScoverageKeys.coverageMinimum := 74,
+      ".*ControllerConfiguration;.*LanguageSwitchController;.*models.*;.*views.html.*;.*config.Service;.*repositories.*",
+    ScoverageKeys.coverageMinimum := 80,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq("-feature"),
@@ -71,7 +71,8 @@ lazy val root = (project in file("."))
 lazy val testSettings: Seq[Def.Setting[_]] = Seq(
   fork        := true,
   javaOptions ++= Seq(
-    "-Dconfig.resource=test.application.conf"
+    "-Dconfig.resource=test.application.conf",
+    "-Dlogger.resource=logback-test.xml"
   )
 )
 
