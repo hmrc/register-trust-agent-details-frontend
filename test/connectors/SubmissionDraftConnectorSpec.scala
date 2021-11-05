@@ -16,12 +16,9 @@
 
 package connectors
 
-import java.time.LocalDateTime
-
 import base.SpecBase
 import com.github.tomakehurst.wiremock.client.WireMock._
 import connector.SubmissionDraftConnector
-import models.Status.InProgress
 import models.{RegistrationSubmission, SubmissionDraftResponse}
 import org.scalatest.{MustMatchers, OptionValues}
 import play.api.Application
@@ -32,6 +29,7 @@ import play.api.test.Helpers.CONTENT_TYPE
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.WireMockHelper
 
+import java.time.LocalDateTime
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -68,9 +66,9 @@ class SubmissionDraftConnectorSpec extends SpecBase with MustMatchers with Optio
 
         val submissionDraftSetData = RegistrationSubmission.DataSet(
           sectionData,
-          Some(InProgress),
           List.empty,
-          List.empty)
+          List.empty
+        )
 
         server.stubFor(
           post(urlEqualTo(setSubmissionUrl))
@@ -117,7 +115,9 @@ class SubmissionDraftConnectorSpec extends SpecBase with MustMatchers with Optio
         )
 
         val result: SubmissionDraftResponse = Await.result(connector.getDraftSection(testDraftId, testSection), Duration.Inf)
+
         result.createdAt mustBe LocalDateTime.of(2012, 2, 3, 9, 30)
+
         result.data mustBe draftData
       }
     }
