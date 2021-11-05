@@ -30,50 +30,36 @@ class SubmissionSetFactory @Inject()(agentMapper: AgentDetailsMapper,
                                      printHelper: AgentDetailsPrintHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
-    val status = Some(Status.Completed) // TODO Do we need to evaluate this at runtime based on UserAnswers?
-
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
-      status = status,
-      registrationPieces = mappedDataIfCompleted(userAnswers, status),
-      answerSections = answerSectionsIfCompleted(userAnswers, status)
+      registrationPieces = mappedDataIfCompleted(userAnswers),
+      answerSections = answerSectionsIfCompleted(userAnswers)
     )
   }
 
   private def mappedPieces(agentJson: JsValue) =
     List(RegistrationSubmission.MappedPiece("agentDetails", agentJson))
 
-  private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
-    if (status.contains(Status.Completed)) {
-      agentMapper.build(userAnswers) match {
-        case Some(agent) =>
-          mappedPieces(Json.toJson(agent))
-        case _ =>
-          mappedPieces(JsNull)
-      }
-    } else {
-      mappedPieces(JsNull)
+  private def mappedDataIfCompleted(userAnswers: UserAnswers): List[RegistrationSubmission.MappedPiece] = {
+    agentMapper.build(userAnswers) match {
+      case Some(agent) =>
+        mappedPieces(Json.toJson(agent))
+      case _ =>
+        mappedPieces(JsNull)
     }
   }
 
-  def answerSectionsIfCompleted(userAnswers: UserAnswers, status: Option[Status])
+  def answerSectionsIfCompleted(userAnswers: UserAnswers)
                                (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
+    val name = userAnswers.get(AgentNamePage).getOrElse("")
 
-    if (status.contains(Status.Completed)) {
+    val section = printHelper.printSection(
+      userAnswers,
+      name,
+      userAnswers.draftId
+    )
 
-      val name = userAnswers.get(AgentNamePage).getOrElse("")
-
-      val section = printHelper.printSection(
-        userAnswers,
-        name,
-        userAnswers.draftId
-      )
-
-      convertForSubmission(section) :: Nil
-
-    } else {
-      List.empty
-    }
+    convertForSubmission(section) :: Nil
   }
 
   private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {

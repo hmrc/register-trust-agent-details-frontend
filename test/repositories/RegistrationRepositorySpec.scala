@@ -19,7 +19,6 @@ package repositories
 import base.SpecBase
 import config.FrontendAppConfig
 import connector.SubmissionDraftConnector
-import models.Status.InProgress
 import models._
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{verify, when}
@@ -65,6 +64,7 @@ class RegistrationRepositorySpec extends SpecBase with MustMatchers with Mockito
         result mustBe Some(userAnswers)
         verify(mockConnector).getDraftSection(draftId, appConfig.repositoryKey)(hc, executionContext)
       }
+      
       "read answers from main section" in {
         implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
@@ -99,6 +99,7 @@ class RegistrationRepositorySpec extends SpecBase with MustMatchers with Mockito
     }
 
     "setting user answers" must {
+
       "write answers to my section" in {
         implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
@@ -110,7 +111,6 @@ class RegistrationRepositorySpec extends SpecBase with MustMatchers with Mockito
 
         val submissionSet = RegistrationSubmission.DataSet(
           Json.obj(),
-          Some(InProgress),
           List.empty,
           List.empty
         )
@@ -125,6 +125,7 @@ class RegistrationRepositorySpec extends SpecBase with MustMatchers with Mockito
         val result = Await.result(repository.set(userAnswers), Duration.Inf)
 
         result mustBe true
+
         verify(mockConnector).setDraftSectionSet(draftId, appConfig.repositoryKey, submissionSet)(hc, executionContext)
       }
     }

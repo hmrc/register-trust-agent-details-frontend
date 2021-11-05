@@ -16,16 +16,13 @@
 
 package mapping
 
-import mapping.models.AgentDetails
 import _root_.models._
+import mapping.models.AgentDetails
 import pages._
-import play.api.Logger
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.{JsError, JsSuccess, Reads}
 
 class AgentDetailsMapper {
-
-  private val logger = Logger(getClass)
 
   private def readAddress: Reads[Address] = {
     AgentAddressUKYesNoPage.path.read[Boolean].flatMap[Address] {
@@ -47,8 +44,7 @@ class AgentDetailsMapper {
     answers.data.validate[AgentDetails](readFromUserAnswers) match {
       case JsSuccess(value, _) =>
         Some(value)
-      case JsError(errors) =>
-        logger.error(s"Failed to rehydrate Agent from UserAnswers due to $errors")
+      case JsError(_) =>
         None
     }
   }
