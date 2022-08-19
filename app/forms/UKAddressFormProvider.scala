@@ -54,11 +54,12 @@ class UKAddressFormProvider @Inject() extends Mappings {
             ))).transform(emptyToNone, identity[Option[String]]),
       "line4" ->
         optional(Forms.text
+          .transform(trimWhitespace, identity[String])
           .verifying(
             firstError(
               maxLength(35, "ukAddress.error.line4.length"),
               regexp(Validation.addressLineRegex, "ukAddress.error.line4.invalidCharacters")
-            ))),
+            ))).transform(emptyToNone, identity[Option[String]]),
 
       "postcode" ->
         postcode()
