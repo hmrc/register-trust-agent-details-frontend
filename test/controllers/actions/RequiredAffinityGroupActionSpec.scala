@@ -20,7 +20,7 @@ import base.SpecBase
 import models.requests.IdentifierRequest
 import org.scalatest.EitherValues
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.MockitoSugar
 import play.api.http.HeaderNames
 import play.api.mvc.Result
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolment, Enrolments}

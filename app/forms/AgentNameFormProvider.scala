@@ -22,10 +22,12 @@ import play.api.data.Form
 
 class AgentNameFormProvider @Inject() extends Mappings {
 
+  private val maximumLength = 56
+
   def apply(): Form[String] =
     Form(
       "value" -> text("agentName.error.required")
-        .verifying(maxLength(56, "agentName.error.length"),
+        .verifying(maxLength(maximumLength, "agentName.error.length"),
           isNotEmpty("value", "agentName.error.required"),
           regexp(Validation.nameRegex, "agentName.error.invalidFormat"))
     )
