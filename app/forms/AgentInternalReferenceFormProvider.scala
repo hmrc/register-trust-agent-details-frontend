@@ -22,12 +22,14 @@ import play.api.data.Form
 
 class AgentInternalReferenceFormProvider @Inject() extends Mappings {
 
+  private val maximumLength = 56
+
   def apply(): Form[String] =
     Form(
       "value" -> text("agentInternalReference.error.required")
         .verifying(
           firstError(
-            maxLength(56, "agentInternalReference.error.length"),
+            maxLength(maximumLength, "agentInternalReference.error.length"),
             isNotEmpty("value", "agentInternalReference.error.required"),
             regexp(Validation.clientRefRegex, "agentInternalReference.error.invalidFormat")))
     )

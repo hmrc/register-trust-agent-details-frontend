@@ -17,20 +17,19 @@
 package mapping
 
 import _root_.models._
-import base.SpecBaseHelpers
+import base.{SpecBase, SpecBaseHelpers}
 import generators.Generators
 import mapping.models.AgentDetails
-import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
+import org.scalatest.OptionValues
 import pages._
 
-class AgentMapperSpec extends FreeSpec with MustMatchers
-  with OptionValues with Generators with SpecBaseHelpers {
+class AgentMapperSpec extends SpecBase with OptionValues with Generators with SpecBaseHelpers {
 
   final private val agentMapper: AgentDetailsMapper = new AgentDetailsMapper()
 
-  "AgentMapper" - {
+  "AgentMapper" must {
 
-      "when user answers is empty" - {
+      "when user answers is empty" must {
         "must not be able to create AgentDetails" in {
 
           val userAnswers = emptyUserAnswers
@@ -39,7 +38,7 @@ class AgentMapperSpec extends FreeSpec with MustMatchers
         }
       }
 
-      "when user answers is not empty " - {
+      "when user answers is not empty " must {
 
         "must able to create AgentDetails for a UK address" in {
 

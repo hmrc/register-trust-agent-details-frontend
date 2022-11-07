@@ -20,7 +20,7 @@ import base.SpecBase
 import com.github.tomakehurst.wiremock.client.WireMock._
 import connector.SubmissionDraftConnector
 import models.{RegistrationSubmission, SubmissionDraftResponse}
-import org.scalatest.{MustMatchers, OptionValues}
+import org.scalatest.OptionValues
 import play.api.Application
 import play.api.http.Status
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -33,7 +33,7 @@ import java.time.LocalDateTime
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-class SubmissionDraftConnectorSpec extends SpecBase with MustMatchers with OptionValues with WireMockHelper {
+class SubmissionDraftConnectorSpec extends SpecBase with OptionValues with WireMockHelper {
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
   override lazy val app: Application = new GuiceApplicationBuilder()
