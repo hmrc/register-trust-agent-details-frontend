@@ -1,9 +1,9 @@
 import sbt.Keys._
-import sbt.{CrossVersion, compilerPlugin, _}
+import sbt.{CrossVersion, Def, compilerPlugin, _}
 
 object SilencerSettings {
   // stop "unused import" warnings from routes files
-  def apply() = Seq(
+  def apply(): Seq[Def.Setting[_ >: Seq[ModuleID] with Task[Seq[String]] <: Equals]] = Seq(
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.12" cross CrossVersion.full),
       "com.github.ghik" % "silencer-lib" % "1.7.12" % Provided cross CrossVersion.full
