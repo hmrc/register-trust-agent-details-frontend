@@ -11,7 +11,7 @@ object AppDependencies {
     "uk.gov.hmrc"         %% "domain"                         % "8.0.0-play-28",
     "uk.gov.hmrc"         %% "bootstrap-frontend-play-28"     % "5.24.0",
     "com.typesafe.play"   %% "play-json-joda"                 % "2.7.4",
-    "org.typelevel"       %% "cats-core"                      % "2.0.0",
+    "org.typelevel"       %% "cats-core"                      % "2.9.0",
     "uk.gov.hmrc"         %% "tax-year"                       % "1.1.0"
   )
 
@@ -32,7 +32,7 @@ object AppDependencies {
   val akkaVersion = "2.6.7"
   val akkaHttpVersion = "10.1.12"
 
-  val overrides = Seq(
+  val overrides: Seq[ModuleID] = Seq(
     "com.typesafe.akka" %% "akka-stream_2.12" % akkaVersion,
     "com.typesafe.akka" %% "akka-protobuf_2.12" % akkaVersion,
     "com.typesafe.akka" %% "akka-slf4j_2.12" % akkaVersion,
