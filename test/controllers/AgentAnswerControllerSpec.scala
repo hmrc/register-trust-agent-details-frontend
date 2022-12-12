@@ -18,8 +18,7 @@ package controllers
 
 import base.SpecBase
 import models.{InternationalAddress, UKAddress, UserAnswers}
-import org.mockito.Matchers.{any, eq => eqTo}
-import org.mockito.Mockito.verify
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import pages._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

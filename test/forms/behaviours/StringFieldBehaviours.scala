@@ -37,7 +37,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
       forAll(stringsWithMaxLength(length) -> "shortString") {
         string =>
           val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors shouldEqual Seq(lengthError)
+          result.errors mustEqual Seq(lengthError)
       }
     }
 
@@ -54,7 +54,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
       forAll(stringsLongerThan(maxLength) -> "longString") {
         string =>
           val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-          result.errors shouldEqual Seq(lengthError)
+          result.errors mustEqual Seq(lengthError)
       }
     }
   }
@@ -70,7 +70,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
         string =>
           whenever(!string.matches(regexp) && string.nonEmpty) {
             val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-            result.errors shouldEqual Seq(error)
+            result.errors mustEqual Seq(error)
           }
       }
     }
@@ -83,7 +83,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
     "not bind spaces" in {
 
       val result = form.bind(Map(fieldName -> "    ")).apply(fieldName)
-      result.errors shouldBe Seq(requiredError)
+      result.errors mustBe Seq(requiredError)
     }
   }
 
@@ -97,7 +97,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
         string =>
           whenever(!Nino.isValid(string)) {
             val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-            result.errors shouldEqual Seq(requiredError)
+            result.errors mustEqual Seq(requiredError)
           }
       }
     }
@@ -113,7 +113,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
         string =>
           whenever(!TelephoneNumber.isValid(string)) {
             val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-            result.errors shouldEqual Seq(requiredError)
+            result.errors mustEqual Seq(requiredError)
           }
       }
     }

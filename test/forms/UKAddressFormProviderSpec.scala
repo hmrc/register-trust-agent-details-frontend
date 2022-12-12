@@ -155,6 +155,7 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
     "bind whitespace blank values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  ", "postcode" -> "AB12CD"))
       result.value.value.line4 shouldBe None
+      result.value.value.line4 mustBe None
     }
 
     "bind whitespace no values" in {

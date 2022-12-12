@@ -5,26 +5,25 @@ object AppDependencies {
 
   val compile: Seq[ModuleID] = Seq(
     play.sbt.PlayImport.ws,
-    "org.reactivemongo"   %% "play2-reactivemongo"            % "0.20.13-play28",
     "uk.gov.hmrc"         %% "play-frontend-hmrc"             % "3.6.0-play-28",
-    "uk.gov.hmrc"         %% "play-conditional-form-mapping"  % "1.11.0-play-28",
-    "uk.gov.hmrc"         %% "domain"                         % "8.0.0-play-28",
-    "uk.gov.hmrc"         %% "bootstrap-frontend-play-28"     % "5.24.0",
-    "com.typesafe.play"   %% "play-json-joda"                 % "2.7.4",
-    "org.typelevel"       %% "cats-core"                      % "2.9.0",
-    "uk.gov.hmrc"         %% "tax-year"                       % "1.1.0"
+    "uk.gov.hmrc"         %% "play-conditional-form-mapping"  % "1.12.0-play-28",
+    "uk.gov.hmrc"         %% "domain"                         % "8.1.0-play-28",
+    "uk.gov.hmrc"         %% "bootstrap-frontend-play-28"     % "7.8.0",
+    "org.typelevel"       %% "cats-core"                      % "2.8.0",
+    "uk.gov.hmrc"         %% "tax-year"                       % "3.0.0"
   )
 
   val test: Seq[ModuleID] = Seq(
-    "org.pegdown"              % "pegdown"                % "1.6.0",
-    "org.scalatest"           %% "scalatest"              % "3.0.9",
-    "org.scalatestplus.play"  %% "scalatestplus-play"     % "5.0.0",
-    "org.jsoup"                % "jsoup"                  % "1.12.1",
-    "com.typesafe.play"       %% "play-test"              % PlayVersion.current,
-    "org.mockito"              % "mockito-all"            % "1.10.19",
-    "org.scalacheck"          %% "scalacheck"             % "1.14.3",
-    "wolfendale"              %% "scalacheck-gen-regexp"  % "0.1.2",
-    "com.github.tomakehurst"   % "wiremock-standalone"    % "2.27.2"
+    "org.scalatest"           %% "scalatest"                % "3.2.14",
+    "org.scalatestplus.play"  %% "scalatestplus-play"       % "5.1.0",
+    "org.scalatestplus"       %% "scalatestplus-scalacheck" % "3.1.0.0-RC2",
+    "org.jsoup"                % "jsoup"                    % "1.15.3",
+    "com.typesafe.play"       %% "play-test"                % PlayVersion.current,
+    "org.mockito"             %% "mockito-scala-scalatest"  % "1.17.12",
+    "org.scalacheck"          %% "scalacheck"               % "1.17.0",
+    "com.github.tomakehurst"   % "wiremock-standalone"      % "2.27.2",
+    "wolfendale"              %% "scalacheck-gen-regexp"    % "0.1.2",
+    "com.vladsch.flexmark"     % "flexmark-all"             % "0.62.2"
   ).map(_ % "test")
 
   def apply(): Seq[ModuleID] = compile ++ test

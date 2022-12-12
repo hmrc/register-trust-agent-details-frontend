@@ -20,10 +20,8 @@ import base.SpecBase
 import config.FrontendAppConfig
 import connector.SubmissionDraftConnector
 import models._
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{verify, when}
-import org.scalatest.MustMatchers
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.ArgumentMatchers.any
+import org.mockito.MockitoSugar
 import play.api.http
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
@@ -32,7 +30,7 @@ import java.time.LocalDateTime
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-class RegistrationRepositorySpec extends SpecBase with MustMatchers with MockitoSugar {
+class RegistrationRepositorySpec extends SpecBase with MockitoSugar {
 
   private val unusedSubmissionSetFactory = mock[SubmissionSetFactory]
 
@@ -43,7 +41,9 @@ class RegistrationRepositorySpec extends SpecBase with MustMatchers with Mockito
   }
 
   "RegistrationRepository" when {
+
     "getting user answers" must {
+
       "read answers from my section" in {
         implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
@@ -64,7 +64,7 @@ class RegistrationRepositorySpec extends SpecBase with MustMatchers with Mockito
         result mustBe Some(userAnswers)
         verify(mockConnector).getDraftSection(draftId, appConfig.repositoryKey)(hc, executionContext)
       }
-      
+
       "read answers from main section" in {
         implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 

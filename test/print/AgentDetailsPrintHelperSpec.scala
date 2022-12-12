@@ -18,19 +18,17 @@ package print
 
 import base.SpecBaseHelpers
 import models.{InternationalAddress, UKAddress}
-import org.scalatest.FreeSpec
-import org.scalatest.MustMatchers.convertToAnyMustWrapper
 import pages._
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
 
-class AgentDetailsPrintHelperSpec extends FreeSpec with SpecBaseHelpers {
+class AgentDetailsPrintHelperSpec extends SpecBaseHelpers {
 
   private val helper = injector.instanceOf[AgentDetailsPrintHelper]
 
   private val agentName = "Agency Ltd"
 
-  "Agent details printer" - {
+  "Agent details printer" must {
 
     "print section for UK based agent" in {
 

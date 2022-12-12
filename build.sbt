@@ -11,7 +11,7 @@ lazy val root = (project in file("."))
     DefaultBuildSettings.scalaSettings,
     DefaultBuildSettings.defaultSettings(),
     SbtDistributablesPlugin.publishingSettings,
-    scalaVersion := "2.12.12",
+    scalaVersion := "2.12.15",
     SilencerSettings(),
     Compile / unmanagedSourceDirectories += baseDirectory.value / "resources",
   )
@@ -35,8 +35,8 @@ lazy val root = (project in file("."))
     PlayKeys.playDefaultPort := 8847,
     ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;" +
       ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
-      ".*ControllerConfiguration;.*LanguageSwitchController;.*models.*;.*views.html.*;.*config.Service;.*repositories.*;.*actions.*;",
-    ScoverageKeys.coverageMinimum := 80,
+      ".*ControllerConfiguration;.*LanguageSwitchController;.*models.*;.*views.html.*;.*config.Service;.*actions.*;",
+    ScoverageKeys.coverageMinimumStmtTotal := 90,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq("-feature"),
@@ -91,4 +91,4 @@ lazy val itSettings = Defaults.itSettings ++ Seq(
   )
 )
 
-dependencyOverrides ++= AppDependencies.overrides
+addCommandAlias("scalastyleAll", "all scalastyle test:scalastyle")
