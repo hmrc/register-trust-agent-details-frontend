@@ -21,13 +21,17 @@ import play.api.Configuration
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
 class FrontendAppConfig @Inject()(val configuration: Configuration,
-                                  contactFrontendConfig: ContactFrontendConfig) {
+                                  contactFrontendConfig: ContactFrontendConfig,
+                                  servicesConfig: ServicesConfig) {
 
   private final val ENGLISH = "en"
   private final val WELSH = "cy"
+
+  val appName: String = configuration.get[String]("appName")
 
   val repositoryKey: String = "agent-details"
 
@@ -82,4 +86,10 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
     }
     configuration.get[String](path)
   }
+
+  lazy val registrationContinueKey: String          = servicesConfig.getString("urls.registration")
+  lazy val LoginContinueUrl: String                 = servicesConfig.getString("urls.LoginContinue")
+  lazy val loginContinueKey: String                 = servicesConfig.getString("urls.continue")
+
+  lazy val serviceName: String = servicesConfig.getString("appName")
 }
