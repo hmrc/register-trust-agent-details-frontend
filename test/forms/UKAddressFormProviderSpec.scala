@@ -114,29 +114,17 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
 
     "bind whitespace trim values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  line3  ", "line4" -> "line4", "postcode" -> "AB12CD"))
-<<<<<<< HEAD
       result.value.value.line3 mustBe Some("line3")
-=======
-      result.value.value.line3 shouldBe Some("line3")
->>>>>>> 65a7454 ([DDCE-3247] Added tests for whitespace changes)
     }
 
     "bind whitespace blank values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "  ", "line4" -> "line4", "postcode" -> "AB12CD"))
-<<<<<<< HEAD
       result.value.value.line3 mustBe None
-=======
-      result.value.value.line3 shouldBe None
->>>>>>> 65a7454 ([DDCE-3247] Added tests for whitespace changes)
     }
 
     "bind whitespace no values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "", "line4" -> "line4", "postcode" -> "AB12CD"))
-<<<<<<< HEAD
       result.value.value.line3 mustBe None
-=======
-      result.value.value.line3 shouldBe None
->>>>>>> 65a7454 ([DDCE-3247] Added tests for whitespace changes)
     }
   }
 
@@ -161,29 +149,17 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
 
     "bind whitespace trim values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  line4  ", "postcode" -> "AB12CD"))
-<<<<<<< HEAD
       result.value.value.line4 mustBe Some("line4")
-=======
-      result.value.value.line4 shouldBe Some("line4")
->>>>>>> 65a7454 ([DDCE-3247] Added tests for whitespace changes)
     }
 
     "bind whitespace blank values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "  ", "postcode" -> "AB12CD"))
-<<<<<<< HEAD
       result.value.value.line4 mustBe None
-=======
-      result.value.value.line4 shouldBe None
->>>>>>> 65a7454 ([DDCE-3247] Added tests for whitespace changes)
     }
 
     "bind whitespace no values" in {
       val result = form.bind(Map("line1" -> "line1", "line2" -> "line2", "line3" -> "line3", "line4" -> "", "postcode" -> "AB12CD"))
-<<<<<<< HEAD
       result.value.value.line4 mustBe None
-=======
-      result.value.value.line4 shouldBe None
->>>>>>> 65a7454 ([DDCE-3247] Added tests for whitespace changes)
     }
   }
 
