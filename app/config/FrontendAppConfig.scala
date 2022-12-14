@@ -31,6 +31,8 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
 
   val repositoryKey: String = "agent-details"
 
+  lazy val appName: String = configuration.get[String]("appName")
+
   private def loadConfig(key: String) = configuration.get[String](key)
 
   val analyticsToken: String = configuration.get[String](s"google-analytics.token")
@@ -39,6 +41,8 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
 
   lazy val loginUrl: String = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
+  lazy val loginContinueKey: String = configuration.get[String]("urls.continue")
+  lazy val incorrectDetailsLoginContinueUrl: String =  configuration.get[String]("urls.incorrectDetailsLoginContinue")
   lazy val logoutUrl: String = loadConfig("urls.logout")
 
   lazy val registrationProgressUrlTemplate: String =
@@ -58,7 +62,7 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
   lazy val languageTranslationEnabled: Boolean =
     configuration.get[Boolean]("features.welsh-translation")
 
-  lazy val trustsUrl = configuration.get[Service]("microservice.services.trusts").baseUrl
+  lazy val trustsUrl: String = configuration.get[Service]("microservice.services.trusts").baseUrl
 
   lazy val authUrl = configuration.get[Service]("microservice.services.auth").baseUrl
 

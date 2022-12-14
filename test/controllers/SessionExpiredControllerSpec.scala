@@ -42,5 +42,20 @@ class SessionExpiredControllerSpec extends SpecBase {
 
       application.stop()
     }
+
+    "redirect to next page for a POST" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(POST, controllers.routes.SessionExpiredController.onPageLoad().url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustBe "http://localhost:9949/auth-login-stub/gg-sign-in?continue=" +
+        "http%3A%2F%2Flocalhost%3A9781%2Ftrusts-registration&origin=register-trust-agent-details-frontend"
+      application.stop()
+
+    }
   }
 }

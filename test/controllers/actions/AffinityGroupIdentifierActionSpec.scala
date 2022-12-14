@@ -141,7 +141,9 @@ class AffinityGroupIdentifierActionSpec extends SpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result).get must startWith(appConfig.loginUrl)
+        redirectLocation(result).get mustBe
+          s"http://localhost:9949/auth-login-stub/gg-sign-in" +
+            s"?continue=http%3A%2F%2Flocalhost%3A9781%2Ftrusts-registration&origin=register-trust-agent-details-frontend"
         application.stop()
       }
     }
@@ -157,7 +159,9 @@ class AffinityGroupIdentifierActionSpec extends SpecBase {
 
         status(result) mustBe SEE_OTHER
 
-        redirectLocation(result).get must startWith(appConfig.loginUrl)
+        redirectLocation(result).get mustBe
+          s"http://localhost:9949/auth-login-stub/gg-sign-in" +
+            s"?continue=http%3A%2F%2Flocalhost%3A9781%2Ftrusts-registration&origin=register-trust-agent-details-frontend"
         application.stop()
       }
     }

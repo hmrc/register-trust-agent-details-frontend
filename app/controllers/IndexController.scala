@@ -16,7 +16,9 @@
 
 package controllers
 
+import config.FrontendAppConfig
 import controllers.actions.register.RegistrationIdentifierAction
+
 import javax.inject.Inject
 import logging.Session
 import models.UserAnswers
@@ -35,7 +37,7 @@ class IndexController @Inject()(
                                  identify: RegistrationIdentifierAction,
                                  repository: RegistrationsRepository,
                                  val controllerComponents: MessagesControllerComponents
-                               ) extends FrontendBaseController with I18nSupport with Logging {
+                               ) (appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport with Logging {
 
   implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
