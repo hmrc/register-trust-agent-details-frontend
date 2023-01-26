@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import play.api.mvc.{ActionFilter, Result}
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.play.http.HeaderCarrierConverter
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 sealed trait RequiredAgentAction extends ActionFilter[IdentifierRequest]
@@ -43,7 +42,7 @@ class RequiredAgentAffinityGroupAction @Inject()(implicit val executionContext: 
   }
 }
 
-class RequireStateActionProviderImpl @Inject()(ec: ExecutionContext) extends RequiredAgentAffinityGroupActionProvider {
+class RequireStateActionProviderImpl @Inject()(implicit val executionContext: ExecutionContext) extends RequiredAgentAffinityGroupActionProvider {
   override def apply() = new RequiredAgentAffinityGroupAction()
 }
 
