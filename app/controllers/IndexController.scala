@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,31 +16,25 @@
 
 package controllers
 
-import config.FrontendAppConfig
 import controllers.actions.register.RegistrationIdentifierAction
-
-import javax.inject.Inject
 import logging.Session
 import models.UserAnswers
 import pages.AgentTelephoneNumberPage
 import play.api.Logging
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, Result}
+import play.api.mvc._
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class IndexController @Inject()(
-                                 identify: RegistrationIdentifierAction,
-                                 repository: RegistrationsRepository,
-                                 val controllerComponents: MessagesControllerComponents
-                               ) (appConfig: FrontendAppConfig) extends FrontendBaseController with I18nSupport with Logging {
-
-  implicit val executionContext: ExecutionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
+class IndexController @Inject()(identify: RegistrationIdentifierAction,
+                                repository: RegistrationsRepository,
+                                val controllerComponents: MessagesControllerComponents)
+                               (implicit val executionContext: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
 
   private def redirectToCheckAnswers(draftId: String): Call =
     controllers.routes.AgentAnswerController.onPageLoad(draftId)

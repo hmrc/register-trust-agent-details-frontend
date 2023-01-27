@@ -10,14 +10,11 @@ lazy val root = (project in file("."))
   .settings(
     DefaultBuildSettings.scalaSettings,
     DefaultBuildSettings.defaultSettings(),
-    SbtDistributablesPlugin.publishingSettings,
     scalaVersion := "2.12.15",
     SilencerSettings(),
     Compile / unmanagedSourceDirectories += baseDirectory.value / "resources",
   )
   .settings(inConfig(Test)(testSettings))
-  .configs(IntegrationTest)
-  .settings(inConfig(IntegrationTest)(itSettings))
   .settings(
     majorVersion := 0,
     name := appName,
@@ -42,12 +39,6 @@ lazy val root = (project in file("."))
     scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
-    update / evictionWarningOptions :=
-      EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-    resolvers ++= Seq(
-      Resolver.jcenterRepo,
-      "hmrc-artefactory-releases" at "https://artefacts.tax.service.gov.uk/artifactory/hmrc-releases/"
-    ),
     // concatenate js
     Concat.groups := Seq(
       "javascripts/registertrustagentdetailsfrontend-app.js" ->
@@ -73,21 +64,6 @@ lazy val testSettings: Seq[Def.Setting[_]] = Seq(
   javaOptions ++= Seq(
     "-Dconfig.resource=test.application.conf",
     "-Dlogger.resource=logback-test.xml"
-  )
-)
-
-
-lazy val itSettings = Defaults.itSettings ++ Seq(
-  unmanagedSourceDirectories   := Seq(
-    baseDirectory.value / "it"
-  ),
-  unmanagedResourceDirectories := Seq(
-    baseDirectory.value / "it" / "resources"
-  ),
-  parallelExecution            := false,
-  fork                         := true,
-  javaOptions                  ++= Seq(
-    "-Dconfig.resource=it.application.conf"
   )
 )
 
