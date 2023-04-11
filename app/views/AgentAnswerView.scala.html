@@ -34,7 +34,7 @@
     showBackLink = true
 ) {
 
-    @formHelper(action = AgentAnswerController.onSubmit(draftId), 'autoComplete -> "off") {
+    @formHelper(action = AgentAnswerController.onSubmit(draftId), Symbol("autoComplete") -> "off") {
         @heading("agentAnswer.heading")
 
         @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
