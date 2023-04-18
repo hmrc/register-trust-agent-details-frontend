@@ -45,12 +45,12 @@ object UKAddress {
 
   implicit lazy val writes: Writes[UKAddress] = {
     (
-      (__ \ 'line1).write[String] and
-        (__ \ 'line2).write[String] and
-        (__ \ 'line3).writeNullable[String] and
-        (__ \ 'line4).writeNullable[String] and
-        (__ \ 'postCode).write[String] and
-        (__ \ 'country).write[String]
+      (__ \ Symbol("line1")).write[String] and
+        (__ \ Symbol("line2")).write[String] and
+        (__ \ Symbol("line3")).writeNullable[String] and
+        (__ \ Symbol("line4")).writeNullable[String] and
+        (__ \ Symbol("postCode")).write[String] and
+        (__ \ Symbol("country")).write[String]
       ).apply(address => (
       address.line1,
       address.line2,
