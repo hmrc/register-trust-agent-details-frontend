@@ -70,13 +70,13 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     arbitrary[Long] suchThat(x => x < 1L)
 
   def nonNumerics: Gen[String] =
-    alphaStr suchThat(_.length > 0)
+    alphaStr suchThat(_.nonEmpty)
 
   def decimals(maxLength: Option[Int] = None): Gen[String] = {
     val gen = arbitrary[BigDecimal]
       .suchThat(_.abs < Int.MaxValue)
       .suchThat(!_.isValidInt)
-      .map(_.formatted("%f"))
+      .map("%f".format(_))
 
     maxLength match {
       case Some(size) =>
