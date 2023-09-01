@@ -38,7 +38,7 @@ class NavigatorSpec extends SpecBase
         navigator.nextPage(UnknownPage, fakeDraftId, emptyUserAnswers) mustBe controllers.routes.IndexController.onPageLoad(fakeDraftId)
       }
 
-      behave like agentRoutes
+      behave like agentRoutes()
 
     }
 
