@@ -11,11 +11,9 @@ lazy val root = (project in file("."))
     DefaultBuildSettings.scalaSettings,
     DefaultBuildSettings.defaultSettings(),
     scalaVersion := "2.13.12",
-    // To resolve a bug with version 2.x.x of the scoverage plugin - https://github.com/sbt/sbt/issues/6997
-    libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always,
     Compile / unmanagedSourceDirectories += baseDirectory.value / "resources",
     scalacOptions ++= Seq(
-      "-Wconf:src=routes/.*:s",
+      "-Wconf:cat=unused-imports&src=routes/.*:s",
       "-Wconf:cat=unused-imports&src=views/.*:s"
     )
   )
