@@ -17,7 +17,6 @@
 package repositories
 
 import base.SpecBase
-import generators.Generators
 import models.RegistrationSubmission.{AnswerRow, AnswerSection, MappedPiece}
 import models._
 import org.mockito.MockitoSugar
@@ -25,7 +24,7 @@ import pages._
 import play.api.libs.json.{JsNull, JsValue, Json}
 import utils.TestUserAnswers.draftId
 
-class SubmissionSetFactorySpec extends SpecBase with MockitoSugar with Generators {
+class SubmissionSetFactorySpec extends SpecBase with MockitoSugar {
 
   val submissionSetFactory: SubmissionSetFactory = injector.instanceOf[SubmissionSetFactory]
 
