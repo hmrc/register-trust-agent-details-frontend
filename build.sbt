@@ -10,7 +10,7 @@ lazy val root = (project in file("."))
   .settings(
     DefaultBuildSettings.scalaSettings,
     DefaultBuildSettings.defaultSettings(),
-    scalaVersion := "2.13.12",
+    scalaVersion := "2.13.14",
     Compile / unmanagedSourceDirectories += baseDirectory.value / "resources",
     scalacOptions ++= Seq(
       "-Wconf:cat=unused-imports&src=routes/.*:s",
