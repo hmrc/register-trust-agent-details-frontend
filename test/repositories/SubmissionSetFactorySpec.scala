@@ -28,7 +28,7 @@ class SubmissionSetFactorySpec extends SpecBase with MockitoSugar {
 
   val submissionSetFactory: SubmissionSetFactory = injector.instanceOf[SubmissionSetFactory]
 
-  "SubmissionSetFactory" when {
+  "SubmissionSetFactory" should {
 
     "create the expected dataset if no agent details are given" in {
 
