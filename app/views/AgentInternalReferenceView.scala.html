@@ -26,7 +26,7 @@
     submitButton: SubmitButton
 )
 
-@(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], draftId: String)(implicit request: RequestHeader, messages: Messages)
 
 @optionalHtmlContent = {<p>@messages("agentInternalReference.paragraph1")</p>}
 
