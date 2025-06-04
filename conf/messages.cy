@@ -1,4 +1,4 @@
-service.name=Cofrestru Ymddiriedolaeth a’i Chynnal
+service.name=Cofrestru ymddiriedolaeth
 
 site.address.country.select=Dewiswch wlad
 agentAddressUKYesNo.checkYourAnswersLabel=A yw cyfeiriad {0} yn y DU?
