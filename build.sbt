@@ -1,6 +1,5 @@
 import play.sbt.routes.RoutesKeys
 import scoverage.ScoverageKeys
-import uk.gov.hmrc.DefaultBuildSettings
 
 val appName = "register-trust-agent-details-frontend"
 
@@ -8,8 +7,6 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin, SbtSassify)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
-    DefaultBuildSettings.scalaSettings,
-    DefaultBuildSettings.defaultSettings(),
     scalaVersion := "2.13.16",
     Compile / unmanagedSourceDirectories += baseDirectory.value / "resources",
     scalacOptions ++= Seq(
