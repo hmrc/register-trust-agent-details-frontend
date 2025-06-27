@@ -18,7 +18,8 @@ package base
 
 import models.ReadOnlyUserAnswers
 import org.mockito.ArgumentMatchers.any
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.Json
 import repositories.RegistrationsRepository
 import utils.TestUserAnswers

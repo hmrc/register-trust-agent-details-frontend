@@ -19,7 +19,7 @@ package repositories
 import base.SpecBase
 import models.RegistrationSubmission.{AnswerRow, AnswerSection, MappedPiece}
 import models._
-import org.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import pages._
 import play.api.libs.json.{JsNull, JsValue, Json}
 import utils.TestUserAnswers.draftId
