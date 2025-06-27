@@ -21,7 +21,8 @@ import config.FrontendAppConfig
 import connector.SubmissionDraftConnector
 import models._
 import org.mockito.ArgumentMatchers.any
-import org.mockito.MockitoSugar
+import org.mockito.Mockito._
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.http
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
