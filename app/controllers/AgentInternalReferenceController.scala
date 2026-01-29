@@ -30,45 +30,42 @@ import views.html.AgentInternalReferenceView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AgentInternalReferenceController @Inject()(
-                                                  override val messagesApi: MessagesApi,
-                                                  registrationsRepository: RegistrationsRepository,
-                                                  navigator: Navigator,
-                                                  formProvider: AgentInternalReferenceFormProvider,
-                                                  actionSet: AgentActionSets,
-                                                  val controllerComponents: MessagesControllerComponents,
-                                                  view: AgentInternalReferenceView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AgentInternalReferenceController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  navigator: Navigator,
+  formProvider: AgentInternalReferenceFormProvider,
+  actionSet: AgentActionSets,
+  val controllerComponents: MessagesControllerComponents,
+  view: AgentInternalReferenceView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
-  def actions(draftId: String)= actionSet.identifiedUserWithData(draftId)
+  def actions(draftId: String) = actionSet.identifiedUserWithData(draftId)
 
   val form = formProvider()
 
-  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
-    implicit request =>
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(AgentInternalReferencePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AgentInternalReferencePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId))
+    Ok(view(preparedForm, draftId))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId))),
-
-        value => {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId))),
+        value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentInternalReferencePage, value))
+            updatedAnswers        <- Future.fromTry(request.userAnswers.set(AgentInternalReferencePage, value))
             updatedAnswersWithARN <- Future.fromTry(updatedAnswers.set(AgentARNPage, request.agentARN.getOrElse("")))
-            _              <- registrationsRepository.set(updatedAnswersWithARN)
+            _                     <- registrationsRepository.set(updatedAnswersWithARN)
           } yield Redirect(navigator.nextPage(AgentInternalReferencePage, draftId, updatedAnswers))
-        }
       )
   }
+
 }

@@ -32,9 +32,9 @@ import scala.concurrent.Future
 
 class AgentTelephoneNumberControllerSpec extends SpecBase {
 
-  val formProvider = new AgentTelephoneNumberFormProvider()
+  val formProvider       = new AgentTelephoneNumberFormProvider()
   val form: Form[String] = formProvider()
-  val agencyName = "FirstName LastName"
+  val agencyName         = "FirstName LastName"
 
   lazy val agentTelephoneNumberRoute: String = routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId).url
 
@@ -43,7 +43,9 @@ class AgentTelephoneNumberControllerSpec extends SpecBase {
     "return OK and the correct view for a GET" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentNamePage, "FirstName LastName").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -64,8 +66,12 @@ class AgentTelephoneNumberControllerSpec extends SpecBase {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentNamePage, "FirstName LastName").success.value
-        .set(AgentTelephoneNumberPage, "answer").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
+        .set(AgentTelephoneNumberPage, "answer")
+        .success
+        .value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -86,7 +92,9 @@ class AgentTelephoneNumberControllerSpec extends SpecBase {
     "redirect to AgentName page when AgentName is not answered" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentTelephoneNumberPage, "answer").success.value
+        .set(AgentTelephoneNumberPage, "answer")
+        .success
+        .value
 
       val application: Application =
         applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent)
@@ -108,8 +116,12 @@ class AgentTelephoneNumberControllerSpec extends SpecBase {
     "redirect to the next page when valid data is submitted" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentNamePage, "FirstName LastName").success.value
-        .set(AgentTelephoneNumberPage, "answer").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
+        .set(AgentTelephoneNumberPage, "answer")
+        .success
+        .value
 
       val application: Application =
         applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent)
@@ -130,8 +142,12 @@ class AgentTelephoneNumberControllerSpec extends SpecBase {
     "return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(AgentNamePage, "FirstName LastName").success.value
-        .set(AgentTelephoneNumberPage, "answer").success.value
+        .set(AgentNamePage, "FirstName LastName")
+        .success
+        .value
+        .set(AgentTelephoneNumberPage, "answer")
+        .success
+        .value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -185,4 +201,5 @@ class AgentTelephoneNumberControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

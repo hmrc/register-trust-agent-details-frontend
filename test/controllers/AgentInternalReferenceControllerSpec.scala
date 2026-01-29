@@ -27,7 +27,7 @@ import views.html.AgentInternalReferenceView
 class AgentInternalReferenceControllerSpec extends SpecBase {
 
   val formProvider = new AgentInternalReferenceFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val agentInternalReferenceRoute = routes.AgentInternalReferenceController.onPageLoad(fakeDraftId).url
 
@@ -46,7 +46,7 @@ class AgentInternalReferenceControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form,fakeDraftId)(request, messages).toString
+        view(form, fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -66,7 +66,7 @@ class AgentInternalReferenceControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"),fakeDraftId)(request, messages).toString
+        view(form.fill("answer"), fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -142,4 +142,5 @@ class AgentInternalReferenceControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

@@ -26,7 +26,6 @@ import play.api.data.validation.{Invalid, Valid}
 
 class ConstraintsSpec extends SpecBase with ScalaCheckPropertyChecks with Generators with Constraints {
 
-
   "firstError" must {
 
     "return Valid when all constraints pass" in {
@@ -105,7 +104,7 @@ class ConstraintsSpec extends SpecBase with ScalaCheckPropertyChecks with Genera
 
     "return Invalid for a number above the threshold" in {
       val result = inRange(1, 10, "error.range").apply(20)
-      result mustEqual Invalid("error.range", 1,10)
+      result mustEqual Invalid("error.range", 1, 10)
     }
 
     "return Invalid for a number below the threshold" in {
@@ -191,11 +190,10 @@ class ConstraintsSpec extends SpecBase with ScalaCheckPropertyChecks with Genera
         date <- datesBetween(LocalDate.of(2000, 1, 1), max)
       } yield (max, date)
 
-      forAll(gen) {
-        case (max, date) =>
+      forAll(gen) { case (max, date) =>
 
-          val result = maxDate(max, "error.future")(date)
-          result mustEqual Valid
+        val result = maxDate(max, "error.future")(date)
+        result mustEqual Valid
       }
     }
 
@@ -206,11 +204,10 @@ class ConstraintsSpec extends SpecBase with ScalaCheckPropertyChecks with Genera
         date <- datesBetween(max.plusDays(1), LocalDate.of(3000, 1, 2))
       } yield (max, date)
 
-      forAll(gen) {
-        case (max, date) =>
+      forAll(gen) { case (max, date) =>
 
-          val result = maxDate(max, "error.future", "foo")(date)
-          result mustEqual Invalid("error.future", "foo")
+        val result = maxDate(max, "error.future", "foo")(date)
+        result mustEqual Invalid("error.future", "foo")
       }
     }
   }
@@ -224,11 +221,10 @@ class ConstraintsSpec extends SpecBase with ScalaCheckPropertyChecks with Genera
         date <- datesBetween(min, LocalDate.of(3000, 1, 1))
       } yield (min, date)
 
-      forAll(gen) {
-        case (min, date) =>
+      forAll(gen) { case (min, date) =>
 
-          val result = minDate(min, "error.past", "foo")(date)
-          result mustEqual Valid
+        val result = minDate(min, "error.past", "foo")(date)
+        result mustEqual Valid
       }
     }
 
@@ -239,12 +235,12 @@ class ConstraintsSpec extends SpecBase with ScalaCheckPropertyChecks with Genera
         date <- datesBetween(LocalDate.of(2000, 1, 1), min.minusDays(1))
       } yield (min, date)
 
-      forAll(gen) {
-        case (min, date) =>
+      forAll(gen) { case (min, date) =>
 
-          val result = minDate(min, "error.past", "foo")(date)
-          result mustEqual Invalid("error.past", "foo")
+        val result = minDate(min, "error.past", "foo")(date)
+        result mustEqual Invalid("error.past", "foo")
       }
     }
   }
+
 }

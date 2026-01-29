@@ -24,7 +24,8 @@ import play.api.libs.json.{JsValue, Json}
 
 trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
 
-  implicit lazy val arbitraryAgentInternationalAddressUserAnswersEntry: Arbitrary[(AgentInternationalAddressPage.type, JsValue)] =
+  implicit lazy val arbitraryAgentInternationalAddressUserAnswersEntry
+    : Arbitrary[(AgentInternationalAddressPage.type, JsValue)] =
     Arbitrary {
       for {
         page  <- arbitrary[AgentInternationalAddressPage.type]
@@ -56,13 +57,13 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
       } yield (page, value)
     }
 
-  implicit lazy val arbitraryAgentInternalReferenceUserAnswersEntry: Arbitrary[(AgentInternalReferencePage.type, JsValue)] =
+  implicit lazy val arbitraryAgentInternalReferenceUserAnswersEntry
+    : Arbitrary[(AgentInternalReferencePage.type, JsValue)] =
     Arbitrary {
       for {
-        page <- arbitrary[AgentInternalReferencePage.type]
+        page  <- arbitrary[AgentInternalReferencePage.type]
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
-      }
-        yield (page, value)
+      } yield (page, value)
     }
 
   implicit lazy val arbitraryAgentTelephoneNumberUserAnswersEntry: Arbitrary[(AgentTelephoneNumberPage.type, JsValue)] =
@@ -72,4 +73,5 @@ trait UserAnswersEntryGenerators extends PageGenerators with ModelGenerators {
         value <- arbitrary[String].suchThat(_.nonEmpty).map(Json.toJson(_))
       } yield (page, value)
     }
+
 }

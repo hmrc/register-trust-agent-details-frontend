@@ -37,7 +37,6 @@ class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, fakeDraftId, agencyName)(fakeRequest, messages)
 
-
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, agencyName)
 
     behave like pageWithBackLink(applyView(form))
@@ -50,5 +49,5 @@ class AgentUKAddressViewSpec extends UkAddressViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
-}
 
+}

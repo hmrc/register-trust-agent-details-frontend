@@ -30,44 +30,41 @@ import views.html.AgentNameView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AgentNameController @Inject()(
-                                     override val messagesApi: MessagesApi,
-                                     registrationsRepository: RegistrationsRepository,
-                                     navigator: Navigator,
-                                     formProvider: AgentNameFormProvider,
-                                     actionSet: AgentActionSets,
-                                     val controllerComponents: MessagesControllerComponents,
-                                     view: AgentNameView
-                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AgentNameController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  navigator: Navigator,
+  formProvider: AgentNameFormProvider,
+  actionSet: AgentActionSets,
+  val controllerComponents: MessagesControllerComponents,
+  view: AgentNameView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String) = actionSet.identifiedUserWithData(draftId)
 
   val form = formProvider()
 
-  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
-    implicit request =>
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(AgentNamePage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AgentNamePage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId))
+    Ok(view(preparedForm, draftId))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId))),
-
-        value => {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentNamePage, value))
             _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(AgentNamePage, draftId, updatedAnswers))
-        }
       )
   }
+
 }

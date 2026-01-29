@@ -28,8 +28,8 @@ import views.html.AgentUKAddressView
 class AgentUKAddressControllerSpec extends SpecBase {
 
   val formProvider = new UKAddressFormProvider()
-  val form = formProvider()
-  val agencyName = "Hadrian"
+  val form         = formProvider()
+  val agencyName   = "Hadrian"
 
   lazy val agentUKAddressRoute = routes.AgentUKAddressController.onPageLoad(fakeDraftId).url
 
@@ -37,8 +37,7 @@ class AgentUKAddressControllerSpec extends SpecBase {
 
     "return OK and the correct view for a GET" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -59,8 +58,12 @@ class AgentUKAddressControllerSpec extends SpecBase {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = emptyUserAnswers
-        .set(AgentUKAddressPage,  UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")).success.value
-        .set(AgentNamePage, agencyName).success.value
+        .set(AgentUKAddressPage, UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"), "line 5"))
+        .success
+        .value
+        .set(AgentNamePage, agencyName)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -73,22 +76,25 @@ class AgentUKAddressControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"),"line 5")), fakeDraftId,agencyName)(request, messages).toString
+        view(
+          form.fill(UKAddress("line 1", "line 2", Some("line 3"), Some("line 4"), "line 5")),
+          fakeDraftId,
+          agencyName
+        )(request, messages).toString
 
       application.stop()
     }
 
     "redirect to the next page when valid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
       val request =
         FakeRequest(POST, agentUKAddressRoute)
-          .withFormUrlEncodedBody(("line1", "value 1"), ("line2", "value 2"),("postcode", "NE1 1ZZ"))
+          .withFormUrlEncodedBody(("line1", "value 1"), ("line2", "value 2"), ("postcode", "NE1 1ZZ"))
 
       val result = route(application, request).value
 
@@ -101,8 +107,7 @@ class AgentUKAddressControllerSpec extends SpecBase {
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -185,4 +190,5 @@ class AgentUKAddressControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

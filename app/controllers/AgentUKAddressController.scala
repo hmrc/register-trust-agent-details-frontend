@@ -30,49 +30,49 @@ import views.html.AgentUKAddressView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AgentUKAddressController @Inject()(
-                                          override val messagesApi: MessagesApi,
-                                          registrationsRepository: RegistrationsRepository,
-                                          navigator: Navigator,
-                                          formProvider: UKAddressFormProvider,
-                                          actionSet: AgentActionSets,
-                                          val controllerComponents: MessagesControllerComponents,
-                                          view: AgentUKAddressView
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AgentUKAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  navigator: Navigator,
+  formProvider: UKAddressFormProvider,
+  actionSet: AgentActionSets,
+  val controllerComponents: MessagesControllerComponents,
+  view: AgentUKAddressView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
   private def actions(draftId: String) =
-    actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
+    actionSet.requiredAnswerWithAgent(
+      draftId,
+      RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId))
+    )
 
-  def onPageLoad(draftId : String): Action[AnyContent] = actions(draftId) {
-    implicit request =>
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
+    val agencyName = request.userAnswers.get(AgentNamePage).get
 
-      val agencyName = request.userAnswers.get(AgentNamePage).get
+    val preparedForm = request.userAnswers.get(AgentUKAddressPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AgentUKAddressPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, agencyName))
+    Ok(view(preparedForm, draftId, agencyName))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    val agencyName = request.userAnswers.get(AgentNamePage).get
 
-      val agencyName = request.userAnswers.get(AgentNamePage).get
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, agencyName))),
-
-        value => {
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, agencyName))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentUKAddressPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(AgentUKAddressPage, draftId, updatedAnswers))
-        }
       )
   }
+
 }

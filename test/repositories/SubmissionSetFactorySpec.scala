@@ -55,12 +55,24 @@ class SubmissionSetFactorySpec extends SpecBase with MockitoSugar {
       val result: RegistrationSubmission.DataSet =
         submissionSetFactory.createFrom(
           UserAnswers(draftId = draftId, data = Json.obj(), internalAuthId = "internalAuthId")
-            .set(AgentARNPage, "SARN123456").success.value
-            .set(AgentNamePage, "Agency Name").success.value
-            .set(AgentUKAddressPage, UKAddress("71 North Road", "Magical", Some("Earth"), Some("Land"), "SK137AX")).success.value
-            .set(AgentTelephoneNumberPage, "12345668984").success.value
-            .set(AgentInternalReferencePage, "testInternalRef").success.value
-            .set(AgentAddressUKYesNoPage, true).success.value
+            .set(AgentARNPage, "SARN123456")
+            .success
+            .value
+            .set(AgentNamePage, "Agency Name")
+            .success
+            .value
+            .set(AgentUKAddressPage, UKAddress("71 North Road", "Magical", Some("Earth"), Some("Land"), "SK137AX"))
+            .success
+            .value
+            .set(AgentTelephoneNumberPage, "12345668984")
+            .success
+            .value
+            .set(AgentInternalReferencePage, "testInternalRef")
+            .success
+            .value
+            .set(AgentAddressUKYesNoPage, true)
+            .success
+            .value
         )
 
       val expectedAddress =
@@ -104,7 +116,11 @@ class SubmissionSetFactorySpec extends SpecBase with MockitoSugar {
               AnswerRow("agentInternalReference.checkYourAnswersLabel", "testInternalRef", "Agency Name"),
               AnswerRow("agentName.checkYourAnswersLabel", "Agency Name", "Agency Name"),
               AnswerRow("agentAddressUKYesNo.checkYourAnswersLabel", "Yes", "Agency Name"),
-              AnswerRow("site.address.uk.checkYourAnswersLabel", "71 North Road<br />Magical<br />Earth<br />Land<br />SK137AX", "Agency Name"),
+              AnswerRow(
+                "site.address.uk.checkYourAnswersLabel",
+                "71 North Road<br />Magical<br />Earth<br />Land<br />SK137AX",
+                "Agency Name"
+              ),
               AnswerRow("agentTelephoneNumber.checkYourAnswersLabel", "12345668984", "Agency Name")
             ),
             Some("answerPage.section.agent.heading")
@@ -115,4 +131,5 @@ class SubmissionSetFactorySpec extends SpecBase with MockitoSugar {
       result mustBe expected
     }
   }
+
 }

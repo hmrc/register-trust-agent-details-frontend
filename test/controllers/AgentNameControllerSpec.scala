@@ -27,7 +27,7 @@ import views.html.AgentNameView
 class AgentNameControllerSpec extends SpecBase {
 
   val formProvider = new AgentNameFormProvider()
-  val form = formProvider()
+  val form         = formProvider()
 
   lazy val agentNameRoute = routes.AgentNameController.onPageLoad(fakeDraftId).url
 
@@ -105,7 +105,7 @@ class AgentNameControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm,fakeDraftId)(request, messages).toString
+        view(boundForm, fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -158,4 +158,5 @@ class AgentNameControllerSpec extends SpecBase {
     }
 
   }
+
 }

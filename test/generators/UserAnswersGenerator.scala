@@ -29,31 +29,29 @@ trait UserAnswersGenerator extends TryValues {
 
   val generators: Seq[Gen[(QuestionPage[_], JsValue)]] =
     arbitrary[(AgentInternationalAddressPage.type, JsValue)] ::
-    arbitrary[(AgentUKAddressPage.type, JsValue)] ::
-    arbitrary[(AgentAddressUKYesNoPage.type, JsValue)] ::
-    arbitrary[(AgentNamePage.type, JsValue)] ::
-    arbitrary[(AgentInternalReferencePage.type, JsValue)] ::
-    arbitrary[(AgentTelephoneNumberPage.type, JsValue)] ::
-    Nil
+      arbitrary[(AgentUKAddressPage.type, JsValue)] ::
+      arbitrary[(AgentAddressUKYesNoPage.type, JsValue)] ::
+      arbitrary[(AgentNamePage.type, JsValue)] ::
+      arbitrary[(AgentInternalReferencePage.type, JsValue)] ::
+      arbitrary[(AgentTelephoneNumberPage.type, JsValue)] ::
+      Nil
 
-  implicit lazy val arbitraryUserData: Arbitrary[UserAnswers] = {
-
+  implicit lazy val arbitraryUserData: Arbitrary[UserAnswers] =
     Arbitrary {
       for {
-        id      <- nonEmptyString
-        data    <- generators match {
-          case Nil => Gen.const(Map[QuestionPage[_], JsValue]())
-          case _   => Gen.mapOf(oneOf(generators))
-        }
+        id         <- nonEmptyString
+        data       <- generators match {
+                        case Nil => Gen.const(Map[QuestionPage[_], JsValue]())
+                        case _   => Gen.mapOf(oneOf(generators))
+                      }
         internalId <- nonEmptyString
-      } yield UserAnswers (
+      } yield UserAnswers(
         draftId = id,
-        data = data.foldLeft(Json.obj()) {
-          case (obj, (path, value)) =>
-            obj.setObject(path.path, value).get
+        data = data.foldLeft(Json.obj()) { case (obj, (path, value)) =>
+          obj.setObject(path.path, value).get
         },
         internalAuthId = internalId
       )
     }
-  }
+
 }

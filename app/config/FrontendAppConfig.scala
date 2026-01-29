@@ -23,11 +23,10 @@ import play.api.mvc.Call
 import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 
 @Singleton
-class FrontendAppConfig @Inject()(val configuration: Configuration,
-                                  contactFrontendConfig: ContactFrontendConfig) {
+class FrontendAppConfig @Inject() (val configuration: Configuration, contactFrontendConfig: ContactFrontendConfig) {
 
-  private final val ENGLISH = "en"
-  private final val WELSH = "cy"
+  final private val ENGLISH = "en"
+  final private val WELSH   = "cy"
 
   val repositoryKey: String = "agent-details"
 
@@ -37,13 +36,14 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
 
   val analyticsToken: String = configuration.get[String](s"google-analytics.token")
 
-  val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl.get}/contact/beta-feedback?service=${contactFrontendConfig.serviceId.get}"
+  val betaFeedbackUrl =
+    s"${contactFrontendConfig.baseUrl.get}/contact/beta-feedback?service=${contactFrontendConfig.serviceId.get}"
 
-  lazy val loginUrl: String = configuration.get[String]("urls.login")
-  lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
-  lazy val loginContinueKey: String = configuration.get[String]("urls.continue")
-  lazy val incorrectDetailsLoginContinueUrl: String =  configuration.get[String]("urls.incorrectDetailsLoginContinue")
-  lazy val logoutUrl: String = loadConfig("urls.logout")
+  lazy val loginUrl: String                         = configuration.get[String]("urls.login")
+  lazy val loginContinueUrl: String                 = configuration.get[String]("urls.loginContinue")
+  lazy val loginContinueKey: String                 = configuration.get[String]("urls.continue")
+  lazy val incorrectDetailsLoginContinueUrl: String = configuration.get[String]("urls.incorrectDetailsLoginContinue")
+  lazy val logoutUrl: String                        = loadConfig("urls.logout")
 
   lazy val registrationProgressUrlTemplate: String =
     configuration.get[String]("urls.registrationProgress")
@@ -56,7 +56,7 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
   def routeToSwitchLanguage: String => Call =
     (lang: String) => controllers.routes.LanguageSwitchController.switchToLanguage(lang)
 
-  lazy val locationCanonicalList: String = loadConfig("location.canonical.list.all")
+  lazy val locationCanonicalList: String      = loadConfig("location.canonical.list.all")
   lazy val locationCanonicalListNonUK: String = loadConfig("location.canonical.list.nonUK")
 
   lazy val languageTranslationEnabled: Boolean =
@@ -75,15 +75,16 @@ class FrontendAppConfig @Inject()(val configuration: Configuration,
     configuration.get[String]("urls.maintainATrust")
 
   lazy val countdownLength: Int = configuration.get[Int]("timeout.countdown")
-  lazy val timeoutLength: Int = configuration.get[Int]("timeout.length")
+  lazy val timeoutLength: Int   = configuration.get[Int]("timeout.length")
 
   def registerTrustAsTrusteeUrl: String = configuration.get[String]("urls.registerTrustAsTrustee")
 
   def helplineUrl(implicit messages: Messages): String = {
     val path = messages.lang.code match {
       case WELSH => "urls.welshHelpline"
-      case _ => "urls.trustsHelpline"
+      case _     => "urls.trustsHelpline"
     }
     configuration.get[String](path)
   }
+
 }

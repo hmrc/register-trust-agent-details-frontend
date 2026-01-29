@@ -53,7 +53,9 @@ class IndexControllerSpec extends SpecBase {
     "Redirect to Check Answers for existing session" in {
 
       val userAnswers = TestUserAnswers.emptyUserAnswers
-        .set(AgentTelephoneNumberPage, "telephone").success.value
+        .set(AgentTelephoneNumberPage, "telephone")
+        .success
+        .value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -70,4 +72,5 @@ class IndexControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

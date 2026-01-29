@@ -33,7 +33,9 @@ object MappingsSpec {
 
     implicit val fooEnumerable: Enumerable[Foo] =
       Enumerable(values.toSeq.map(v => v.toString -> v): _*)
+
   }
+
 }
 
 class MappingsSpec extends SpecBase with OptionValues with Mappings {
@@ -71,7 +73,7 @@ class MappingsSpec extends SpecBase with OptionValues with Mappings {
     }
 
     "return a custom error message" in {
-      val form = Form("value" -> text("custom.error"))
+      val form   = Form("value" -> text("custom.error"))
       val result = form.bind(Map("value" -> ""))
       result.errors must contain(FormError("value", "custom.error"))
     }
@@ -98,13 +100,11 @@ class MappingsSpec extends SpecBase with OptionValues with Mappings {
       "AA99 9AA"
     )
 
-    validPostcodes.foreach {
-      p =>
-
-        s"bind a valid postcode $p" in {
-          val result = testForm.bind(Map("value" -> p))
-          result.get mustEqual p
-        }
+    validPostcodes.foreach { p =>
+      s"bind a valid postcode $p" in {
+        val result = testForm.bind(Map("value" -> p))
+        result.get mustEqual p
+      }
 
     }
 
@@ -156,4 +156,5 @@ class MappingsSpec extends SpecBase with OptionValues with Mappings {
       result.apply("value").value.value mustEqual "true"
     }
   }
+
 }

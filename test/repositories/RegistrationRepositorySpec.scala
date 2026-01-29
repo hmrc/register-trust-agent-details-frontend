@@ -37,9 +37,8 @@ class RegistrationRepositorySpec extends SpecBase with MockitoSugar {
 
   private lazy val appConfig = injector.instanceOf[FrontendAppConfig]
 
-  private def createRepository(connector: SubmissionDraftConnector, submissionSetFactory: SubmissionSetFactory) = {
+  private def createRepository(connector: SubmissionDraftConnector, submissionSetFactory: SubmissionSetFactory) =
     new DefaultRegistrationsRepository(connector, appConfig, submissionSetFactory)
-  }
 
   "RegistrationRepository" when {
 
@@ -71,8 +70,7 @@ class RegistrationRepositorySpec extends SpecBase with MockitoSugar {
 
         val draftId = "DraftId"
 
-        val dummyData = Json.parse(
-          """
+        val dummyData = Json.parse("""
             |{
             | "data" : {
             |   "someField": "someValue"
@@ -90,7 +88,7 @@ class RegistrationRepositorySpec extends SpecBase with MockitoSugar {
 
         val result = Await.result(repository.getMainAnswers(draftId), Duration.Inf)
 
-        val expectedAnswers = Json.obj("someField" -> "someValue")
+        val expectedAnswers     = Json.obj("someField" -> "someValue")
         val expectedUserAnswers = ReadOnlyUserAnswers(expectedAnswers)
 
         result mustBe Some(expectedUserAnswers)
@@ -121,7 +119,8 @@ class RegistrationRepositorySpec extends SpecBase with MockitoSugar {
 
         val repository = createRepository(mockConnector, mockSubmissionSetFactory)
 
-        when(mockConnector.setDraftSectionSet(any(), any(), any())(any(), any())).thenReturn(Future.successful(HttpResponse(http.Status.OK, "")))
+        when(mockConnector.setDraftSectionSet(any(), any(), any())(any(), any()))
+          .thenReturn(Future.successful(HttpResponse(http.Status.OK, "")))
 
         val result = Await.result(repository.set(userAnswers), Duration.Inf)
 
@@ -131,4 +130,5 @@ class RegistrationRepositorySpec extends SpecBase with MockitoSugar {
       }
     }
   }
+
 }

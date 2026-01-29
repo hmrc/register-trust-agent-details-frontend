@@ -34,7 +34,9 @@ class AgentAddressYesNoViewSpec extends YesNoViewBehaviours {
   "AgentAddressYesNo view" must {
 
     val userAnswers = emptyUserAnswers
-      .set(AgentNamePage, name).success.value
+      .set(AgentNamePage, name)
+      .success
+      .value
 
     val view = viewFor[AgentAddressYesNoView](Some(userAnswers))
 
@@ -49,4 +51,5 @@ class AgentAddressYesNoViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }
