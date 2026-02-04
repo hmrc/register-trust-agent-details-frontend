@@ -30,65 +30,56 @@ trait AgentRoutes {
 
   def agentRoutes()(implicit navigator: Navigator) = {
 
-    "go to AgentName from AgentInternalReference Page" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          navigator.nextPage(AgentInternalReferencePage, fakeDraftId, userAnswers)
-            .mustBe(routes.AgentNameController.onPageLoad(fakeDraftId))
+    "go to AgentName from AgentInternalReference Page" in
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(AgentInternalReferencePage, fakeDraftId, userAnswers)
+          .mustBe(routes.AgentNameController.onPageLoad(fakeDraftId))
       }
-    }
 
-    "go to AgentAddressYesNo from AgentName Page" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          navigator.nextPage(AgentNamePage, fakeDraftId, userAnswers)
-            .mustBe(routes.AgentAddressYesNoController.onPageLoad(fakeDraftId))
+    "go to AgentAddressYesNo from AgentName Page" in
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(AgentNamePage, fakeDraftId, userAnswers)
+          .mustBe(routes.AgentAddressYesNoController.onPageLoad(fakeDraftId))
       }
-    }
 
-    "go to AgentUKAddress from AgentAddressYesNo Page when user answers yes" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          val answers = userAnswers.set(AgentAddressUKYesNoPage, value = true).success.value
-          navigator.nextPage(AgentAddressUKYesNoPage, fakeDraftId, answers)
-            .mustBe(routes.AgentUKAddressController.onPageLoad(fakeDraftId))
+    "go to AgentUKAddress from AgentAddressYesNo Page when user answers yes" in
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(AgentAddressUKYesNoPage, value = true).success.value
+        navigator
+          .nextPage(AgentAddressUKYesNoPage, fakeDraftId, answers)
+          .mustBe(routes.AgentUKAddressController.onPageLoad(fakeDraftId))
       }
-    }
 
-    "go to AgentTelephoneNumber from AgentUKAddress Page" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          navigator.nextPage(AgentUKAddressPage, fakeDraftId, userAnswers)
-            .mustBe(routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId))
+    "go to AgentTelephoneNumber from AgentUKAddress Page" in
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(AgentUKAddressPage, fakeDraftId, userAnswers)
+          .mustBe(routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId))
       }
-    }
 
-    "go to AgentInternationalAddress from AgentAddressYesNo Page when user answers no" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          val answers = userAnswers.set(AgentAddressUKYesNoPage, value = false).success.value
-          navigator.nextPage(AgentAddressUKYesNoPage, fakeDraftId, answers)
-            .mustBe(routes.AgentInternationalAddressController.onPageLoad(fakeDraftId))
+    "go to AgentInternationalAddress from AgentAddressYesNo Page when user answers no" in
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(AgentAddressUKYesNoPage, value = false).success.value
+        navigator
+          .nextPage(AgentAddressUKYesNoPage, fakeDraftId, answers)
+          .mustBe(routes.AgentInternationalAddressController.onPageLoad(fakeDraftId))
       }
-    }
 
-    "go to AgentTelephoneNumber from AgentInternationalAddress Page" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          navigator.nextPage(AgentInternationalAddressPage, fakeDraftId, userAnswers)
-            .mustBe(routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId))
+    "go to AgentTelephoneNumber from AgentInternationalAddress Page" in
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(AgentInternationalAddressPage, fakeDraftId, userAnswers)
+          .mustBe(routes.AgentTelephoneNumberController.onPageLoad(fakeDraftId))
       }
-    }
 
-    "go to CheckAgentAnswer Page from AgentTelephoneNumber page" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          navigator.nextPage(AgentTelephoneNumberPage, fakeDraftId, userAnswers)
-            .mustBe(routes.AgentAnswerController.onPageLoad(fakeDraftId))
+    "go to CheckAgentAnswer Page from AgentTelephoneNumber page" in
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(AgentTelephoneNumberPage, fakeDraftId, userAnswers)
+          .mustBe(routes.AgentAnswerController.onPageLoad(fakeDraftId))
       }
-    }
   }
+
 }

@@ -24,27 +24,26 @@ import play.api.libs.json.{JsError, JsSuccess, Reads}
 
 class AgentDetailsMapper {
 
-  private def readAddress: Reads[Address] = {
+  private def readAddress: Reads[Address] =
     AgentAddressUKYesNoPage.path.read[Boolean].flatMap[Address] {
-      case true => AgentUKAddressPage.path.read[UKAddress].widen[Address]
+      case true  => AgentUKAddressPage.path.read[UKAddress].widen[Address]
       case false => AgentInternationalAddressPage.path.read[InternationalAddress].widen[Address]
     }
-  }
 
   def build(answers: UserAnswers): Option[AgentDetails] = {
     lazy val readFromUserAnswers: Reads[AgentDetails] =
       (
-          AgentARNPage.path.read[String] and
+        AgentARNPage.path.read[String] and
           AgentNamePage.path.read[String] and
           readAddress and
           AgentTelephoneNumberPage.path.read[String] and
           AgentInternalReferencePage.path.read[String]
-        ) (AgentDetails.apply _)
+      )(AgentDetails.apply _)
 
     answers.data.validate[AgentDetails](readFromUserAnswers) match {
       case JsSuccess(value, _) =>
         Some(value)
-      case JsError(_) =>
+      case JsError(_)          =>
         None
     }
   }

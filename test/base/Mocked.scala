@@ -28,12 +28,13 @@ import scala.concurrent.Future
 
 trait Mocked extends MockitoSugar {
 
-  val registrationsRepository : RegistrationsRepository = mock[RegistrationsRepository]
+  val registrationsRepository: RegistrationsRepository = mock[RegistrationsRepository]
 
   when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(TestUserAnswers.emptyUserAnswers)))
 
   when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
 
-  when(registrationsRepository.getMainAnswers(any())(any())).thenReturn(Future.successful(Some(ReadOnlyUserAnswers(Json.obj()))))
+  when(registrationsRepository.getMainAnswers(any())(any()))
+    .thenReturn(Future.successful(Some(ReadOnlyUserAnswers(Json.obj()))))
 
 }

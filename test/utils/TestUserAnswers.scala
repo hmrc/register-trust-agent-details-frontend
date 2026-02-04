@@ -22,7 +22,7 @@ import play.api.libs.json.Json
 
 object TestUserAnswers extends TryValues {
 
-  lazy val draftId = "id"
+  lazy val draftId        = "id"
   lazy val userInternalId = "internalId"
 
   def emptyUserAnswers: UserAnswers = models.UserAnswers(draftId, Json.obj(), internalAuthId = userInternalId)

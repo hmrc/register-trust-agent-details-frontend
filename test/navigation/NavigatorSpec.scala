@@ -21,13 +21,9 @@ import generators.Generators
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.Page
 
-class NavigatorSpec extends SpecBase
-  with ScalaCheckPropertyChecks
-  with Generators
-  with AgentRoutes
-{
+class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators with AgentRoutes {
 
-  implicit val navigator : Navigator = injector.instanceOf[Navigator]
+  implicit val navigator: Navigator = injector.instanceOf[Navigator]
 
   "Navigator" when {
 
@@ -35,7 +31,8 @@ class NavigatorSpec extends SpecBase
 
       "go to Index from a page that doesn't exist in the route map" in {
         case object UnknownPage extends Page
-        navigator.nextPage(UnknownPage, fakeDraftId, emptyUserAnswers) mustBe controllers.routes.IndexController.onPageLoad(fakeDraftId)
+        navigator.nextPage(UnknownPage, fakeDraftId, emptyUserAnswers) mustBe controllers.routes.IndexController
+          .onPageLoad(fakeDraftId)
       }
 
       behave like agentRoutes()
@@ -43,4 +40,5 @@ class NavigatorSpec extends SpecBase
     }
 
   }
+
 }

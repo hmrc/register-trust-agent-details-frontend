@@ -30,7 +30,7 @@ class AddressSpec extends SpecBase {
     "UK address" must {
 
       val addressLine4 = "Line 4"
-      val postCode = "AB1 1AB"
+      val postCode     = "AB1 1AB"
 
       val address = UKAddress(addressLine1, addressLine2, Some(addressLine3), Some(addressLine4), postCode)
 
@@ -94,4 +94,5 @@ class AddressSpec extends SpecBase {
       }
     }
   }
+
 }

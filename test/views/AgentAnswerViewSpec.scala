@@ -25,10 +25,11 @@ class AgentAnswerViewSpec extends ViewBehaviours {
 
     val view = viewFor[AgentAnswerView](Some(emptyUserAnswers))
 
-    val applyView = view.apply(fakeDraftId,Nil)(fakeRequest, messages)
+    val applyView = view.apply(fakeDraftId, Nil)(fakeRequest, messages)
 
     behave like normalPage(applyView, "agentAnswer")
 
     behave like pageWithBackLink(applyView)
   }
+
 }

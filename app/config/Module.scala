@@ -30,4 +30,5 @@ class Module extends AbstractModule {
 
     bind(classOf[Navigator]).to(classOf[AgentDetailsNavigator]).asEagerSingleton()
   }
+
 }

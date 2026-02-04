@@ -34,18 +34,18 @@ import scala.concurrent.Future
 
 class AgentInternationalAddressControllerSpec extends SpecBase {
 
-  val formProvider = new InternationalAddressFormProvider()
+  val formProvider                     = new InternationalAddressFormProvider()
   val form: Form[InternationalAddress] = formProvider()
-  val agencyName = "Hadrian"
+  val agencyName                       = "Hadrian"
 
-  lazy val agentInternationalAddressRoute: String = routes.AgentInternationalAddressController.onPageLoad(fakeDraftId).url
+  lazy val agentInternationalAddressRoute: String =
+    routes.AgentInternationalAddressController.onPageLoad(fakeDraftId).url
 
   "AgentInternationalAddress Controller" must {
 
     "return OK and the correct view for a GET" in {
 
-      val userAnswers: UserAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers: UserAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -68,8 +68,12 @@ class AgentInternationalAddressControllerSpec extends SpecBase {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = emptyUserAnswers
-        .set(AgentInternationalAddressPage, InternationalAddress("line 1", "line 2", Some("line 3"), "country")).success.value
-        .set(AgentNamePage, agencyName).success.value
+        .set(AgentInternationalAddressPage, InternationalAddress("line 1", "line 2", Some("line 3"), "country"))
+        .success
+        .value
+        .set(AgentNamePage, agencyName)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -84,15 +88,19 @@ class AgentInternationalAddressControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(InternationalAddress("line 1", "line 2", Some("line 3"), "country")), countryOptions, fakeDraftId, agencyName)(request, messages).toString
+        view(
+          form.fill(InternationalAddress("line 1", "line 2", Some("line 3"), "country")),
+          countryOptions,
+          fakeDraftId,
+          agencyName
+        )(request, messages).toString
 
       application.stop()
     }
 
     "redirect to the next page when valid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent)
@@ -113,8 +121,7 @@ class AgentInternationalAddressControllerSpec extends SpecBase {
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(AgentNamePage,
-        agencyName).success.value
+      val userAnswers = emptyUserAnswers.set(AgentNamePage, agencyName).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers), AffinityGroup.Agent).build()
 
@@ -199,4 +206,5 @@ class AgentInternationalAddressControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

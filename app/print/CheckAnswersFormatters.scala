@@ -23,15 +23,14 @@ import utils.countryOptions.CountryOptions
 
 import javax.inject.Inject
 
-class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
+class CheckAnswersFormatters @Inject() (countryOptions: CountryOptions) {
 
-  def yesOrNo(answer: Boolean)(implicit messages: Messages): Html = {
+  def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
     if (answer) {
       HtmlFormat.escape(messages("site.yes"))
     } else {
       HtmlFormat.escape(messages("site.no"))
     }
-  }
 
   private def country(code: String): String =
     countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
@@ -61,11 +60,10 @@ class CheckAnswersFormatters @Inject()(countryOptions: CountryOptions) {
     Html(lines.mkString("<br />"))
   }
 
-  def addressFormatter(address: Address): Html = {
+  def addressFormatter(address: Address): Html =
     address match {
-      case a: UKAddress => ukAddress(a)
+      case a: UKAddress            => ukAddress(a)
       case a: InternationalAddress => internationalAddress(a)
     }
-  }
 
 }

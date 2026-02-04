@@ -30,8 +30,8 @@ import uk.gov.hmrc.auth.core.AffinityGroup.Agent
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolment, Enrolments}
 import utils.TestUserAnswers
 
-trait SpecBaseHelpers extends PlaySpec with GuiceOneAppPerSuite with TryValues with Mocked with BeforeAndAfter
-  with FakeTrustsApp {
+trait SpecBaseHelpers
+    extends PlaySpec with GuiceOneAppPerSuite with TryValues with Mocked with BeforeAndAfter with FakeTrustsApp {
   this: TestSuite =>
 
   final lazy val fakeDraftId: String = TestUserAnswers.draftId
@@ -42,11 +42,12 @@ trait SpecBaseHelpers extends PlaySpec with GuiceOneAppPerSuite with TryValues w
 
   private def fakeDraftIdAction(userAnswers: Option[UserAnswers]) = new FakeDraftIdRetrievalActionProvider(userAnswers)
 
-  protected def applicationBuilder(userAnswers: Option[UserAnswers] = None,
-                                   affinityGroup: AffinityGroup = AffinityGroup.Agent,
-                                   enrolments: Enrolments = Enrolments(Set.empty[Enrolment]),
-                                   navigator: Navigator = fakeNavigator
-                                  ): GuiceApplicationBuilder =
+  protected def applicationBuilder(
+    userAnswers: Option[UserAnswers] = None,
+    affinityGroup: AffinityGroup = AffinityGroup.Agent,
+    enrolments: Enrolments = Enrolments(Set.empty[Enrolment]),
+    navigator: Navigator = fakeNavigator
+  ): GuiceApplicationBuilder =
     new GuiceApplicationBuilder()
       .overrides(
         bind[RegistrationDataRequiredAction].to[RegistrationDataRequiredActionImpl],

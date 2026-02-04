@@ -33,7 +33,8 @@ class LogoutControllerSpec extends SpecBase with OptionValues {
 
     "Redirect to feedback form with new session" in {
 
-      val application: Application = applicationBuilder(userAnswers = Some(TestUserAnswers.emptyUserAnswers), AffinityGroup.Agent).build()
+      val application: Application =
+        applicationBuilder(userAnswers = Some(TestUserAnswers.emptyUserAnswers), AffinityGroup.Agent).build()
 
       val request = FakeRequest(GET, routes.LogoutController.logout().url)
         .withSession("test" -> "value")
@@ -50,4 +51,5 @@ class LogoutControllerSpec extends SpecBase with OptionValues {
     }
 
   }
+
 }

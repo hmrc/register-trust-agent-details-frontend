@@ -44,4 +44,5 @@ class AgentInternalReferenceViewSpec extends StringViewBehaviours {
     behave like stringPage(form, applyView, messageKeyPrefix, None)
 
   }
+
 }

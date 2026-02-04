@@ -24,40 +24,33 @@ import play.twirl.api.{Html, HtmlFormat}
 import queries.Gettable
 import viewmodels.AnswerRow
 
-class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatters) {
+class AnswerRowConverter @Inject() (checkAnswersFormatters: CheckAnswersFormatters) {
 
-  def bind(userAnswers: UserAnswers, name: String, canEdit: Boolean)
-          (implicit messages: Messages): Bound = new Bound(userAnswers, name, canEdit)
+  def bind(userAnswers: UserAnswers, name: String, canEdit: Boolean)(implicit messages: Messages): Bound =
+    new Bound(userAnswers, name, canEdit)
 
-  class Bound(userAnswers: UserAnswers, name: String, canEdit: Boolean)
-             (implicit messages: Messages) {
+  class Bound(userAnswers: UserAnswers, name: String, canEdit: Boolean)(implicit messages: Messages) {
 
-    def stringQuestion(query: Gettable[String],
-                       labelKey: String,
-                       changeUrl: String): Option[AnswerRow] = {
+    def stringQuestion(query: Gettable[String], labelKey: String, changeUrl: String): Option[AnswerRow] = {
       val format = (x: String) => HtmlFormat.escape(x)
       question(query, labelKey, format, changeUrl)
     }
 
-    def yesNoQuestion(query: Gettable[Boolean],
-                      labelKey: String,
-                      changeUrl: String): Option[AnswerRow] = {
+    def yesNoQuestion(query: Gettable[Boolean], labelKey: String, changeUrl: String): Option[AnswerRow] = {
       val format = (x: Boolean) => checkAnswersFormatters.yesOrNo(x)
       question(query, labelKey, format, changeUrl)
     }
 
-    def addressQuestion[T <: Address](query: Gettable[T],
-                                      labelKey: String,
-                                      changeUrl: String)
-                                     (implicit reads: Reads[T]): Option[AnswerRow] = {
+    def addressQuestion[T <: Address](query: Gettable[T], labelKey: String, changeUrl: String)(implicit
+      reads: Reads[T]
+    ): Option[AnswerRow] = {
       val format = (x: T) => checkAnswersFormatters.addressFormatter(x)
       question(query, labelKey, format, changeUrl)
     }
 
-    private def question[T](query: Gettable[T],
-                            labelKey: String,
-                            format: T => Html,
-                            changeUrl: String)(implicit rds: Reads[T]): Option[AnswerRow] = {
+    private def question[T](query: Gettable[T], labelKey: String, format: T => Html, changeUrl: String)(implicit
+      rds: Reads[T]
+    ): Option[AnswerRow] =
       userAnswers.get(query) map { x =>
         AnswerRow(
           label = s"$labelKey.checkYourAnswersLabel",
@@ -67,7 +60,7 @@ class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatter
           canEdit = canEdit
         )
       }
-    }
 
   }
+
 }

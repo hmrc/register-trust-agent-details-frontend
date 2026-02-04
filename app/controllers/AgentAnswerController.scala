@@ -30,34 +30,33 @@ import views.html.AgentAnswerView
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
-class AgentAnswerController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       navigator: Navigator,
-                                       actionSet: AgentActionSets,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: AgentAnswerView,
-                                       registrationsRepository: RegistrationsRepository,
-                                       printHelper: AgentDetailsPrintHelper
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AgentAnswerController @Inject() (
+  override val messagesApi: MessagesApi,
+  navigator: Navigator,
+  actionSet: AgentActionSets,
+  val controllerComponents: MessagesControllerComponents,
+  view: AgentAnswerView,
+  registrationsRepository: RegistrationsRepository,
+  printHelper: AgentDetailsPrintHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     actionSet.identifiedUserWithData(draftId)
 
-  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
-    implicit request =>
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
+    val name = request.userAnswers.get(AgentNamePage).getOrElse("")
 
-      val name = request.userAnswers.get(AgentNamePage).getOrElse("")
+    val answers = printHelper.checkDetailsSection(request.userAnswers, name, draftId)
 
-      val answers = printHelper.checkDetailsSection(request.userAnswers, name, draftId)
-
-      Ok(view(draftId, Seq(answers)))
+    Ok(view(draftId, Seq(answers)))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
-      // need to set user answers in case user has been redirected here from trusts-frontend after data adjusted
-      registrationsRepository.set(request.userAnswers) map { _ =>
-        Redirect(navigator.nextPage(AgentAnswerPage, draftId, request.userAnswers))
-      }
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    // need to set user answers in case user has been redirected here from trusts-frontend after data adjusted
+    registrationsRepository.set(request.userAnswers) map { _ =>
+      Redirect(navigator.nextPage(AgentAnswerPage, draftId, request.userAnswers))
+    }
   }
+
 }

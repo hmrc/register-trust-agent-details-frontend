@@ -51,4 +51,5 @@ class DateErrorFormatterSpec extends SpecBase {
       result mustEqual ""
     }
   }
+
 }

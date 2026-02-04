@@ -31,10 +31,12 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class IndexController @Inject()(identify: RegistrationIdentifierAction,
-                                repository: RegistrationsRepository,
-                                val controllerComponents: MessagesControllerComponents)
-                               (implicit val executionContext: ExecutionContext) extends FrontendBaseController with I18nSupport with Logging {
+class IndexController @Inject() (
+  identify: RegistrationIdentifierAction,
+  repository: RegistrationsRepository,
+  val controllerComponents: MessagesControllerComponents
+)(implicit val executionContext: ExecutionContext)
+    extends FrontendBaseController with I18nSupport with Logging {
 
   private def redirectToCheckAnswers(draftId: String): Call =
     controllers.routes.AgentAnswerController.onPageLoad(draftId)
@@ -46,22 +48,22 @@ class IndexController @Inject()(identify: RegistrationIdentifierAction,
     repository.get(draftId) flatMap {
       case Some(answers) =>
         Future.successful(redirect(answers, draftId))
-      case _ =>
+      case _             =>
         val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier)
-        repository.set(userAnswers) map {
-          _ => redirect(userAnswers, draftId)
+        repository.set(userAnswers) map { _ =>
+          redirect(userAnswers, draftId)
         }
     }
   }
 
-  private def redirect(userAnswers: UserAnswers, draftId: String)(implicit hc: HeaderCarrier): Result = {
+  private def redirect(userAnswers: UserAnswers, draftId: String)(implicit hc: HeaderCarrier): Result =
     userAnswers.get(AgentTelephoneNumberPage) match {
       case Some(_) =>
         logger.info(s"[${Session.id(hc)}] Sending user to check agent answers")
         Redirect(redirectToCheckAnswers(draftId))
-      case None =>
+      case None    =>
         logger.info(s"[${Session.id(hc)}] Starting journey for agent details")
         Redirect(redirectToStart(draftId))
     }
-  }
+
 }

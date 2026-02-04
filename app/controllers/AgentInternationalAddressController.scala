@@ -31,50 +31,51 @@ import views.html.AgentInternationalAddressView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AgentInternationalAddressController @Inject()(
-                                                     override val messagesApi: MessagesApi,
-                                                     registrationsRepository: RegistrationsRepository,
-                                                     navigator: Navigator,
-                                                     formProvider: InternationalAddressFormProvider,
-                                                     actionSet: AgentActionSets,
-                                                     val controllerComponents: MessagesControllerComponents,
-                                                     view: AgentInternationalAddressView,
-                                                     val countryOptions: CountryOptionsNonUK
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AgentInternationalAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  navigator: Navigator,
+  formProvider: InternationalAddressFormProvider,
+  actionSet: AgentActionSets,
+  val controllerComponents: MessagesControllerComponents,
+  view: AgentInternationalAddressView,
+  val countryOptions: CountryOptionsNonUK
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
   private def actions(draftId: String) =
-   actionSet.requiredAnswerWithAgent(draftId, RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId)))
+    actionSet.requiredAnswerWithAgent(
+      draftId,
+      RequiredAnswer(AgentNamePage, routes.AgentNameController.onPageLoad(draftId))
+    )
 
-  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
-    implicit request =>
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
+    val agencyName = request.userAnswers.get(AgentNamePage).get
 
-      val agencyName = request.userAnswers.get(AgentNamePage).get
+    val preparedForm = request.userAnswers.get(AgentInternationalAddressPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(AgentInternationalAddressPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, countryOptions.options, draftId, agencyName))
+    Ok(view(preparedForm, countryOptions.options, draftId, agencyName))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    val agencyName = request.userAnswers.get(AgentNamePage).get
 
-      val agencyName = request.userAnswers.get(AgentNamePage).get
-
-      form.bindFromRequest().fold(
+    form
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options, draftId, agencyName))),
-
-        value => {
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AgentInternationalAddressPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(AgentInternationalAddressPage, draftId, updatedAnswers))
-        }
       )
   }
+
 }
