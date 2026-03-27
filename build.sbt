@@ -1,5 +1,4 @@
 import play.sbt.routes.RoutesKeys
-import scoverage.ScoverageKeys
 
 val appName = "register-trust-agent-details-frontend"
 
@@ -7,7 +6,7 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin, SbtSassify)
   .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
-    scalaVersion := "2.13.16",
+    scalaVersion := "2.13.18",
     Compile / unmanagedSourceDirectories += baseDirectory.value / "resources",
     scalacOptions ++= Seq(
       "-Wconf:cat=unused-imports&src=routes/.*:s",
@@ -30,12 +29,7 @@ lazy val root = (project in file("."))
       "controllers.routes._"
     ),
     PlayKeys.playDefaultPort := 8847,
-    ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;" +
-      ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
-      ".*ControllerConfiguration;.*LanguageSwitchController;.*models.*;.*views.html.*;.*config.Service;.*actions.*;",
-    ScoverageKeys.coverageMinimumStmtTotal := 90,
-    ScoverageKeys.coverageFailOnMinimum := true,
-    ScoverageKeys.coverageHighlighting := true,
+    CodeCoverageSettings(),
     scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
