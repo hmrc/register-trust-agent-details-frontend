@@ -15,7 +15,7 @@
  *@
 
 @import utils.InputOption
-
+@import uk.gov.hmrc.govukfrontend.views.Implicits.RichSelect
 @this(
     govukSelect: GovukSelect
 )
@@ -31,6 +31,7 @@
     labelClasses: Set[String] = Set("govuk-label--l"),
     selectAttribute: Map[String, String] = Map.empty
 )(implicit messages: Messages)
+
 
 @govukSelect(Select(
     id = field.id,
@@ -51,5 +52,5 @@
     classes = formGroupClasses.mkString(" "),
     attributes = selectAttribute,
     errorMessage = field.error.map(err => ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(err.message, err.args: _*))))
-))
+).asAccessibleAutocomplete())
 
