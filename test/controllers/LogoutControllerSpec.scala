@@ -25,6 +25,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AffinityGroup
 import utils.TestUserAnswers
 
+import java.net.URLEncoder
 import scala.concurrent.Future
 
 class LogoutControllerSpec extends SpecBase with OptionValues {
@@ -32,6 +33,10 @@ class LogoutControllerSpec extends SpecBase with OptionValues {
   "Logout Controller" must {
 
     "Redirect to feedback form with new session" in {
+
+      val continueUrl: String = URLEncoder.encode(s"${frontendAppConfig.feedbackFrontendUrl}", "UTF-8")
+
+      val expectedUrl: String = s"${frontendAppConfig.logoutWithBasGatewayUrl}?continue=$continueUrl"
 
       val application: Application =
         applicationBuilder(userAnswers = Some(TestUserAnswers.emptyUserAnswers), AffinityGroup.Agent).build()
@@ -45,7 +50,7 @@ class LogoutControllerSpec extends SpecBase with OptionValues {
 
       session(result).get("test") mustBe None
 
-      redirectLocation(result).value mustBe frontendAppConfig.logoutUrl
+      redirectLocation(result).value mustBe expectedUrl
 
       application.stop()
     }
