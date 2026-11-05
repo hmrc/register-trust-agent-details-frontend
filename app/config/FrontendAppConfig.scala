@@ -32,18 +32,9 @@ class FrontendAppConfig @Inject() (val configuration: Configuration, contactFron
 
   lazy val appName: String = configuration.get[String]("appName")
 
-  private def loadConfig(key: String) = configuration.get[String](key)
-
-  val analyticsToken: String = configuration.get[String](s"google-analytics.token")
-
-  val betaFeedbackUrl =
-    s"${contactFrontendConfig.baseUrl.get}/contact/beta-feedback?service=${contactFrontendConfig.serviceId.get}"
-
-  lazy val loginUrl: String                         = configuration.get[String]("urls.login")
-  lazy val loginContinueUrl: String                 = configuration.get[String]("urls.loginContinue")
-  lazy val loginContinueKey: String                 = configuration.get[String]("urls.continue")
-  lazy val incorrectDetailsLoginContinueUrl: String = configuration.get[String]("urls.incorrectDetailsLoginContinue")
-  lazy val logoutUrl: String                        = loadConfig("urls.logout")
+  lazy val loginUrl: String         = configuration.get[String]("urls.login")
+  lazy val loginContinueUrl: String = configuration.get[String]("urls.loginContinue")
+  lazy val logoutUrl: String        = configuration.get[String]("urls.logout")
 
   lazy val registrationProgressUrlTemplate: String =
     configuration.get[String]("urls.registrationProgress")
@@ -56,15 +47,17 @@ class FrontendAppConfig @Inject() (val configuration: Configuration, contactFron
   def routeToSwitchLanguage: String => Call =
     (lang: String) => controllers.routes.LanguageSwitchController.switchToLanguage(lang)
 
-  lazy val locationCanonicalList: String      = loadConfig("location.canonical.list.all")
-  lazy val locationCanonicalListNonUK: String = loadConfig("location.canonical.list.nonUK")
+  lazy val locationCanonicalList: String      = configuration.get[String]("location.canonical.list.all")
+  lazy val locationCanonicalListNonUK: String = configuration.get[String]("location.canonical.list.nonUK")
 
   lazy val languageTranslationEnabled: Boolean =
     configuration.get[Boolean]("features.welsh-translation")
 
-  lazy val trustsUrl: String = configuration.get[Service]("microservice.services.trusts").baseUrl
-
-  lazy val authUrl = configuration.get[Service]("microservice.services.auth").baseUrl
+  lazy val basGatewayBaseUrl: String       = configuration.get[String]("bas-gateway.host")
+  lazy val feedbackFrontendUrl: String     = s"${configuration.get[String]("feedback-frontend.url")}?useServiceNavigation"
+  lazy val timeOutUrl: String              = configuration.get[String]("urls.timeOut")
+  lazy val logoutWithBasGatewayUrl: String = s"$basGatewayBaseUrl$logoutUrl"
+  lazy val trustsUrl: String               = configuration.get[Service]("microservice.services.trusts").baseUrl
 
   def languageMap: Map[String, Lang] = Map(
     "english" -> Lang(ENGLISH),

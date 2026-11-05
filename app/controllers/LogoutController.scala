@@ -26,7 +26,7 @@ class LogoutController @Inject() (appConfig: FrontendAppConfig, val controllerCo
     extends FrontendBaseController {
 
   def logout: Action[AnyContent] = Action {
-    Redirect(appConfig.logoutUrl).withNewSession
+    Redirect(appConfig.logoutWithBasGatewayUrl, Map("continue" -> Seq(appConfig.feedbackFrontendUrl)))
   }
 
 }
